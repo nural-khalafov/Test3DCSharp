@@ -7,9 +7,9 @@ __________________________________________________
 
 ### Keyboard controls:
 
-* WASD - Walking (incoming)
+* WASD - Walking (done)
 * Ctrl - Crouching (incoming)
-* Left Shift - Running (incoming)
+* Left Shift - Running (done)
 * Space - Jumping (incoming)
 * Q & E - Leaning (incoming)
 * F - Interact (incoming)
@@ -17,7 +17,10 @@ __________________________________________________
 __________________________________________________
 
 ### Currently done:
-> * NULL
+> * Fullbody character with separated head and body meshes
+> * WASD movement and sprinting functionality
+> * Test_Level for testing project's mechanics/features
+> * Debug Panel that shows player's current_state and movement_velocity and fps
 
 __________________________________________________
 
