@@ -1,11 +1,39 @@
-[gd_scene load_steps=7 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=19 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/checkerboard_mat.tres" id="1_2venv"]
+[ext_resource type="Texture2D" uid="uid://kacwo0sojllc" path="res://assets/graphics/enviroment/industrial_sunset_puresky_4k.hdr" id="1_88ety"]
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/Player.tscn" id="2_paw1w"]
+[ext_resource type="Material" uid="uid://du7ffw2d2n8so" path="res://assets/graphics/materials/checkerboard2_mat.tres" id="4_ahbqi"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_tmr53"]
 [ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="4_x4b8f"]
+[ext_resource type="Material" uid="uid://yegclm2cgfnt" path="res://assets/graphics/materials/checkerboard1_mat.tres" id="5_7gix3"]
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
+[ext_resource type="Texture2D" uid="uid://4q1ogkvj6w0g" path="res://assets/graphics/textures/ui/buttons/resume_button_icon.png" id="10_4asn1"]
+[ext_resource type="Script" uid="uid://ceaplswfqudfi" path="res://scripts/menu/Menu.cs" id="10_kpk0m"]
+[ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
+[ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="12_fyxdr"]
+[ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ahbqi"]
+panorama = ExtResource("1_88ety")
+
+[sub_resource type="Sky" id="Sky_qcd3b"]
+sky_material = SubResource("PanoramaSkyMaterial_ahbqi")
+
+[sub_resource type="Environment" id="Environment_qcd3b"]
+background_mode = 2
+sky = SubResource("Sky_qcd3b")
+ambient_light_source = 3
+reflected_light_source = 2
+ssao_enabled = true
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+glow_enabled = true
+volumetric_fog_emission = Color(0.499985, 0.499985, 0.499985, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qs1vn"]
+font_size = 32
 
 [node name="Test_Level" type="Node3D"]
 
@@ -14,6 +42,9 @@
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldSettings"]
 light_energy = 0.5
 shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldSettings"]
+environment = SubResource("Environment_qcd3b")
 
 [node name="Enviroment" type="Node3D" parent="."]
 
@@ -51,7 +82,48 @@ use_collision = true
 size = Vector3(1, 10, 200)
 
 [node name="MirrorBox" parent="Enviroment/Level" instance=ExtResource("2_j6w7d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4688, 2.79247, 76.7448)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4688, 2.63802, 76.7448)
+
+[node name="ShootingRange" type="Node3D" parent="Enviroment/Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.496, 0, 0)
+
+[node name="Building" type="Node3D" parent="Enviroment/Level/ShootingRange"]
+
+[node name="RightWall" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5.478, -24)
+use_collision = true
+size = Vector3(1, 10, 150)
+material = ExtResource("4_ahbqi")
+
+[node name="LeftWall" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5.478, -24)
+use_collision = true
+size = Vector3(1, 10, 150)
+material = ExtResource("4_ahbqi")
+
+[node name="DistanceWall" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.66965, 0)
+use_collision = true
+size = Vector3(28.9957, 8.3833, 1)
+material = ExtResource("4_ahbqi")
+
+[node name="BottomPanel" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01255, 39.5432)
+use_collision = true
+size = Vector3(28.9957, 1.06909, 1.86279)
+material = ExtResource("4_ahbqi")
+
+[node name="WeaponPanel" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3708, 3.24969, 45.6235)
+use_collision = true
+size = Vector3(0.254103, 3.48476, 9.23406)
+material = ExtResource("5_7gix3")
+
+[node name="Ceiling" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.66428, -22.6691)
+use_collision = true
+size = Vector3(28.9957, 1.62744, 152.653)
+material = ExtResource("4_ahbqi")
 
 [node name="Player" parent="." instance=ExtResource("2_paw1w")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 93.4665, 0.579596, 76.86)
@@ -66,6 +138,7 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="CenterDot" type="CenterContainer" parent="UI"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -98,3 +171,108 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugPanel/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="MenuPanel" type="Panel" parent="UI" node_paths=PackedStringArray("_resumeButton", "_optionsButton", "_exitButton")]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_kpk0m")
+_resumeButton = NodePath("ResumeButton")
+_optionsButton = NodePath("OptionsButton")
+_exitButton = NodePath("ExitButton")
+
+[node name="ResumeButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -95.0
+offset_top = 22.0
+offset_right = 161.0
+offset_bottom = 150.0
+grow_horizontal = 2
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("10_4asn1")
+
+[node name="OptionsButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -50.0
+offset_right = 161.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("11_dw7u0")
+
+[node name="ExitButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -121.0
+offset_right = 160.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("12_fyxdr")
+
+[node name="OptionsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("_fullscreenSwitcher")]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -704.0
+offset_top = -384.0
+offset_right = 696.0
+offset_bottom = 416.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("14_qs1vn")
+_fullscreenSwitcher = NodePath("FullscreenSwitcher")
+
+[node name="WindowModeLabel" type="Label" parent="UI/OptionsPanel"]
+layout_mode = 1
+offset_left = 129.0
+offset_top = 62.0
+offset_right = 580.0
+offset_bottom = 107.0
+text = "FULLSCREEN WINDOW MODE"
+label_settings = SubResource("LabelSettings_qs1vn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FullscreenSwitcher" type="CheckButton" parent="UI/OptionsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 55.0
+offset_right = -56.0
+offset_bottom = 79.0
+grow_horizontal = 2
+scale = Vector2(2.5, 2.5)

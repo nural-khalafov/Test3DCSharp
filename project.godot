@@ -19,6 +19,7 @@ config/icon="uid://bhenepv5atv4a"
 [autoload]
 
 DebugSingleton="*res://scripts/singletons/DebugSingleton.cs"
+MenuSingleton="*res://scripts/singletons/MenuSingleton.cs"
 
 [display]
 
