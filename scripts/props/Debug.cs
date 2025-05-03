@@ -1,53 +1,55 @@
 using Godot;
-using System;
 
-public partial class Debug : PanelContainer
+namespace Test3DCSharp.Utilities
 {
-    private VBoxContainer _propertyContainer;
-    private DebugSingleton _debugGlobals;
-
-    private string _framesPerSecond;
-
-
-    public override void _Ready()
+    public partial class Debug : PanelContainer
     {
-        _propertyContainer = GetNode<VBoxContainer>("%VBoxContainer");
-        DebugSingleton.Debug = this;
+        private VBoxContainer _propertyContainer;
+        private DebugSingleton _debugGlobals;
 
-        Visible = false;
-    }
+        private string _framesPerSecond;
 
-    public override void _Process(double delta)
-    {
-        if (Visible)
+
+        public override void _Ready()
         {
-            _framesPerSecond = (1.0/delta).ToString("F2");
+            _propertyContainer = GetNode<VBoxContainer>("%VBoxContainer");
+            DebugSingleton.Debug = this;
+
+            Visible = false;
         }
-    }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (@event.IsActionPressed("debug"))
+        public override void _Process(double delta)
         {
-            Visible = !Visible;
+            if (Visible)
+            {
+                _framesPerSecond = (1.0 / delta).ToString("F2");
+            }
         }
-    }
 
-    public void AddProperty(string title, Variant value, int order)
-    {
-        var target = _propertyContainer.FindChild(title, true, false) as Label;
-
-        if (target == null)
+        public override void _Input(InputEvent @event)
         {
-            target = new Label();
-            target.Name = title;
-            target.Text = $"{title}: {value}";
-            _propertyContainer.AddChild(target);
+            if (@event.IsActionPressed("debug"))
+            {
+                Visible = !Visible;
+            }
         }
-        else if (Visible)
+
+        public void AddProperty(string title, Variant value, int order)
         {
-            target.Text = $"{title}: {value}";
-            _propertyContainer.MoveChild(target, order);
+            var target = _propertyContainer.FindChild(title, true, false) as Label;
+
+            if (target == null)
+            {
+                target = new Label();
+                target.Name = title;
+                target.Text = $"{title}: {value}";
+                _propertyContainer.AddChild(target);
+            }
+            else if (Visible)
+            {
+                target.Text = $"{title}: {value}";
+                _propertyContainer.MoveChild(target, order);
+            }
         }
     }
 }

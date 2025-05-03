@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class SprintingPlayerState : PlayerMovementState
 {
@@ -13,20 +12,31 @@ public partial class SprintingPlayerState : PlayerMovementState
     public override void Update(double delta)
     {
         PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
-        PlayerController.animationTree.Set("is_sprinting", true);
+
+        // Animations setup
+        PlayerController.AnimationTree.Set("is_sprinting", true);
+        PlayerController.AnimationTree.Set(SPRINT_BLEND_POS, SPEED);
 
         if (PlayerController.Velocity.Length() == 0.0f && PlayerController.IsOnFloor())
         {
-            PlayerController.animationTree.Set("is_sprinting", false);
+            PlayerController.AnimationTree.Set("is_sprinting", false);
             EmitSignal(TRANSITION, "IdlePlayerState");
         }
-
-        if (Input.IsActionJustReleased("sprint") && PlayerController.IsOnFloor()) 
+        if (Input.IsActionJustReleased("sprint") && PlayerController.IsOnFloor())
         {
-            PlayerController.animationTree.Set("is_sprinting", false);
+            PlayerController.AnimationTree.Set("is_sprinting", false);
             EmitSignal(TRANSITION, "WalkingPlayerState");
         }
-
+        if (Input.IsActionPressed("jump") && PlayerController.IsOnFloor())
+        {
+            PlayerController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(TRANSITION, "JumpingPlayerState");
+        }
+        if (PlayerController.Velocity.Y > -3.0 && !PlayerController.IsOnFloor())
+        {
+            PlayerController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(TRANSITION, "FallingPlayerState");
+        }
     }
 
     public override void PhysicsUpdate(double delta)

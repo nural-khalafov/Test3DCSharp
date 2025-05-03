@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Test3DCSharp.Utilities;
 
 [GlobalClass]
 public partial class DebugSingleton : Node

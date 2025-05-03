@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class FirstPersonController : CharacterBody3D
 {
@@ -32,13 +31,14 @@ public partial class FirstPersonController : CharacterBody3D
     private bool menuToggled = false;
     private Vector2 inputDirection;
 
-    [Export] public AnimationTree animationTree;
-    [Export] public AnimationPlayer animationPlayer;
-    [Export] private Skeleton3D skeleton;
-    [Export] public Camera3D camera;
-
+    [Export] public AnimationTree AnimationTree;
+    [Export] public AnimationPlayer AnimationPlayer;
+    [Export] public Camera3D Camera;
     [Export] private Marker3D headTarget;
 
+
+    [ExportCategory("IK Components")]
+    [Export] public Skeleton3D Skeleton;
     [Export] private SkeletonIK3D rightHandIK;
     [Export] private SkeletonIK3D leftHandIK;
     [Export] private Node3D aimTarget;
@@ -90,16 +90,16 @@ public partial class FirstPersonController : CharacterBody3D
         playerRotation = new Vector3(0, mouseRotation.Y, 0);
         cameraRotation = new Vector3(mouseRotation.X, 0, 0);
 
-        camera.Transform = new Transform3D(Basis.FromEuler(cameraRotation), camera.Transform.Origin);
+        Camera.Transform = new Transform3D(Basis.FromEuler(cameraRotation), Camera.Transform.Origin);
         GlobalTransform = new Transform3D(Basis.FromEuler(playerRotation), GlobalTransform.Origin);
 
-        camera.Rotation = new Vector3(camera.Rotation.X, camera.Rotation.Y, 0);
+        Camera.Rotation = new Vector3(Camera.Rotation.X, Camera.Rotation.Y, 0);
 
         rotationInput = 0.0f;
         tiltInput = 0.0f;
     }
 
-    private Vector2 GetInputDirection()
+    public Vector2 GetInputDirection()
     {
         inputDirection = Input.GetVector("left", "right", "up", "down");
         return inputDirection;
@@ -153,8 +153,8 @@ public partial class FirstPersonController : CharacterBody3D
     private void UpdateCameraFollow(float delta)
     {
         var desiredPosition = headTarget.GlobalTransform.Origin;
-        var currentPosition = camera.GlobalTransform.Origin;
-        camera.GlobalTransform = new Transform3D(camera.GlobalTransform.Basis, currentPosition.Lerp(desiredPosition, CameraFollowSpeed * delta));
+        var currentPosition = Camera.GlobalTransform.Origin;
+        Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, currentPosition.Lerp(desiredPosition, CameraFollowSpeed * delta));
     }
 
     //private void UpdateLeftArmGrip(float delta)

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class WalkingPlayerState : PlayerMovementState
 {
@@ -13,6 +12,10 @@ public partial class WalkingPlayerState : PlayerMovementState
     public override void Update(double delta)
     {
         PlayerController.UpdateInput(SPEED, DECELERATION, ACCELERATION);
+
+        PlayerController.AnimationTree.Set(WALK_BLEND_POS, 
+            new Vector2(PlayerController.GetInputDirection().X,
+            -PlayerController.GetInputDirection().Y));
 
         if (PlayerController.Velocity.Length() == 0.0 && PlayerController.IsOnFloor())
         {
