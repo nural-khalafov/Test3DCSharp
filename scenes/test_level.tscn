@@ -1,14 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=23 format=3 uid="uid://by3fqipdxe4o3"]
 
-[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/checkerboard_mat.tres" id="1_2venv"]
 [ext_resource type="Texture2D" uid="uid://kacwo0sojllc" path="res://assets/graphics/enviroment/industrial_sunset_puresky_4k.hdr" id="1_88ety"]
-[ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/MirrorBox.tscn" id="2_j6w7d"]
-[ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/Player.tscn" id="2_paw1w"]
-[ext_resource type="Material" uid="uid://du7ffw2d2n8so" path="res://assets/graphics/materials/checkerboard2_mat.tres" id="4_ahbqi"]
+[ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
+[ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
+[ext_resource type="Material" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
+[ext_resource type="Material" uid="uid://budpurcjgch6g" path="res://assets/graphics/materials/starter_assets/checkerboard2_mat.tres" id="4_ahbqi"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_tmr53"]
 [ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="4_x4b8f"]
-[ext_resource type="Material" uid="uid://yegclm2cgfnt" path="res://assets/graphics/materials/checkerboard1_mat.tres" id="5_7gix3"]
+[ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
+[ext_resource type="PackedScene" uid="uid://q4twuck6dbn7" path="res://assets/nodes/weapon/AKM_Custom/Weapon_AKM_Custom.tscn" id="6_13hs1"]
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
+[ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="7_fptmo"]
+[ext_resource type="PackedScene" uid="uid://b7pl1mu6tlskh" path="res://assets/nodes/weapon/AKM_Custom/AKM_Custom_Magazine.tscn" id="8_bakr3"]
 [ext_resource type="Texture2D" uid="uid://4q1ogkvj6w0g" path="res://assets/graphics/textures/ui/buttons/resume_button_icon.png" id="10_4asn1"]
 [ext_resource type="Script" uid="uid://ceaplswfqudfi" path="res://scripts/menu/Menu.cs" id="10_kpk0m"]
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
@@ -27,13 +30,16 @@ sky = SubResource("Sky_qcd3b")
 ambient_light_source = 3
 reflected_light_source = 2
 ssao_enabled = true
-sdfgi_enabled = true
 sdfgi_use_occlusion = true
+sdfgi_bounce_feedback = 0.2
 glow_enabled = true
 volumetric_fog_emission = Color(0.499985, 0.499985, 0.499985, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qs1vn"]
 font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rv6en"]
+draw_center = false
 
 [node name="Test_Level" type="Node3D"]
 
@@ -53,33 +59,33 @@ environment = SubResource("Environment_qcd3b")
 [node name="LevelSettings" type="Node3D" parent="Enviroment/Level"]
 
 [node name="Ground" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
-material_override = ExtResource("1_2venv")
 use_collision = true
 size = Vector3(200, 1, 200)
+material = ExtResource("2_qs1vn")
 
 [node name="BorderWall1" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.5, 5.5, 0)
-material_override = ExtResource("1_2venv")
 use_collision = true
 size = Vector3(1, 10, 200)
+material = ExtResource("2_qs1vn")
 
 [node name="BorderWall2" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99.5, 5.5, 0)
-material_override = ExtResource("1_2venv")
 use_collision = true
 size = Vector3(1, 10, 200)
+material = ExtResource("2_qs1vn")
 
 [node name="BorderWall3" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5.5, 99.5)
-material_override = ExtResource("1_2venv")
 use_collision = true
 size = Vector3(1, 10, 200)
+material = ExtResource("2_qs1vn")
 
 [node name="BorderWall4" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5.5, -99.5)
-material_override = ExtResource("1_2venv")
 use_collision = true
 size = Vector3(1, 10, 200)
+material = ExtResource("2_qs1vn")
 
 [node name="MirrorBox" parent="Enviroment/Level" instance=ExtResource("2_j6w7d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4688, 2.63802, 76.7448)
@@ -113,17 +119,26 @@ use_collision = true
 size = Vector3(28.9957, 1.06909, 1.86279)
 material = ExtResource("4_ahbqi")
 
-[node name="WeaponPanel" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3708, 3.24969, 45.6235)
-use_collision = true
-size = Vector3(0.254103, 3.48476, 9.23406)
-material = ExtResource("5_7gix3")
-
 [node name="Ceiling" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.66428, -22.6691)
 use_collision = true
 size = Vector3(28.9957, 1.62744, 152.653)
 material = ExtResource("4_ahbqi")
+
+[node name="WeaponPanel" type="CSGBox3D" parent="Enviroment/Level/ShootingRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3708, 3.24969, 45.6235)
+use_collision = true
+size = Vector3(0.254103, 3.48476, 9.23406)
+material = ExtResource("5_7gix3")
+
+[node name="Weapon_AKM_Custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("6_13hs1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147827, -0.767004, 3.82739)
+
+[node name="AKM_Module_Dong" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_fptmo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.07839, 4.41283)
+
+[node name="AKM_Magazine" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("8_bakr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.334618, -1.04896, 3.84901)
 
 [node name="Player" parent="." instance=ExtResource("2_paw1w")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 93.4665, 0.579596, 76.86)
@@ -276,3 +291,6 @@ offset_right = -56.0
 offset_bottom = 79.0
 grow_horizontal = 2
 scale = Vector2(2.5, 2.5)
+theme_override_styles/focus = SubResource("StyleBoxFlat_rv6en")
+shortcut_feedback = false
+shortcut_in_tooltip = false

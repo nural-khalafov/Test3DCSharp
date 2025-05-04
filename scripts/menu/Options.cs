@@ -25,6 +25,7 @@ public partial class Options : Panel
         else
         {
             DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+            GD.Print("WINDOWED MODE ENABLED");
         }
     }
 }

@@ -19,7 +19,6 @@ config/icon="uid://bhenepv5atv4a"
 [autoload]
 
 DebugSingleton="*res://scripts/singletons/DebugSingleton.cs"
-MenuSingleton="*res://scripts/singletons/MenuSingleton.cs"
 
 [display]
 
@@ -81,3 +80,8 @@ aim={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(125, 14),"global_position":Vector2(134, 61),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+
+[rendering]
+
+reflections/reflection_atlas/reflection_size=128
+global_illumination/gi/use_half_resolution=true
