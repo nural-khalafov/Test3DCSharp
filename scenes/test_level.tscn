@@ -1,6 +1,5 @@
-[gd_scene load_steps=23 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=22 format=3 uid="uid://by3fqipdxe4o3"]
 
-[ext_resource type="Texture2D" uid="uid://kacwo0sojllc" path="res://assets/graphics/enviroment/industrial_sunset_puresky_4k.hdr" id="1_88ety"]
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
 [ext_resource type="Material" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
@@ -18,22 +17,15 @@
 [ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="12_fyxdr"]
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_ahbqi"]
-panorama = ExtResource("1_88ety")
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]
 
-[sub_resource type="Sky" id="Sky_qcd3b"]
-sky_material = SubResource("PanoramaSkyMaterial_ahbqi")
+[sub_resource type="Sky" id="Sky_bakr3"]
+sky_material = SubResource("ProceduralSkyMaterial_fptmo")
+process_mode = 1
 
-[sub_resource type="Environment" id="Environment_qcd3b"]
+[sub_resource type="Environment" id="Environment_jqmoj"]
 background_mode = 2
-sky = SubResource("Sky_qcd3b")
-ambient_light_source = 3
-reflected_light_source = 2
-ssao_enabled = true
-sdfgi_use_occlusion = true
-sdfgi_bounce_feedback = 0.2
-glow_enabled = true
-volumetric_fog_emission = Color(0.499985, 0.499985, 0.499985, 1)
+sky = SubResource("Sky_bakr3")
 
 [sub_resource type="LabelSettings" id="LabelSettings_qs1vn"]
 font_size = 32
@@ -46,11 +38,13 @@ draw_center = false
 [node name="WorldSettings" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldSettings"]
-light_energy = 0.5
+transform = Transform3D(1, 0, 0, 0, -0.798604, 0.601857, 0, -0.601857, -0.798604, 0, 29.3018, 0)
+light_color = Color(1, 1, 0.941176, 1)
 shadow_enabled = true
+directional_shadow_mode = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="WorldSettings"]
-environment = SubResource("Environment_qcd3b")
+environment = SubResource("Environment_jqmoj")
 
 [node name="Enviroment" type="Node3D" parent="."]
 
@@ -63,32 +57,32 @@ use_collision = true
 size = Vector3(200, 1, 200)
 material = ExtResource("2_qs1vn")
 
-[node name="BorderWall1" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
+[node name="BorderWall(+X)" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.5, 5.5, 0)
 use_collision = true
 size = Vector3(1, 10, 200)
 material = ExtResource("2_qs1vn")
 
-[node name="BorderWall2" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
+[node name="BorderWall(-X)" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -99.5, 5.5, 0)
 use_collision = true
 size = Vector3(1, 10, 200)
 material = ExtResource("2_qs1vn")
 
-[node name="BorderWall3" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
+[node name="BorderWall3(+Z)" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5.5, 99.5)
 use_collision = true
 size = Vector3(1, 10, 200)
 material = ExtResource("2_qs1vn")
 
-[node name="BorderWall4" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
+[node name="BorderWall4(-Z)" type="CSGBox3D" parent="Enviroment/Level/LevelSettings"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 5.5, -99.5)
 use_collision = true
 size = Vector3(1, 10, 200)
 material = ExtResource("2_qs1vn")
 
 [node name="MirrorBox" parent="Enviroment/Level" instance=ExtResource("2_j6w7d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4688, 2.63802, 76.7448)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4888, 2.63802, 76.7448)
 
 [node name="ShootingRange" type="Node3D" parent="Enviroment/Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.496, 0, 0)
@@ -139,6 +133,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.07839, 4.41283)
 
 [node name="AKM_Magazine" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("8_bakr3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.334618, -1.04896, 3.84901)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.09955, 5.3238, 2.74301)
+spot_range = 8.81681
+spot_attenuation = -1.2
+spot_angle = 37.8415
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.09955, 5.3238, -2.73071)
+spot_range = 8.81681
+spot_attenuation = -1.2
+spot_angle = 37.8415
 
 [node name="Player" parent="." instance=ExtResource("2_paw1w")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 93.4665, 0.579596, 76.86)
