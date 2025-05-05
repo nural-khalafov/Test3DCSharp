@@ -1,7 +1,7 @@
 # Test 3D CSharp
 
 ## FPS Template Project
-Basically the same project as Test 3D GDScript, but all scripts written in C#
+Basically the same project as Test3DGDScript, but all scripts written in C#
 
 __________________________________________________
 
