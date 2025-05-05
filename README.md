@@ -8,11 +8,16 @@ __________________________________________________
 ### Keyboard controls:
 
 * WASD - Walking (done)
-* Ctrl - Crouching (incoming)
+* Ctrl - Crouching (done)
 * Left Shift - Running (done)
-* Space - Jumping (incoming)
+* Space - Jumping (done)
 * Q & E - Leaning (incoming)
 * F - Interact (incoming)
+* LMB - Shoot (incoming)
+* RMB - Aim/Focus (incoming)
+* R - Reload (incoming)
+* Tab - Inventory (incoming)
+* Esc - In-Game menu (done)
 
 __________________________________________________
 
@@ -21,6 +26,11 @@ __________________________________________________
 > * WASD movement and sprinting functionality
 > * Test_Level for testing project's mechanics/features
 > * Debug Panel that shows player's current_state and movement_velocity and fps
+> * 8-Way directional movement animations for crouch walking, stand walking
+> * Jump and falling states and connected animations
+> * Prototype stairs for slope climbing mechanics in test_level scene
+> * AKM_Custom with magazine and romanian dong module
+> * In-Game menu with resume, options and exit buttons -> functionable
 
 __________________________________________________
 
