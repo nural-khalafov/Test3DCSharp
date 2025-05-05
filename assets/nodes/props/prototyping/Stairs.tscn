@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://nyh0drt7lyhw"]
+
+[ext_resource type="PackedScene" uid="uid://dopilvlt1rm7t" path="res://assets/graphics/meshes/prototyping_props/Stairs_construction.glb" id="1_o18y0"]
+
+[node name="Stairs" type="Node3D"]
+
+[node name="Stairs_Construction" parent="." instance=ExtResource("1_o18y0")]
