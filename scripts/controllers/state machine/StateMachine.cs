@@ -9,11 +9,13 @@ public partial class StateMachine : Node
 
     private Dictionary<StringName, State> _states = new();
 
-
-    public override void _Ready()
+    public override void _EnterTree()
     {
         DebugSingleton.PlayerStateMachine = this;
+    }
 
+    public override async void _Ready()
+    {
         foreach (Node child in GetChildren())
         {
             if(child is State state) 
@@ -26,19 +28,9 @@ public partial class StateMachine : Node
                 GD.PushWarning("State machine contains incompatible child node");
             }
         }
-        CallDeferred(nameof(EnterInitialState));
-    }
 
-    private void EnterInitialState()
-    {
-        if (CurrentState != null) 
-        {
-            CurrentState.Enter(null);
-        }
-        else 
-        {
-            GD.PushWarning("CurrentState is not set up");
-        }
+        await ToSignal(Owner, "ready");
+        CurrentState.Enter(null);
     }
 
     public override void _Process(double delta)
@@ -53,12 +45,15 @@ public partial class StateMachine : Node
 
     private void OnChildTransition(StringName newStateName) 
     {
-        StringName key = newStateName;
-        if (_states.TryGetValue(key, out State newState) && newState != CurrentState) 
+        var new_state = _states[newStateName];
+        if (new_state != null) 
         {
-            CurrentState?.Exit();
-            newState.Enter(CurrentState);
-            CurrentState = newState;
+            if(new_state != CurrentState)
+            {
+                CurrentState?.Exit();
+                new_state.Enter(CurrentState);
+                CurrentState = new_state;
+            }
         }
         else
         {

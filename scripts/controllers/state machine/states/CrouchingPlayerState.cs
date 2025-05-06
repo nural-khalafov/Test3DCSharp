@@ -4,7 +4,7 @@ using System;
 public partial class CrouchingPlayerState : PlayerMovementState
 {
     const float SPEED = 3.0f;
-    const float ACCELERATION = 0.1f;
+    const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
     const float DEFAULT_HEIGHT = 2.15f;
@@ -16,7 +16,6 @@ public partial class CrouchingPlayerState : PlayerMovementState
 
     public override void Update(double delta)
     {
-        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
 
         PlayerController.AnimationTree.Set("is_crouched", true);
         SetCameraCollision(true);
@@ -30,11 +29,17 @@ public partial class CrouchingPlayerState : PlayerMovementState
             Uncrouch();
         }
 
+        if (!PlayerController.IsOnFloor() && PlayerController.Velocity.Y < 0.0f)
+        {
+            EmitSignal(TRANSITION, "FallingPlayerState");
+        }
+
     }
 
     public override void PhysicsUpdate(double delta)
     {
         PlayerController.UpdateGravity((float)delta);
+        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateVelocity();
     }
 
@@ -48,7 +53,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
             SetCameraCollision(false);
             EmitSignal(TRANSITION, "IdlePlayerState");
         }
-        else if (PlayerController.CrouchShapeCast.IsColliding()) 
+        else if (PlayerController.CrouchShapeCast.IsColliding())
         {
             await ToSignal(GetTree().CreateTimer(0.1), SceneTreeTimer.SignalName.Timeout);
             Uncrouch();
@@ -60,7 +65,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
         if (!is_crouching)
         {
             PlayerController.CollisionShape3D.Shape.Set("height", DEFAULT_HEIGHT);
-            PlayerController.CollisionShape3D.Position = new Vector3(0.0f, 
+            PlayerController.CollisionShape3D.Position = new Vector3(0.0f,
                 DEFAULT_HEIGHT / 2.0f, 0.0f);
         }
         else

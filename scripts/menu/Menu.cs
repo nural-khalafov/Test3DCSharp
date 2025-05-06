@@ -9,10 +9,14 @@ public partial class Menu : Panel
     private TextureButton _optionsButton;
     [Export]
     private TextureButton _exitButton;
-    public override void _Ready()
+
+    public override void _EnterTree()
     {
         MenuSingleton.Menu = this;
+    }
 
+    public override void _Ready()
+    {
         _resumeButton.Pressed += OnResumeButtonPressed;
         _optionsButton.Pressed += OnOptionsButtonPressed;
         _exitButton.Pressed += OnExitButtonPressed;
@@ -24,7 +28,7 @@ public partial class Menu : Panel
     {
         if (@event.IsActionPressed("exit")) 
         {
-            if (!MenuSingleton.MenuToggled) 
+            if (!MenuSingleton.MenuToggled)
             {
                 MenuSingleton.Menu.Visible = true;
                 MenuSingleton.MenuToggled = true;
@@ -50,7 +54,7 @@ public partial class Menu : Panel
         GetTree().Paused = false;
     }
 
-    private void OnOptionsButtonPressed() 
+    private void OnOptionsButtonPressed()
     {
         Visible = false;
         MenuSingleton.Options.Visible = true;

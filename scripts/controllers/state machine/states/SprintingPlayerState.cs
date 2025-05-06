@@ -3,7 +3,7 @@ using Godot;
 public partial class SprintingPlayerState : PlayerMovementState
 {
     const float SPEED = 9.0f;
-    const float ACCELERATION = 0.1f;
+    const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
     const string TRANSITION = "Transition";
@@ -11,7 +11,6 @@ public partial class SprintingPlayerState : PlayerMovementState
 
     public override void Update(double delta)
     {
-        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
 
         // Animations setup
         PlayerController.AnimationTree.Set("is_sprinting", true);
@@ -27,12 +26,12 @@ public partial class SprintingPlayerState : PlayerMovementState
             PlayerController.AnimationTree.Set("is_sprinting", false);
             EmitSignal(TRANSITION, "WalkingPlayerState");
         }
-        if (Input.IsActionPressed("jump") && PlayerController.IsOnFloor())
+        if (Input.IsActionJustPressed("jump") && PlayerController.IsOnFloor())
         {
             PlayerController.AnimationTree.Set("is_sprinting", false);
             EmitSignal(TRANSITION, "JumpingPlayerState");
         }
-        if (PlayerController.Velocity.Y > -3.0 && !PlayerController.IsOnFloor())
+        if (PlayerController.Velocity.Y < 0.0f && !PlayerController.IsOnFloor())
         {
             PlayerController.AnimationTree.Set("is_sprinting", false);
             EmitSignal(TRANSITION, "FallingPlayerState");
@@ -41,6 +40,7 @@ public partial class SprintingPlayerState : PlayerMovementState
 
     public override void PhysicsUpdate(double delta)
     {
+        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateGravity((float)delta);
         PlayerController.UpdateVelocity();
     }

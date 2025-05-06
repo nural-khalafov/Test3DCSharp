@@ -3,11 +3,18 @@ using Godot;
 public partial class IdlePlayerState : PlayerMovementState
 {
     const float SPEED = 5.0f;
-    const float ACCELERATION = 0.1f;
+    const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
     const string TRANSITION = "Transition";
     const string WALK_BLEND_POS = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
+
+    private float _timeSinceJump;
+
+    public override void Enter(State previousState)
+    {
+        _timeSinceJump = 0f;
+    }
 
     public override void Update(double delta)
     {
@@ -23,11 +30,11 @@ public partial class IdlePlayerState : PlayerMovementState
         {
             EmitSignal(TRANSITION, "CrouchingPlayerState");
         }
-        if (Input.IsActionPressed("jump") && PlayerController.IsOnFloor())
+        if (Input.IsActionJustPressed("jump") && PlayerController.IsOnFloor())
         {
             EmitSignal(TRANSITION, "JumpingPlayerState");
         }
-        if (PlayerController.Velocity.Y > -3.0 && !PlayerController.IsOnFloor())
+        if (PlayerController.Velocity.Y < 0.0f && !PlayerController.IsOnFloor())
         {
             EmitSignal(TRANSITION, "FallingPlayerState");
         }

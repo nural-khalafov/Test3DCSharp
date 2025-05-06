@@ -3,7 +3,7 @@ using Godot;
 public partial class FirstPersonController : CharacterBody3D
 {
     [ExportCategory("Player Camera Settings")]
-    [Export] public float MouseSensitivity = 0.25f;
+    [Export] public float MouseSensitivity = 0.07f;
     [Export] public float CameraFollowSpeed = 20.0f;
 
     [ExportCategory("Node Components")]
@@ -39,8 +39,6 @@ public partial class FirstPersonController : CharacterBody3D
 
     [ExportCategory("IK Components")]
     [Export] public Skeleton3D Skeleton;
-    [Export] private SkeletonIK3D rightHandIK;
-    [Export] private SkeletonIK3D leftHandIK;
     [Export] private Node3D aimTarget;
     [Export] private Node3D gripL;
     [Export] private Node3D smoothedGripL;
@@ -51,7 +49,6 @@ public partial class FirstPersonController : CharacterBody3D
     {
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        // Global.Player = this;
         DebugSingleton.Player = this;
     }
 

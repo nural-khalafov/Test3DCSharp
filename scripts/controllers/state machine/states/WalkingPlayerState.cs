@@ -3,7 +3,7 @@ using Godot;
 public partial class WalkingPlayerState : PlayerMovementState
 {
     const float SPEED = 5.0f;
-    const float ACCELERATION = 0.1f;
+    const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
     const string TRANSITION = "Transition";
@@ -37,7 +37,7 @@ public partial class WalkingPlayerState : PlayerMovementState
             EmitSignal(TRANSITION, "JumpingPlayerState");
         }
 
-        if (PlayerController.Velocity.Y > -3.0 && !PlayerController.IsOnFloor())
+        if (PlayerController.Velocity.Y < -3.0f && !PlayerController.IsOnFloor())
         {
             EmitSignal(TRANSITION, "FallingPlayerState");
         }
