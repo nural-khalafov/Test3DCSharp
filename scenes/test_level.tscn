@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=23 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
 [ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="7_fptmo"]
 [ext_resource type="PackedScene" uid="uid://b7pl1mu6tlskh" path="res://assets/nodes/weapon/AKM_Custom/AKM_Custom_Magazine.tscn" id="8_bakr3"]
+[ext_resource type="PackedScene" uid="uid://nyh0drt7lyhw" path="res://assets/nodes/props/prototyping/Stairs.tscn" id="8_jqmoj"]
 [ext_resource type="Texture2D" uid="uid://4q1ogkvj6w0g" path="res://assets/graphics/textures/ui/buttons/resume_button_icon.png" id="10_4asn1"]
 [ext_resource type="Script" uid="uid://ceaplswfqudfi" path="res://scripts/menu/Menu.cs" id="10_kpk0m"]
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
@@ -84,15 +85,16 @@ material = ExtResource("2_qs1vn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.496, 0, 0)
 
 [node name="Building" type="Node3D" parent="Enviroment/Level/ShootingRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0, 0)
 
 [node name="RightWall" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 5.478, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.99, 5.478, -24)
 use_collision = true
 size = Vector3(1, 10, 150)
 material = ExtResource("4_ahbqi")
 
 [node name="LeftWall" type="CSGBox3D" parent="Enviroment/Level/ShootingRange/Building"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 5.478, -24)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.99, 5.478, -24)
 use_collision = true
 size = Vector3(1, 10, 150)
 material = ExtResource("4_ahbqi")
@@ -146,6 +148,27 @@ spot_angle = 37.8415
 
 [node name="MirrorBox" parent="Enviroment/Level" instance=ExtResource("2_j6w7d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 98.4888, 2.63802, 76.7448)
+
+[node name="ParkourBuilding" type="Node3D" parent="Enviroment/Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.009, 0, 65.0771)
+
+[node name="Stairs" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503096, 0)
+
+[node name="Stairs2" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25422, -2)
+
+[node name="Stairs3" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.00787, -4)
+
+[node name="Stairs4" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.76129, -6)
+
+[node name="Stairs5" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.51527, -8)
+
+[node name="Stairs6" parent="Enviroment/Level/ParkourBuilding" instance=ExtResource("8_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.26912, -10)
 
 [node name="Player" parent="." instance=ExtResource("2_paw1w")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 93.4665, 0.579596, 76.86)

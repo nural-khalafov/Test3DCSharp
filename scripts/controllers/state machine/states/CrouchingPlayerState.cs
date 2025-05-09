@@ -10,17 +10,13 @@ public partial class CrouchingPlayerState : PlayerMovementState
     const float DEFAULT_HEIGHT = 2.15f;
     const float CROUCH_HEIGHT = 1.6f;
 
-    const string TRANSITION = "Transition";
-    const string CROUCH_BLEND_POS = "parameters/PlayerStateMachine/Crouched/CrouchingBlendSpace2D/blend_position";
-    const string WALK_BLEND_POS = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
-
     public override void Update(double delta)
     {
 
-        PlayerController.AnimationTree.Set("is_crouched", true);
+        AnimationController.AnimationTree.Set("is_crouched", true);
         SetCameraCollision(true);
 
-        PlayerController.AnimationTree.Set(CROUCH_BLEND_POS,
+        AnimationController.AnimationTree.Set(AnimationController.CrouchBlendPos,
             new Vector2(PlayerController.GetInputDirection().X,
             -PlayerController.GetInputDirection().Y));
 
@@ -31,7 +27,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
 
         if (!PlayerController.IsOnFloor() && PlayerController.Velocity.Y < 0.0f)
         {
-            EmitSignal(TRANSITION, "FallingPlayerState");
+            EmitSignal(AnimationController.Transition, "FallingPlayerState");
         }
 
     }
@@ -41,6 +37,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
         PlayerController.UpdateGravity((float)delta);
         PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateVelocity();
+        //AnimationController.UpdateLeaning(true, (float)delta, -1.0f, 1.0f);
     }
 
     private async void Uncrouch()
@@ -48,10 +45,10 @@ public partial class CrouchingPlayerState : PlayerMovementState
         if (!PlayerController.CrouchShapeCast.IsColliding() &&
             Input.IsActionPressed("crouch") == false)
         {
-            PlayerController.AnimationTree.Set("is_crouched", false);
-            PlayerController.AnimationTree.Set(WALK_BLEND_POS, Vector2.Zero);
+            AnimationController.AnimationTree.Set("is_crouched", false);
+            AnimationController.AnimationTree.Set(AnimationController.WalkBlendPos, Vector2.Zero);
             SetCameraCollision(false);
-            EmitSignal(TRANSITION, "IdlePlayerState");
+            EmitSignal(AnimationController.Transition, "IdlePlayerState");
         }
         else if (PlayerController.CrouchShapeCast.IsColliding())
         {

@@ -6,35 +6,32 @@ public partial class SprintingPlayerState : PlayerMovementState
     const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
-    const string TRANSITION = "Transition";
-    const string SPRINT_BLEND_POS = "parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position";
-
     public override void Update(double delta)
     {
 
         // Animations setup
-        PlayerController.AnimationTree.Set("is_sprinting", true);
-        PlayerController.AnimationTree.Set(SPRINT_BLEND_POS, SPEED);
+        AnimationController.AnimationTree.Set("is_sprinting", true);
+        AnimationController.AnimationTree.Set(AnimationController.SprintBlendPos, 2.0f);
 
         if (PlayerController.Velocity.Length() == 0.0f && PlayerController.IsOnFloor())
         {
-            PlayerController.AnimationTree.Set("is_sprinting", false);
-            EmitSignal(TRANSITION, "IdlePlayerState");
+            AnimationController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(AnimationController.Transition, "IdlePlayerState");
         }
         if (Input.IsActionJustReleased("sprint") && PlayerController.IsOnFloor())
         {
-            PlayerController.AnimationTree.Set("is_sprinting", false);
-            EmitSignal(TRANSITION, "WalkingPlayerState");
+            AnimationController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(AnimationController.Transition, "WalkingPlayerState");
         }
         if (Input.IsActionJustPressed("jump") && PlayerController.IsOnFloor())
         {
-            PlayerController.AnimationTree.Set("is_sprinting", false);
-            EmitSignal(TRANSITION, "JumpingPlayerState");
+            AnimationController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(AnimationController.Transition, "JumpingPlayerState");
         }
         if (PlayerController.Velocity.Y < 0.0f && !PlayerController.IsOnFloor())
         {
-            PlayerController.AnimationTree.Set("is_sprinting", false);
-            EmitSignal(TRANSITION, "FallingPlayerState");
+            AnimationController.AnimationTree.Set("is_sprinting", false);
+            EmitSignal(AnimationController.Transition, "FallingPlayerState");
         }
     }
 

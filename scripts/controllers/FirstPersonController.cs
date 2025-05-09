@@ -10,62 +10,53 @@ public partial class FirstPersonController : CharacterBody3D
     [Export] public ShapeCast3D CrouchShapeCast;
     [Export] public CollisionShape3D CollisionShape3D;
 
+    [ExportCategory("Camera Components")]
+    [Export] public Camera3D Camera;
+    [Export] public Marker3D HeadTarget;
+
     private float _tiltMinLimit = Mathf.DegToRad(-75.0f);
     private float _tiltMaxLimit = Mathf.DegToRad(75.0f);
 
-    private float leanBlendTarget = 1.0f;
-    private string leanBlendPosition = "parameters/LeanBlendSpace1D/blend_position";
+    private bool _mouseInput = false;
+    private float _rotationInput;
+    private float _tiltInput;
+    private Vector3 _mouseRotation;
+    private Vector3 _playerRotation;
+    private Vector3 _cameraRotation;
 
-    private float aimIdleFOV = 90.0f;
-    private Vector3 aimIdlePosition = new Vector3(0.192f, -0.236f, 0.151f);
-    private Vector3 aimFiringPosition = new Vector3(0.037f, -0.191f, 0.221f);
-    private float aimFiringFOV = 60.0f;
-
-    private bool mouseInput = false;
-    private float rotationInput;
-    private float tiltInput;
-    private Vector3 mouseRotation;
-    private Vector3 playerRotation;
-    private Vector3 cameraRotation;
-
-    private bool menuToggled = false;
-    private Vector2 inputDirection;
-
-    [Export] public AnimationTree AnimationTree;
-    [Export] public AnimationPlayer AnimationPlayer;
-    [Export] public Camera3D Camera;
-    [Export] private Marker3D headTarget;
-
-
-    [ExportCategory("IK Components")]
-    [Export] public Skeleton3D Skeleton;
-    [Export] private Node3D aimTarget;
-    [Export] private Node3D gripL;
-    [Export] private Node3D smoothedGripL;
+    private bool _menuToggled = false;
+    private Vector2 _inputDirection;
 
     private float _gravity;
+
+    public static Camera3D CameraRef;
+    public static Vector3 MouseRotation;
 
     public override void _Ready()
     {
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         Input.MouseMode = Input.MouseModeEnum.Captured;
         DebugSingleton.Player = this;
+        CameraRef = Camera;
     }
 
     public override void _Process(double delta)
     {
         // rightHandIK.Start();
         // leftHandIK.Start();
+        MouseRotation.X += _tiltInput * (float)delta;
+        MouseRotation.X = Mathf.Clamp(MouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
+        MouseRotation.Y += _rotationInput * (float)delta;
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        mouseInput = @event is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured;
-        if (mouseInput)
+        _mouseInput = @event is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured;
+        if (_mouseInput)
         {
             var mouseMotion = @event as InputEventMouseMotion;
-            rotationInput = -mouseMotion.Relative.X * MouseSensitivity;
-            tiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
+            _rotationInput = -mouseMotion.Relative.X * MouseSensitivity;
+            _tiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
         }
     }
 
@@ -73,33 +64,31 @@ public partial class FirstPersonController : CharacterBody3D
     {
         UpdateCamera((float)delta);
         UpdateCameraFollow((float)delta);
-        // UpdateAiming((float)delta);
-        // UpdateLeftArmGrip((float)delta);
         CrouchShapeCast.AddException(this);
     }
 
     private void UpdateCamera(float delta)
     {
-        mouseRotation.X += tiltInput * delta;
-        mouseRotation.X = Mathf.Clamp(mouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
-        mouseRotation.Y += rotationInput * delta;
+        _mouseRotation.X += _tiltInput * delta;
+        _mouseRotation.X = Mathf.Clamp(_mouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
+        _mouseRotation.Y += _rotationInput * delta;
 
-        playerRotation = new Vector3(0, mouseRotation.Y, 0);
-        cameraRotation = new Vector3(mouseRotation.X, 0, 0);
+        _playerRotation = new Vector3(0, _mouseRotation.Y, 0);
+        _cameraRotation = new Vector3(_mouseRotation.X, 0, 0);
 
-        Camera.Transform = new Transform3D(Basis.FromEuler(cameraRotation), Camera.Transform.Origin);
-        GlobalTransform = new Transform3D(Basis.FromEuler(playerRotation), GlobalTransform.Origin);
+        Camera.Transform = new Transform3D(Basis.FromEuler(_cameraRotation), Camera.Transform.Origin);
+        GlobalTransform = new Transform3D(Basis.FromEuler(_playerRotation), GlobalTransform.Origin);
 
         Camera.Rotation = new Vector3(Camera.Rotation.X, Camera.Rotation.Y, 0);
 
-        rotationInput = 0.0f;
-        tiltInput = 0.0f;
+        _rotationInput = 0.0f;
+        _tiltInput = 0.0f;
     }
 
     public Vector2 GetInputDirection()
     {
-        inputDirection = Input.GetVector("left", "right", "up", "down");
-        return inputDirection;
+        _inputDirection = Input.GetVector("left", "right", "up", "down");
+        return _inputDirection;
     }
 
     public void UpdateInput(float speed, float acceleration, float deceleration)
@@ -134,22 +123,9 @@ public partial class FirstPersonController : CharacterBody3D
         Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * delta, Velocity.Z);
     }
 
-    //public void UpdateLeaning(bool canLean, float delta, float negX, float posX)
-    //{
-    //    if (canLean)
-    //    {
-    //        if (Input.IsActionPressed("lean_left"))
-    //            ikEffector.Rotation = new Vector3(ikEffector.Rotation.X, ikEffector.Rotation.Y, Mathf.Lerp(ikEffector.Rotation.Z, negX, delta * 5));
-    //        else if (Input.IsActionPressed("lean_right"))
-    //            ikEffector.Rotation = new Vector3(ikEffector.Rotation.X, ikEffector.Rotation.Y, Mathf.Lerp(ikEffector.Rotation.Z, posX, delta * 5));
-    //        else
-    //            ikEffector.Rotation = new Vector3(ikEffector.Rotation.X, ikEffector.Rotation.Y, Mathf.Lerp(ikEffector.Rotation.Z, 0, delta * 5));
-    //    }
-    //}
-
     private void UpdateCameraFollow(float delta)
     {
-        var desiredPosition = headTarget.GlobalTransform.Origin;
+        var desiredPosition = HeadTarget.GlobalTransform.Origin;
         var currentPosition = Camera.GlobalTransform.Origin;
         Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, currentPosition.Lerp(desiredPosition, CameraFollowSpeed * delta));
     }

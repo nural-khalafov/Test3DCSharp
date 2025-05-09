@@ -6,46 +6,43 @@ public partial class WalkingPlayerState : PlayerMovementState
     const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
-    const string TRANSITION = "Transition";
-    const string WALK_BLEND_POS = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
-
     public override void Update(double delta)
     {
-        PlayerController.UpdateInput(SPEED, DECELERATION, ACCELERATION);
-
-        PlayerController.AnimationTree.Set(WALK_BLEND_POS, 
+        AnimationController.AnimationTree.Set(AnimationController.WalkBlendPos, 
             new Vector2(PlayerController.GetInputDirection().X,
             -PlayerController.GetInputDirection().Y));
 
         if (PlayerController.Velocity.Length() == 0.0 && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "IdlePlayerState");
+            EmitSignal(AnimationController.Transition, "IdlePlayerState");
         }
 
         if (Input.IsActionPressed("sprint") && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "SprintingPlayerState");
+            EmitSignal(AnimationController.Transition, "SprintingPlayerState");
         }
 
         if (Input.IsActionPressed("crouch") && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "CrouchingPlayerState");
+            EmitSignal(AnimationController.Transition, "CrouchingPlayerState");
         }
 
         if (Input.IsActionJustPressed("jump") && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "JumpingPlayerState");
+            EmitSignal(AnimationController.Transition, "JumpingPlayerState");
         }
 
         if (PlayerController.Velocity.Y < -3.0f && !PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "FallingPlayerState");
+            EmitSignal(AnimationController.Transition, "FallingPlayerState");
         }
     }
 
     public override void PhysicsUpdate(double delta)
     {
         PlayerController.UpdateGravity((float)delta);
+        PlayerController.UpdateInput(SPEED, DECELERATION, ACCELERATION);
         PlayerController.UpdateVelocity();
+        //AnimationController.UpdateLeaning(true, (float)delta, -1.0f, 1.0f);
     }
 }

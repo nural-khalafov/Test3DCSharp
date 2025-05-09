@@ -6,9 +6,6 @@ public partial class IdlePlayerState : PlayerMovementState
     const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
-    const string TRANSITION = "Transition";
-    const string WALK_BLEND_POS = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
-
     private float _timeSinceJump;
 
     public override void Enter(State previousState)
@@ -18,31 +15,31 @@ public partial class IdlePlayerState : PlayerMovementState
 
     public override void Update(double delta)
     {
-        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
-
-        PlayerController.AnimationTree.Set(WALK_BLEND_POS, Vector2.Zero);
+        AnimationController.AnimationTree.Set(AnimationController.WalkBlendPos, Vector2.Zero);
 
         if (PlayerController.Velocity.Length() > 0.0f && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "WalkingPlayerState");
+            EmitSignal(AnimationController.Transition, "WalkingPlayerState");
         }
         if (Input.IsActionPressed("crouch") && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "CrouchingPlayerState");
+            EmitSignal(AnimationController.Transition, "CrouchingPlayerState");
         }
         if (Input.IsActionJustPressed("jump") && PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "JumpingPlayerState");
+            EmitSignal(AnimationController.Transition, "JumpingPlayerState");
         }
         if (PlayerController.Velocity.Y < 0.0f && !PlayerController.IsOnFloor())
         {
-            EmitSignal(TRANSITION, "FallingPlayerState");
+            EmitSignal(AnimationController.Transition, "FallingPlayerState");
         }
     }
 
     public override void PhysicsUpdate(double delta)
     {
         PlayerController.UpdateGravity((float)delta);
+        PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateVelocity();
+        //AnimationController.UpdateLeaning(true, (float)delta, -1.0f, 1.0f);
     }
 }
