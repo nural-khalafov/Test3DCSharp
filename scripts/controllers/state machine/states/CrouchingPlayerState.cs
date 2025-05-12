@@ -3,7 +3,7 @@ using System;
 
 public partial class CrouchingPlayerState : PlayerMovementState
 {
-    const float SPEED = 3.0f;
+    const float SPEED = 2f;
     const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 

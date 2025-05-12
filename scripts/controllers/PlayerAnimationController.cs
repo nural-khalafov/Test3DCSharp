@@ -12,6 +12,8 @@ public partial class PlayerAnimationController : Node3D
     [Export] private SkeletonIK3D _hipsIK;
     [Export] private Marker3D _hipsTarget;
 
+    private Basis _initialHipsBasis;
+
     public string Transition = "Transition";
     public string WalkBlendPos = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
     public string CrouchBlendPos = "parameters/PlayerStateMachine/Crouched/CrouchingBlendSpace2D/blend_position";
@@ -20,11 +22,14 @@ public partial class PlayerAnimationController : Node3D
 
     public override void _Ready()
     {
-        //_hipsIK.Start();
+        _hipsIK.Start();
     }
 
     public override void _Process(double delta)
     {
+        _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X, _hipsTarget.Rotation.Y, _hipsTarget.Rotation.Z);
+
+
     }
 
     //public void UpdateLeaning(bool canLean, float delta, float negX, float posX)

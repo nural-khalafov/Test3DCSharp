@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://36vmd843jhn2"
-path="res://.godot/imported/YBot_CrouchingAnims.glb-546e92f829d7fb672a64bfdb70e87e3e.scn"
+uid="uid://csnnh6ybi6mj2"
+path="res://.godot/imported/YBot_CrouchingAnims.fbx-52bb38fd8c267c62a65a6962ec573ad5.scn"
 
 [deps]
 
-source_file="res://assets/animations/ybot_character/YBot_CrouchingAnims.glb"
-dest_files=["res://.godot/imported/YBot_CrouchingAnims.glb-546e92f829d7fb672a64bfdb70e87e3e.scn"]
+source_file="res://assets/animations/ybot_character/YBot_CrouchingAnims.fbx"
+dest_files=["res://.godot/imported/YBot_CrouchingAnims.fbx-52bb38fd8c267c62a65a6962ec573ad5.scn"]
 
 [params]
 
@@ -28,10 +28,11 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=false
+animation/trimming=true
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={}
-gltf/naming_version=1
-gltf/embedded_image_handling=1
+fbx/importer=0
+fbx/allow_geometry_helper_nodes=false
+fbx/embedded_image_handling=1

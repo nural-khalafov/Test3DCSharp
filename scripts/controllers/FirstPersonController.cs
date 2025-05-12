@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 public partial class FirstPersonController : CharacterBody3D
 {
@@ -13,6 +14,7 @@ public partial class FirstPersonController : CharacterBody3D
     [ExportCategory("Camera Components")]
     [Export] public Camera3D Camera;
     [Export] public Marker3D HeadTarget;
+    [Export] public Node3D AimNode;
 
     private float _tiltMinLimit = Mathf.DegToRad(-75.0f);
     private float _tiltMaxLimit = Mathf.DegToRad(75.0f);
@@ -20,7 +22,7 @@ public partial class FirstPersonController : CharacterBody3D
     private bool _mouseInput = false;
     private float _rotationInput;
     private float _tiltInput;
-    private Vector3 _mouseRotation;
+    public static Vector3 MouseRotation;
     private Vector3 _playerRotation;
     private Vector3 _cameraRotation;
 
@@ -30,7 +32,6 @@ public partial class FirstPersonController : CharacterBody3D
     private float _gravity;
 
     public static Camera3D CameraRef;
-    public static Vector3 MouseRotation;
 
     public override void _Ready()
     {
@@ -44,9 +45,6 @@ public partial class FirstPersonController : CharacterBody3D
     {
         // rightHandIK.Start();
         // leftHandIK.Start();
-        MouseRotation.X += _tiltInput * (float)delta;
-        MouseRotation.X = Mathf.Clamp(MouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
-        MouseRotation.Y += _rotationInput * (float)delta;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -69,12 +67,12 @@ public partial class FirstPersonController : CharacterBody3D
 
     private void UpdateCamera(float delta)
     {
-        _mouseRotation.X += _tiltInput * delta;
-        _mouseRotation.X = Mathf.Clamp(_mouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
-        _mouseRotation.Y += _rotationInput * delta;
+        MouseRotation.X += _tiltInput * delta;
+        MouseRotation.X = Mathf.Clamp(MouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
+        MouseRotation.Y += _rotationInput * delta;
 
-        _playerRotation = new Vector3(0, _mouseRotation.Y, 0);
-        _cameraRotation = new Vector3(_mouseRotation.X, 0, 0);
+        _playerRotation = new Vector3(0, MouseRotation.Y, 0);
+        _cameraRotation = new Vector3(MouseRotation.X, 0, 0);
 
         Camera.Transform = new Transform3D(Basis.FromEuler(_cameraRotation), Camera.Transform.Origin);
         GlobalTransform = new Transform3D(Basis.FromEuler(_playerRotation), GlobalTransform.Origin);
