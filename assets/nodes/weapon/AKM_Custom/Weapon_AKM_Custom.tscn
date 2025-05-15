@@ -1,20 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://q4twuck6dbn7"]
+[gd_scene load_steps=6 format=3 uid="uid://q4twuck6dbn7"]
 
-[ext_resource type="PackedScene" uid="uid://dt1ket28g4kwl" path="res://assets/graphics/meshes/akm_custom/AKM_lowpoly.glb" id="1_f5imo"]
-[ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="2_dqjaa"]
+[ext_resource type="Script" uid="uid://cqrkqyirbdan4" path="res://scripts/weapon_system/WeaponPickup.cs" id="1_gesew"]
+[ext_resource type="Script" uid="uid://bl72yac3tkt7a" path="res://scripts/resources/WeaponResource.cs" id="2_quuq0"]
+[ext_resource type="PackedScene" uid="uid://cfrl8clcyjcf0" path="res://resources/weapons/automatic_rifle/akm_custom.tscn" id="3_gesew"]
 
-[node name="Weapon_AKM_Custom" type="Node3D"]
+[sub_resource type="Resource" id="Resource_jyrb7"]
+script = ExtResource("2_quuq0")
+WeaponName = &"AKM Custom"
+WeaponType = 3
+WeaponCaliber = &"7.62"
+WeaponDamage = 35.0
+WeaponPosition = Vector3(0, 0.32, 0.022)
+WeaponRotation = Vector3(1.514, 1.215, -0.403)
+WeaponScale = Vector3(1.25, 1.25, 1.25)
+LeftHandPosition = Vector3(0, 0, 0)
+LeftHandRotation = Vector3(0, 0, 0)
+WeaponPacketScene = ExtResource("3_gesew")
+WeaponPath = "res://resources/weapons/automatic_rifle/akm_custom.tscn"
+metadata/_custom_type_script = "uid://bl72yac3tkt7a"
 
-[node name="AKM_lowpoly" parent="." instance=ExtResource("1_f5imo")]
-transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+[sub_resource type="BoxShape3D" id="BoxShape3D_gesew"]
+size = Vector3(0.0455933, 0.341003, 1.09576)
 
-[node name="Modules" type="Node3D" parent="AKM_lowpoly"]
-transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
+[node name="Weapon_AKM_Custom" type="Node3D" node_paths=PackedStringArray("WeaponObject")]
+script = ExtResource("1_gesew")
+WeaponData = SubResource("Resource_jyrb7")
+WeaponObject = NodePath("AKM_Custom")
 
-[node name="AKM_Module_Dong" parent="AKM_lowpoly/Modules" instance=ExtResource("2_dqjaa")]
-visible = false
+[node name="Area3D" type="Area3D" parent="."]
 
-[node name="Magazin Copy" parent="AKM_lowpoly" index="17"]
-visible = false
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00283813, -0.00546265, 0.00106812)
+shape = SubResource("BoxShape3D_gesew")
 
-[editable path="AKM_lowpoly"]
+[node name="AKM_Custom" parent="." instance=ExtResource("3_gesew")]

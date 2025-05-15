@@ -12,6 +12,10 @@ public partial class PlayerAnimationController : Node3D
     [Export] private SkeletonIK3D _hipsIK;
     [Export] private Marker3D _hipsTarget;
 
+    [ExportCategory("Hands IK Components")]
+    [Export] private SkeletonIK3D _rightHandIK;
+    [Export] private SkeletonIK3D _leftHandIK;
+
     private Basis _initialHipsBasis;
 
     public string Transition = "Transition";
@@ -23,13 +27,18 @@ public partial class PlayerAnimationController : Node3D
     public override void _Ready()
     {
         _hipsIK.Start();
+        //_rightHandIK.Start();
+        _leftHandIK.Start();
     }
 
     public override void _Process(double delta)
     {
+        UpdateHipsRotation();
+    }
+
+    public void UpdateHipsRotation() 
+    {
         _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X, _hipsTarget.Rotation.Y, _hipsTarget.Rotation.Z);
-
-
     }
 
     //public void UpdateLeaning(bool canLean, float delta, float negX, float posX)

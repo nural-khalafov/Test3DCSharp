@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfrl8clcyjcf0"]
+
+[ext_resource type="PackedScene" uid="uid://dt1ket28g4kwl" path="res://assets/graphics/meshes/akm_custom/AKM_lowpoly.glb" id="1_tcuq5"]
+[ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="2_ty6rl"]
+
+[node name="AKM_Custom" instance=ExtResource("1_tcuq5")]
+transform = Transform3D(1.25, 0, 0, 0, 1.25, 0, 0, 0, 1.25, 0, 0, 0)
+script = ExtResource("2_ty6rl")
+
+[node name="Magazin Copy" parent="." index="16"]
+visible = false

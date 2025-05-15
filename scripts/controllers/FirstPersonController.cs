@@ -22,11 +22,10 @@ public partial class FirstPersonController : CharacterBody3D
     private bool _mouseInput = false;
     private float _rotationInput;
     private float _tiltInput;
-    public static Vector3 MouseRotation;
+    private Vector3 _mouseRotation;
     private Vector3 _playerRotation;
     private Vector3 _cameraRotation;
 
-    private bool _menuToggled = false;
     private Vector2 _inputDirection;
 
     private float _gravity;
@@ -43,8 +42,6 @@ public partial class FirstPersonController : CharacterBody3D
 
     public override void _Process(double delta)
     {
-        // rightHandIK.Start();
-        // leftHandIK.Start();
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -67,12 +64,12 @@ public partial class FirstPersonController : CharacterBody3D
 
     private void UpdateCamera(float delta)
     {
-        MouseRotation.X += _tiltInput * delta;
-        MouseRotation.X = Mathf.Clamp(MouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
-        MouseRotation.Y += _rotationInput * delta;
+        _mouseRotation.X += _tiltInput * delta;
+        _mouseRotation.X = Mathf.Clamp(_mouseRotation.X, _tiltMinLimit, _tiltMaxLimit);
+        _mouseRotation.Y += _rotationInput * delta;
 
-        _playerRotation = new Vector3(0, MouseRotation.Y, 0);
-        _cameraRotation = new Vector3(MouseRotation.X, 0, 0);
+        _playerRotation = new Vector3(0, _mouseRotation.Y, 0);
+        _cameraRotation = new Vector3(_mouseRotation.X, 0, 0);
 
         Camera.Transform = new Transform3D(Basis.FromEuler(_cameraRotation), Camera.Transform.Origin);
         GlobalTransform = new Transform3D(Basis.FromEuler(_playerRotation), GlobalTransform.Origin);
@@ -128,25 +125,5 @@ public partial class FirstPersonController : CharacterBody3D
         Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, currentPosition.Lerp(desiredPosition, CameraFollowSpeed * delta));
     }
 
-    //private void UpdateLeftArmGrip(float delta)
-    //{
-    //    var targetPos = gripL.GlobalTransform.Origin;
-    //    var currentPos = smoothedGripL.GlobalTransform.Origin;
-    //    smoothedGripL.GlobalTransform = new Transform3D(smoothedGripL.GlobalTransform.Basis, currentPos.Lerp(targetPos, delta * 30f));
-    //    smoothedGripL.Rotation = Vector3.Zero;
-    //}
-
-    //private void UpdateAiming(float delta)
-    //{
-    //    if (Input.IsActionPressed("aim"))
-    //    {
-    //        aimTarget.Position = aimTarget.Position.Lerp(aimFiringPosition, delta * 8);
-    //        camera.Fov = aimFiringFOV;
-    //    }
-    //    if (Input.IsActionJustReleased("aim"))
-    //    {
-    //        aimTarget.Position = aimIdlePosition;
-    //        camera.Fov = aimIdleFOV;
-    //    }
-    //}
+    
 }

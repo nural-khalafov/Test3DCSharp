@@ -7,8 +7,8 @@ public partial class CrouchingPlayerState : PlayerMovementState
     const float ACCELERATION = 0.5f;
     const float DECELERATION = 0.25f;
 
-    const float DEFAULT_HEIGHT = 2.15f;
-    const float CROUCH_HEIGHT = 1.6f;
+    const float DEFAULT_HEIGHT = 1.75f;
+    const float CROUCH_HEIGHT = 1.2f;
 
     public override void Update(double delta)
     {

@@ -124,13 +124,13 @@ size = Vector3(0.254103, 3.48476, 9.23406)
 material = ExtResource("5_7gix3")
 
 [node name="Weapon_AKM_Custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("6_13hs1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147827, -0.767004, 3.82739)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.157379, -1.13327, 3.82739)
 
 [node name="AKM_Module_Dong" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_fptmo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.07839, 4.41283)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.44465, 4.41283)
 
 [node name="AKM_Magazine" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("8_bakr3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.334618, -1.04896, 3.84901)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.334618, -1.41522, 3.84901)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.09955, 5.3238, 2.74301)
