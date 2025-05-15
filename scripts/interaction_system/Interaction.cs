@@ -28,17 +28,11 @@ public partial class Interaction : RayCast3D
 
             Node colliderNode = _currentCastResult as Node;
 
-            if(colliderNode is Area3D area) 
+            if(colliderNode is IInteractable interactable) 
             {
-                Node parentNode = area.GetParent();
-                if(parentNode is IInteractable interactable)
-                {
-                    _interactTarget = interactable;
-                    _interactTarget?.Interact();
-                    _interactTarget?.Interact(parentNode);
-
-                    return;
-                }
+                _interactTarget = interactable;
+                _interactTarget?.Interact();
+                _interactTarget?.Interact(colliderNode);
             }
             else 
             {

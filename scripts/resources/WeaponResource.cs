@@ -27,9 +27,6 @@ public partial class WeaponResource : Resource
     [Export] public Vector3 LeftHandPosition { get; set; }
     [Export] public Vector3 LeftHandRotation { get; set; }
 
-    [ExportCategory("Weapon Visual Data")]
-    [Export] public PackedScene WeaponPacketScene { get; set; } = null;
-
     [ExportCategory("Weapon Path")]
     [Export] public string WeaponPath = null;
 
@@ -42,8 +39,6 @@ public partial class WeaponResource : Resource
         WeaponPosition = new Vector3();
         WeaponRotation = new Vector3();
         WeaponScale = new Vector3();
-
-        WeaponPacketScene = new PackedScene();
     }
 
     public WeaponResource(StringName weaponName, WeaponType weaponType,

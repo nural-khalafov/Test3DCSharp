@@ -4,10 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
 [ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
 [ext_resource type="Material" uid="uid://budpurcjgch6g" path="res://assets/graphics/materials/starter_assets/checkerboard2_mat.tres" id="4_ahbqi"]
+[ext_resource type="PackedScene" uid="uid://bj61iegc1c707" path="res://resources/weapons/automatic_rifle/akm_custom.tscn" id="4_bakr3"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_tmr53"]
 [ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="4_x4b8f"]
 [ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
-[ext_resource type="PackedScene" uid="uid://q4twuck6dbn7" path="res://assets/nodes/weapon/AKM_Custom/Weapon_AKM_Custom.tscn" id="6_13hs1"]
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
 [ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="7_fptmo"]
 [ext_resource type="PackedScene" uid="uid://b7pl1mu6tlskh" path="res://assets/nodes/weapon/AKM_Custom/AKM_Custom_Magazine.tscn" id="8_bakr3"]
@@ -123,8 +123,8 @@ use_collision = true
 size = Vector3(0.254103, 3.48476, 9.23406)
 material = ExtResource("5_7gix3")
 
-[node name="Weapon_AKM_Custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("6_13hs1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.157379, -1.13327, 3.82739)
+[node name="akm_custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("4_bakr3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147072, -1.03186, 4.09086)
 
 [node name="AKM_Module_Dong" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_fptmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.44465, 4.41283)
