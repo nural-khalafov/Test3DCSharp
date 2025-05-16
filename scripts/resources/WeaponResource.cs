@@ -6,7 +6,7 @@ public enum WeaponType
     None,
     Melee,
     Pistol,
-    AutomaticRifle
+    AssaultRifle
 }
 
 [GlobalClass]

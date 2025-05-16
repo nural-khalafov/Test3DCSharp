@@ -1,6 +1,6 @@
 using Godot;
-using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 public enum WeaponSlot
 {
@@ -16,57 +16,233 @@ public partial class WeaponManager : Node
     [Export] public Node3D WeaponHolderSlot;
 
     [ExportCategory("Weapon Slots")]
-    public Dictionary<WeaponSlot, Node3D> WeaponSlots;
+    [Export] public Godot.Collections.Dictionary<WeaponSlot, Weapon> WeaponSlots { get; private set; }
+
+    // Events
+    public event Action<WeaponSlot, Weapon> OnWeaponSwitched;
+
+    // Private fields
+    private WeaponSlot _currentSlot = WeaponSlot.None;
+
+    private readonly Dictionary<string, WeaponSlot> _actionToSlotMap = new()
+    {
+        { "primary", WeaponSlot.Primary},
+        { "secondary", WeaponSlot.Secondary},
+        { "pistol", WeaponSlot.Pistol},
+        { "melee", WeaponSlot.Melee}
+    };
 
     public override void _EnterTree()
     {
         GlobalSingleton.WeaponManager = this;
 
-        WeaponSlots = new Dictionary<WeaponSlot, Node3D>()
+        WeaponSlots = new Godot.Collections.Dictionary<WeaponSlot, Weapon>()
         {
-            { WeaponSlot.Primary, null }
+            { WeaponSlot.Primary, null },
+            { WeaponSlot.Secondary, null},
+            { WeaponSlot.Pistol, null},
+            { WeaponSlot.Melee, null}
         };
     }
 
     public override void _Process(double delta)
     {
-
+        HandleWeaponSwitchInput();
+        HandleDropInput();
     }
 
-    public void PickUpWeapon(Weapon weapon, Node3D weaponNode)
+    public void ProcessCommand(IWeaponCommand command)
     {
-        if (weapon == null || weapon.WeaponData == null)
+        command.Execute(this);
+    }
+
+    private void HandleWeaponSwitchInput()
+    {
+        foreach (var entry in _actionToSlotMap)
         {
-            GD.PrintErr("Weapon or WeaponResource is NULL");
+            if (Input.IsActionJustPressed(entry.Key))
+            {
+                ProcessCommand(new SwitchActiveWeaponCommand(entry.Value));
+                return;
+            }
+        }
+    }
+
+    private void HandleDropInput() 
+    {
+        if (Input.IsActionJustPressed("drop"))
+        {
+            ProcessCommand(new DropCurrentWeaponCommand());
+        }
+    }
+
+    internal void PickUpAndEquip(Weapon weaponOnGround)
+    {
+        if (weaponOnGround.WeaponData == null ||
+            string.IsNullOrEmpty(weaponOnGround.WeaponData.WeaponPath))
+        {
+            GD.PrintErr("Weapon data is null or weapon path is empty");
             return;
         }
 
-        var weaponLoader = GD.Load<PackedScene>(weapon.WeaponData.WeaponPath);
-        weaponNode = weaponLoader.Instantiate<Node3D>();
+        var weaponScene = GD.Load<PackedScene>(weaponOnGround.WeaponData.WeaponPath);
 
-        if (weaponNode == null)
+        if (weaponScene == null)
         {
-            GD.PrintErr("Instantiated weapon is not a Node3D");
+            GD.PrintErr($"Failed to load scene from path: " +
+                $"{weaponOnGround.WeaponData.WeaponPath}");
+            return;
         }
 
-        weaponNode.Position = weapon.WeaponData.WeaponPosition;
-        weaponNode.Rotation = weapon.WeaponData.WeaponRotation;
-        weaponNode.Scale = weapon.WeaponData.WeaponScale;
-        WeaponHolderSlot.AddChild(weaponNode);
+        Weapon newWeapon = weaponScene.Instantiate<Weapon>();
+        if (newWeapon == null)
+        {
+            GD.PrintErr("Instantiated weapon is not of type Weapon or scene root is incorrect.");
+            return;
+        }
 
-        GD.Print("Intantiated weapon: " + weapon.WeaponData.WeaponName);
+        newWeapon.SetHeld(true);
+        newWeapon.Position = newWeapon.WeaponData.WeaponPosition;
+        newWeapon.Rotation = newWeapon.WeaponData.WeaponRotation;
+        newWeapon.Scale = newWeapon.WeaponData.WeaponScale;
+        WeaponHolderSlot.AddChild(newWeapon);
+        GD.Print("Instantiated weapon: " + newWeapon.WeaponData.WeaponName);
+
+        // Equip weapon to available slot
+        EquipToAvailableSlot(newWeapon, newWeapon.WeaponData.WeaponType);
+
+        // delete weapon from scene
+        weaponOnGround.QueueFree();
     }
 
-    public void EquipWeaponToSlot(Node3D slot, ref Node3D currentWeapon, Node3D newWeapon)
+    private void EquipToAvailableSlot(Weapon weaponInstance, WeaponType weaponType)
     {
-        if (currentWeapon != null && currentWeapon.IsInsideTree())
+        WeaponSlot targetSlot = WeaponSlot.None;
+
+        if (weaponType == WeaponType.AssaultRifle)
         {
-            currentWeapon.QueueFree();
-            // implement drop weapon logic later
+            if (WeaponSlots[WeaponSlot.Primary] == null)
+                targetSlot = WeaponSlot.Primary;
+            else if (WeaponSlots[WeaponSlot.Secondary] == null)
+                targetSlot = WeaponSlot.Secondary;
+        }
+        else if (weaponType == WeaponType.Pistol)
+        {
+            if (WeaponSlots[WeaponSlot.Pistol] == null)
+                targetSlot = WeaponSlot.Pistol;
+        }
+        else if (weaponType == WeaponType.Melee)
+        {
+            if (WeaponSlots[WeaponSlot.Melee] == null)
+                targetSlot = WeaponSlot.Melee;
         }
 
-        slot.AddChild(newWeapon);
-        newWeapon.GlobalTransform = slot.GlobalTransform;
-        currentWeapon = newWeapon;
+        if (targetSlot != WeaponSlot.None)
+        {
+            WeaponSlots[targetSlot] = weaponInstance;
+            GD.Print($"Equipped {weaponInstance.WeaponData.WeaponName} to Slot: {targetSlot}");
+
+            bool shouldSwitch = _currentSlot == WeaponSlot.None;
+            if(!shouldSwitch && WeaponSlots.ContainsKey(_currentSlot)) 
+            {
+                shouldSwitch = WeaponSlots[_currentSlot] == null;
+            }
+            if (shouldSwitch)
+            {
+                ProcessCommand(new SwitchActiveWeaponCommand(targetSlot));
+            }
+        }
+        else 
+        {
+            GD.Print($"No available slot for {weaponInstance.WeaponData.WeaponName} of type " +
+                $"{weaponType}. Dropping(destroying picked up instance).");
+            WeaponHolderSlot.RemoveChild(weaponInstance);
+            weaponInstance.QueueFree();
+        }
+    }
+
+    internal void SwitchActiveWeapon(WeaponSlot targetSlot)
+    {
+        if(_currentSlot == targetSlot)
+            return;
+
+        if (targetSlot != WeaponSlot.None && !WeaponSlots.ContainsKey(targetSlot)) 
+        {
+            GD.PrintErr($"Target slot: {targetSlot} does not exist in WeaponSlots dictionary.");
+            return;
+        }
+        if (targetSlot != WeaponSlot.None && WeaponSlots[targetSlot] == null)
+        {
+            GD.PrintErr($"No weapon in slot: {targetSlot} to switch to.");
+            return;
+        }
+
+        if(_currentSlot != WeaponSlot.None &&
+            WeaponSlots.TryGetValue(_currentSlot, out Weapon currentWeaponNode) && 
+            currentWeaponNode != null)
+        {
+            currentWeaponNode.Visible = false;
+        }
+
+        _currentSlot = targetSlot;
+
+        if (_currentSlot != WeaponSlot.None &&
+            WeaponSlots.TryGetValue(_currentSlot, out Weapon newWeaponNode) &&
+            newWeaponNode != null)
+        {
+            newWeaponNode.Visible = true;
+            OnWeaponSwitched?.Invoke(_currentSlot, newWeaponNode);
+            GD.Print($"Switched to weapon in slot: {_currentSlot}");
+        }
+        else if (_currentSlot == WeaponSlot.None)
+        {
+            OnWeaponSwitched?.Invoke(WeaponSlot.None, null);
+            GD.Print("Switched to empty hands.");
+        }
+    }
+    internal void DropCurrentWeapon()
+    {
+        if (_currentSlot == WeaponSlot.None ||
+            !WeaponSlots.TryGetValue(_currentSlot, out Weapon weaponToDrop) ||
+            weaponToDrop == null)
+        {
+            GD.PrintErr("No current weapon to drop.");
+            return;
+        }
+
+        var weaponScene = GD.Load<PackedScene>(weaponToDrop.WeaponData.WeaponPath);
+        if (weaponScene == null)
+        {
+            GD.PrintErr($"Failed to load weapon scene for dropping: " +
+                $"{weaponToDrop.WeaponData.WeaponPath}");
+            return;
+        }
+
+        Weapon droppedInstance = weaponScene.Instantiate<Weapon>();
+        if(droppedInstance == null)
+        {
+            GD.PrintErr("Instantiated dropped weapon is not of type weapon");
+            return;
+        }
+
+        GetTree().Root.AddChild(droppedInstance);
+
+        droppedInstance.GlobalPosition = weaponToDrop.GlobalPosition;
+        droppedInstance.GlobalRotation = weaponToDrop.GlobalRotation;
+
+        droppedInstance.SetHeld(false);
+
+        //droppedInstance.ApplyImpulse(Vector3.Forward.Rotated(Vector3.Up, 
+        //    droppedInstance.GlobalRotation.Y) * 5, Vector3.Zero);
+
+
+        GD.Print($"Dropped weapon: {weaponToDrop.WeaponData.WeaponName}");
+
+        WeaponHolderSlot.RemoveChild(weaponToDrop);
+        weaponToDrop.QueueFree();
+        WeaponSlots[_currentSlot] = null;
+
+        // Switch to empty hands
+        ProcessCommand(new SwitchActiveWeaponCommand(WeaponSlot.None));
     }
 }

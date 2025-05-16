@@ -57,25 +57,66 @@ parameters/PlayerStateMachine/Crouched/CrouchingBlendSpace2D/blend_position = Ve
 parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position = 0
 
 [node name="Skeleton3D" parent="CharacterModel/Armature" index="0"]
-bones/0/position = Vector3(0.00335402, 0.931406, -0.0055039)
-bones/0/rotation = Quaternion(-0.0393917, -0.364559, -0.0146332, 0.930232)
-bones/66/rotation = Quaternion(0.0790463, 0.210621, 0.968746, -0.104506)
-bones/67/rotation = Quaternion(-0.309474, 0.120405, -0.0405042, 0.942384)
-bones/68/rotation = Quaternion(0.57868, -0.0219284, -0.0291253, 0.814739)
-bones/69/rotation = Quaternion(0.248202, -0.017463, -0.0401676, 0.967718)
-bones/72/rotation = Quaternion(-0.124936, 0.0124296, 0.983567, 0.12974)
-bones/73/rotation = Quaternion(-0.295904, 0.0771758, -0.0176152, 0.951932)
-bones/74/rotation = Quaternion(0.677216, 0.0711822, 0.0993099, 0.725569)
-bones/75/rotation = Quaternion(0.242823, 0.0356718, 0.0126611, 0.969332)
+bones/0/position = Vector3(0.00320919, 0.932287, -0.00221309)
+bones/0/rotation = Quaternion(-0.0395935, -0.365158, -0.0148124, 0.929985)
+bones/1/rotation = Quaternion(0.000131134, -0.000598102, 0.0012089, 0.999999)
+bones/2/rotation = Quaternion(0.143116, 0.000666042, -0.00565325, 0.98969)
+bones/3/rotation = Quaternion(0.20024, -8.73396e-05, -0.00561596, 0.979731)
+bones/4/rotation = Quaternion(0.0103517, 0.0652169, 0.00802558, 0.997785)
+bones/5/rotation = Quaternion(-0.0284726, 0.19124, 0.0913698, 0.976867)
+bones/8/rotation = Quaternion(-0.292734, -0.333415, 0.669503, -0.595742)
+bones/9/rotation = Quaternion(0.480648, -0.215106, 0.3099, 0.791624)
+bones/10/rotation = Quaternion(8.94717e-08, -4.14527e-08, 0.534928, 0.844898)
+bones/11/rotation = Quaternion(-0.131144, -0.831089, -0.242224, 0.483136)
+bones/12/rotation = Quaternion(0.226018, -0.0331279, 0.133445, 0.964371)
+bones/13/rotation = Quaternion(0.0132749, 0.168405, -0.0635464, 0.983578)
+bones/14/rotation = Quaternion(-0.0116218, 0.0130986, 0.0923103, 0.995576)
+bones/17/rotation = Quaternion(0.315949, -0.0127244, -0.0318787, 0.948155)
+bones/18/rotation = Quaternion(0.499468, -3.49363e-07, -0.0511839, 0.864819)
+bones/22/rotation = Quaternion(0.440721, -0.018042, -0.0445577, 0.896356)
+bones/23/rotation = Quaternion(0.536434, 4.7554e-06, -0.0549436, 0.842152)
+bones/24/rotation = Quaternion(0.154932, 3.12383e-09, -0.015877, 0.987798)
+bones/27/rotation = Quaternion(0.505035, -0.0258624, -0.042464, 0.861665)
+bones/28/rotation = Quaternion(0.586003, -3.4788e-07, -0.0600518, 0.80808)
+bones/29/rotation = Quaternion(2.78246e-07, 2.0324e-07, 2.0326e-07, 1)
+bones/32/rotation = Quaternion(0.591716, -0.0694269, 0.00189739, 0.803149)
+bones/33/rotation = Quaternion(-4.62339e-06, -3.80551e-07, -0.000368301, 1)
+bones/34/rotation = Quaternion(0.121655, 3.44374e-07, -0.0124669, 0.992494)
+bones/37/rotation = Quaternion(0.187467, -0.387115, 0.722264, 0.541602)
+bones/38/rotation = Quaternion(0.472186, -0.184757, -0.612604, 0.606318)
+bones/39/rotation = Quaternion(-9.71598e-08, -6.27235e-08, -0.757252, 0.653122)
+bones/40/rotation = Quaternion(-0.158092, 0.388898, 0.246043, 0.873629)
+bones/41/rotation = Quaternion(0.349061, 0.0280121, -0.147808, 0.924946)
+bones/42/rotation = Quaternion(-0.112104, -0.187738, 0.210973, 0.952721)
+bones/43/rotation = Quaternion(-0.272859, -0.0182873, 0.407876, 0.87112)
+bones/46/rotation = Quaternion(0.108889, 0.00641617, -0.0152479, 0.993916)
+bones/47/rotation = Quaternion(1.55177e-06, 8.9294e-08, 4.16146e-06, 1)
+bones/48/rotation = Quaternion(-6.31355e-08, 1.29517e-08, 1.29505e-08, 1)
+bones/51/rotation = Quaternion(0.430257, 0.00040225, 0.0694023, 0.900035)
+bones/52/rotation = Quaternion(-2.29218e-07, 3.65704e-08, 3.65672e-08, 1)
+bones/53/rotation = Quaternion(-5.6853e-07, -2.3511e-08, -2.35089e-08, 1)
+bones/56/rotation = Quaternion(0.477496, 0.036507, 0.00597211, 0.877855)
+bones/57/rotation = Quaternion(0.76165, 4.84923e-07, 0.0620458, 0.645012)
+bones/58/rotation = Quaternion(0.424966, 3.41775e-07, 0.0346187, 0.904547)
+bones/61/rotation = Quaternion(0.534611, 0.0448666, 0.00571378, 0.843887)
+bones/63/rotation = Quaternion(0.497383, 3.21461e-07, 0.0405179, 0.866584)
+bones/66/rotation = Quaternion(0.0794816, 0.208626, 0.969227, -0.103713)
+bones/67/rotation = Quaternion(-0.30929, 0.120017, -0.0398581, 0.942521)
+bones/68/rotation = Quaternion(0.578913, -0.0211589, -0.0278379, 0.814639)
+bones/69/rotation = Quaternion(0.247861, -0.0178687, -0.0403849, 0.967789)
+bones/72/rotation = Quaternion(-0.125571, 0.00386142, 0.983786, 0.127994)
+bones/73/rotation = Quaternion(-0.283876, 0.0771118, -0.0165926, 0.955611)
+bones/74/rotation = Quaternion(0.675012, 0.0712797, 0.0997716, 0.727546)
+bones/75/rotation = Quaternion(0.243173, 0.0355333, 0.0126165, 0.96925)
 
 [node name="HipsTarget" parent="CharacterModel/Armature" index="1"]
 transform = Transform3D(0.745211, 0.119363, -0.65606, -0.158158, 0.987413, 0, 0.647802, 0.103761, 0.75471, 2.37169e-20, 1.25, 0)
 
 [node name="HeadBoneAttachment" parent="CharacterModel" index="3"]
-transform = Transform3D(-0.836846, 0.520047, 0.170995, 0.411671, 0.803711, -0.429622, -0.360854, -0.289134, -0.886671, 0.112565, 1.45939, -0.134878)
+transform = Transform3D(-0.830916, 0.531794, 0.163623, 0.420945, 0.793142, -0.440149, -0.363845, -0.296851, -0.882891, 0.110785, 1.46255, -0.131174)
 
 [node name="RightHandAttachment" parent="CharacterModel" index="4"]
-transform = Transform3D(0.176668, 0.0249706, -0.983954, 0.984163, -0.0192394, 0.176217, -0.0145304, -0.999503, -0.027974, 0.182131, 1.2646, -0.227074)
+transform = Transform3D(0.174762, 0.025227, -0.984287, 0.984388, -0.0257174, 0.174121, -0.0209208, -0.999351, -0.0293275, 0.180393, 1.26611, -0.224925)
 
 [node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("2_lxhpi")
@@ -99,8 +140,9 @@ script = ExtResource("7_ab8v3")
 [node name="FallingPlayerState" type="Node" parent="PlayerStateMachine"]
 script = ExtResource("8_glg3x")
 
-[node name="WeaponManager" type="Node" parent="." node_paths=PackedStringArray("WeaponHolderSlot")]
+[node name="WeaponManager" type="Node" parent="." node_paths=PackedStringArray("WeaponHolderSlot", "WeaponSlots")]
 script = ExtResource("11_8vqdi")
 WeaponHolderSlot = NodePath("../CharacterModel/RightHandAttachment/RightHandHolder")
+WeaponSlots = {}
 
 [editable path="CharacterModel"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=44 format=4 uid="uid://bj61iegc1c707"]
 
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="2_ty6rl"]
-[ext_resource type="Resource" uid="uid://c878jbl3ni517" path="res://resources/weapons/automatic_rifle/akm_custom.tres" id="2_wsa5a"]
+[ext_resource type="Resource" uid="uid://c878jbl3ni517" path="res://resources/weapons/assault_rifle/akm_custom.tres" id="2_wsa5a"]
 [ext_resource type="Material" uid="uid://bfq2vttgkx0na" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Metal.tres" id="3_h2y8v"]
 [ext_resource type="Material" uid="uid://haebjenvilrn" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Wood.tres" id="4_qvnkg"]
 [ext_resource type="Material" uid="uid://tpgqbyb1rqk3" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Dong.tres" id="4_ufxt6"]
@@ -624,7 +624,7 @@ shadow_mesh = SubResource("ArrayMesh_m6a8s")
 
 [node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape")]
 collision_layer = 8
-gravity_scale = 0.0
+freeze = true
 script = ExtResource("2_ty6rl")
 WeaponData = ExtResource("2_wsa5a")
 WeaponObject = NodePath(".")
@@ -734,5 +734,7 @@ mesh = SubResource("ArrayMesh_va2q2")
 skeleton = NodePath("")
 
 [node name="sight" type="Node3D" parent="modules"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.110586, 0.0534581)
 
 [node name="muzzle_device" type="Node3D" parent="modules"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0729851, -0.440553)

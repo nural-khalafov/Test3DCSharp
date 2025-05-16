@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Weapon : Node3D, IInteractable
+public partial class Weapon : RigidBody3D, IInteractable
 {
     [Export] public WeaponResource WeaponData { get; set; }
 
@@ -12,23 +12,50 @@ public partial class Weapon : Node3D, IInteractable
     public int CurrentAmmo {  get; private set; }
     public int ReserveAmmo { get; private set; }
 
+    public override void _Ready()
+    {
+        if(CollisionShape == null) 
+        {
+            CollisionShape = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
+        }
+    }
+
     public void Interact()
     {
-        GD.Print("WEAPON DETECTED");
+        GD.Print("WEAPON DETECTED (Interact without interactor)");
     }
 
     public void Interact(Node interactor)
     {
-        if (interactor is Weapon weapon)
+        if (GlobalSingleton.WeaponManager != null)
         {
-            GlobalSingleton.WeaponManager.PickUpWeapon(this, WeaponObject);
-            CollisionShape.Disabled = true;
-            GD.Print("Interacted with: " + this.WeaponData.WeaponName);
-            QueueFree();
+            var pickUpCommand = new PickUpAndEquipCommand(this);
+            GlobalSingleton.WeaponManager.ProcessCommand(pickUpCommand);
         }
         else 
         {
-            GD.Print("Interactor is not a WeaponManager or WeaponData missing");
+            GD.PrintErr("WeaponManager is not in GlobalSingleton");
         }
+    }
+
+    /// <summary>
+    /// Sets the weapon to be held or not.
+    /// </summary>
+    /// <param name="held">True - if weapon is in arms, false - if in the world map</param>
+    public void SetHeld(bool held) 
+    {
+        this.Freeze = held;
+        this.FreezeMode = held ? RigidBody3D.FreezeModeEnum.Static :
+            RigidBody3D.FreezeModeEnum.Kinematic;
+
+        if(CollisionShape != null) 
+        {
+            CollisionShape.Disabled = held;
+        }
+        else 
+        {
+            GD.PrintErr($"CollisionShape is not assigned for {Name}");
+        }
+        Visible = true;
     }
 }

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
 [ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
 [ext_resource type="Material" uid="uid://budpurcjgch6g" path="res://assets/graphics/materials/starter_assets/checkerboard2_mat.tres" id="4_ahbqi"]
-[ext_resource type="PackedScene" uid="uid://bj61iegc1c707" path="res://resources/weapons/automatic_rifle/akm_custom.tscn" id="4_bakr3"]
+[ext_resource type="PackedScene" uid="uid://bj61iegc1c707" path="res://resources/weapons/assault_rifle/akm_custom.tscn" id="4_bakr3"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_tmr53"]
 [ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="4_x4b8f"]
 [ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
