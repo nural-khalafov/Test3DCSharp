@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public enum WeaponSlot
 {
@@ -22,10 +23,11 @@ public partial class WeaponManager : Node
     public event Action<WeaponSlot, Weapon> OnWeaponSwitched;
 
     // Private fields
-    private WeaponSlot _currentSlot = WeaponSlot.None;
+    public WeaponSlot CurrentSlot = WeaponSlot.None;
 
     private readonly Dictionary<string, WeaponSlot> _actionToSlotMap = new()
     {
+        { "empty_hands", WeaponSlot.None},
         { "primary", WeaponSlot.Primary},
         { "secondary", WeaponSlot.Secondary},
         { "pistol", WeaponSlot.Pistol},
@@ -38,6 +40,7 @@ public partial class WeaponManager : Node
 
         WeaponSlots = new Godot.Collections.Dictionary<WeaponSlot, Weapon>()
         {
+            { WeaponSlot.None, null},
             { WeaponSlot.Primary, null },
             { WeaponSlot.Secondary, null},
             { WeaponSlot.Pistol, null},
@@ -51,9 +54,14 @@ public partial class WeaponManager : Node
         HandleDropInput();
     }
 
-    public void ProcessCommand(IWeaponCommand command)
+    public async void ProcessCommand(IWeaponCommand command)
     {
-        command.Execute(this);
+        await command.Execute(this);
+    }
+
+    private async Task ProcessCommandAsync(IWeaponCommand command)
+    {
+        await command.Execute(this);
     }
 
     private void HandleWeaponSwitchInput()
@@ -76,7 +84,7 @@ public partial class WeaponManager : Node
         }
     }
 
-    internal void PickUpAndEquip(Weapon weaponOnGround)
+    internal async Task PickUpAndEquip(Weapon weaponOnGround)
     {
         if (weaponOnGround.WeaponData == null ||
             string.IsNullOrEmpty(weaponOnGround.WeaponData.WeaponPath))
@@ -110,13 +118,13 @@ public partial class WeaponManager : Node
         GD.Print("Instantiated weapon: " + newWeapon.WeaponData.WeaponName);
 
         // Equip weapon to available slot
-        EquipToAvailableSlot(newWeapon, newWeapon.WeaponData.WeaponType);
+        await EquipToAvailableSlot(newWeapon, newWeapon.WeaponData.WeaponType);
 
         // delete weapon from scene
         weaponOnGround.QueueFree();
     }
 
-    private void EquipToAvailableSlot(Weapon weaponInstance, WeaponType weaponType)
+    private async Task EquipToAvailableSlot(Weapon weaponInstance, WeaponType weaponType)
     {
         WeaponSlot targetSlot = WeaponSlot.None;
 
@@ -143,14 +151,14 @@ public partial class WeaponManager : Node
             WeaponSlots[targetSlot] = weaponInstance;
             GD.Print($"Equipped {weaponInstance.WeaponData.WeaponName} to Slot: {targetSlot}");
 
-            bool shouldSwitch = _currentSlot == WeaponSlot.None;
-            if (!shouldSwitch && WeaponSlots.ContainsKey(_currentSlot))
+            bool shouldSwitch = CurrentSlot == WeaponSlot.None;
+            if (!shouldSwitch && WeaponSlots.ContainsKey(CurrentSlot))
             {
-                shouldSwitch = WeaponSlots[_currentSlot] == null;
+                shouldSwitch = WeaponSlots[CurrentSlot] == null;
             }
             if (shouldSwitch)
             {
-                ProcessCommand(new SwitchActiveWeaponCommand(targetSlot));
+                await ProcessCommandAsync(new SwitchActiveWeaponCommand(targetSlot));
             }
             else
             {
@@ -169,9 +177,9 @@ public partial class WeaponManager : Node
         }
     }
 
-    internal void SwitchActiveWeapon(WeaponSlot targetSlot)
+    internal async Task SwitchActiveWeapon(WeaponSlot targetSlot)
     {
-        if (_currentSlot == targetSlot)
+        if (CurrentSlot == targetSlot)
             return;
 
         if (targetSlot != WeaponSlot.None && !WeaponSlots.ContainsKey(targetSlot))
@@ -185,33 +193,42 @@ public partial class WeaponManager : Node
             return;
         }
 
-        if (_currentSlot != WeaponSlot.None &&
-            WeaponSlots.TryGetValue(_currentSlot, out Weapon currentWeaponNode) &&
+        if (CurrentSlot != WeaponSlot.None &&
+            WeaponSlots.TryGetValue(CurrentSlot, out Weapon currentWeaponNode) &&
             currentWeaponNode != null)
         {
             currentWeaponNode.Visible = false;
         }
 
-        _currentSlot = targetSlot;
+        CurrentSlot = targetSlot;
 
-        if (_currentSlot != WeaponSlot.None &&
-            WeaponSlots.TryGetValue(_currentSlot, out Weapon newWeaponNode) &&
+        if (CurrentSlot != WeaponSlot.None &&
+            WeaponSlots.TryGetValue(CurrentSlot, out Weapon newWeaponNode) &&
             newWeaponNode != null)
         {
+            if(GlobalSingleton.PlayerAnimationController != null)
+            {
+                GlobalSingleton.PlayerAnimationController.SetArmedState(true, newWeaponNode.WeaponData.WeaponType);
+            }
+
             newWeaponNode.Visible = true;
-            OnWeaponSwitched?.Invoke(_currentSlot, newWeaponNode);
-            GD.Print($"Switched to weapon in slot: {_currentSlot}");
+            OnWeaponSwitched?.Invoke(CurrentSlot, newWeaponNode);
+            GD.Print($"Switched to weapon in slot: {CurrentSlot}");
         }
-        else if (_currentSlot == WeaponSlot.None)
+        else if (CurrentSlot == WeaponSlot.None)
         {
+            if(GlobalSingleton.PlayerAnimationController != null)
+            {
+                GlobalSingleton.PlayerAnimationController.SetArmedState(false, WeaponType.None);
+            }
             OnWeaponSwitched?.Invoke(WeaponSlot.None, null);
             GD.Print("Switched to empty hands.");
         }
     }
-    internal void DropCurrentWeapon()
+    internal async Task DropCurrentWeapon()
     {
-        if (_currentSlot == WeaponSlot.None ||
-            !WeaponSlots.TryGetValue(_currentSlot, out Weapon weaponToDrop) ||
+        if (CurrentSlot == WeaponSlot.None ||
+            !WeaponSlots.TryGetValue(CurrentSlot, out Weapon weaponToDrop) ||
             weaponToDrop == null)
         {
             GD.PrintErr("No current weapon to drop.");
@@ -248,9 +265,9 @@ public partial class WeaponManager : Node
 
         WeaponHolderSlot.RemoveChild(weaponToDrop);
         weaponToDrop.QueueFree();
-        WeaponSlots[_currentSlot] = null;
+        WeaponSlots[CurrentSlot] = null;
 
         // Switch to empty hands
-        ProcessCommand(new SwitchActiveWeaponCommand(WeaponSlot.None));
+        await ProcessCommandAsync(new SwitchActiveWeaponCommand(WeaponSlot.None));
     }
 }

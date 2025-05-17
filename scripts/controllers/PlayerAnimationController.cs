@@ -33,6 +33,11 @@ public partial class PlayerAnimationController : Node3D
     public string JumpBlendPos = "parameters/PlayerStateMachine/Standing/JumpBlendSpace1D/blend_position";
     public string SprintBlendPos = "parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position";
 
+    public override void _EnterTree()
+    {
+        GlobalSingleton.PlayerAnimationController = this;
+    }
+
     public override void _Ready()
     {
         if (AnimationTree == null)
@@ -41,6 +46,8 @@ public partial class PlayerAnimationController : Node3D
         _hipsIK.Start();
         //_rightHandIK.Start();
         _leftHandIK.Start();
+
+        SetArmedState(false, WeaponType.None);
     }
 
     public override void _Process(double delta)
@@ -102,7 +109,7 @@ public partial class PlayerAnimationController : Node3D
 
         AnimationTree.Set(IsArmedParam, isArmed);
 
-        int stanceIndex = 0;
+        int stanceIndex = 0; // 0 - unarmed
         if (isArmed) 
         {
             switch(weaponType) 
@@ -119,5 +126,21 @@ public partial class PlayerAnimationController : Node3D
             }
         }
         AnimationTree.Set(UPPERBODY_SM_PATH, stanceIndex);
+    }
+
+    private async Task PlayOneShotAnimation(string requestPath, float estimatedDuration = 0.5f) 
+    {
+        if(AnimationTree == null)
+        {
+            GD.PrintErr("PlayOneShotAnimation: AnimationTree is null.");
+            return;
+        }
+        AnimationTree.Set(requestPath, (int)AnimationNodeOneShot.OneShotRequest.Fire);
+        await ToSignal(GetTree().CreateTimer(estimatedDuration), SceneTreeTimer.SignalName.Timeout);
+    }
+
+    public async Task PlayPickupAnimation(float estimatedDuration = 0.7f) 
+    {
+        await PlayOneShotAnimation(ANIM_TREE_BASE_PATH + "Pickup", 0.5f);
     }
 }

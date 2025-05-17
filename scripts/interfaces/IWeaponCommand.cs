@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
+
 public interface IWeaponCommand
 {
-    void Execute(WeaponManager weaponManager);
+    Task Execute(WeaponManager weaponManager);
 }

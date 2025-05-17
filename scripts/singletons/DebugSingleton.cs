@@ -13,5 +13,6 @@ public partial class DebugSingleton : Node
         Debug.AddProperty("FPS", (1.0 / delta).ToString("F2"), 0);
         Debug.AddProperty("Current Velocity", Player.Velocity.Length().ToString("F2"), 1);
         Debug.AddProperty("Current State", PlayerStateMachine.CurrentState.Name.ToString(), 2);
+        Debug.AddProperty("Current Weapon Slot", GlobalSingleton.WeaponManager.CurrentSlot.ToString(), 3);
     }
 }

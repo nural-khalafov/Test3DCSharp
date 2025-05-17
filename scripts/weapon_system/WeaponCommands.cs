@@ -1,43 +1,44 @@
 using Godot;
+using System.Threading.Tasks;
 
 public class PickUpAndEquipCommand : IWeaponCommand
 {
-    private readonly Weapon _weaponOnGround;
+    public Weapon WeaponOnGround;
 
     public PickUpAndEquipCommand(Weapon weaponOnGround)
     {
-        _weaponOnGround = weaponOnGround;
+        WeaponOnGround = weaponOnGround;
     }
 
-    public void Execute(WeaponManager weaponManager)
+    public async Task Execute(WeaponManager weaponManager)
     {
-        if(_weaponOnGround == null || _weaponOnGround.WeaponData == null)
+        if(WeaponOnGround == null || WeaponOnGround.WeaponData == null)
         {
             GD.PrintErr("PickUpAndEquipCommand: Weapon on ground or its data is null");
             return;
         }
-        weaponManager.PickUpAndEquip(_weaponOnGround);
+        await weaponManager.PickUpAndEquip(WeaponOnGround);
     }
 }
 
 public class SwitchActiveWeaponCommand : IWeaponCommand
 {
-    private readonly WeaponSlot _weaponSlot;
+    public WeaponSlot TargetSlot { get; }
 
     public SwitchActiveWeaponCommand(WeaponSlot targetSlot)
     {
-        _weaponSlot = targetSlot;
+        TargetSlot = targetSlot;
     }
-    public void Execute(WeaponManager weaponManager)
+    public async Task Execute(WeaponManager weaponManager)
     {
-        weaponManager.SwitchActiveWeapon(_weaponSlot);
+        await weaponManager.SwitchActiveWeapon(TargetSlot);
     }
 }
 
 public class DropCurrentWeaponCommand : IWeaponCommand
 {
-    public void Execute(WeaponManager weaponManager)
+    public async Task Execute(WeaponManager weaponManager)
     {
-        weaponManager.DropCurrentWeapon();
+        await weaponManager.DropCurrentWeapon();
     }
 }
