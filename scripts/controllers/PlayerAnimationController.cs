@@ -16,7 +16,7 @@ public partial class PlayerAnimationController : Node3D
     [Export] private SkeletonIK3D _rightHandIK;
     [Export] private SkeletonIK3D _leftHandIK;
 
-    private Basis _initialHipsBasis;
+    private float _leanAmount = 0.0f;
 
     public string Transition = "Transition";
     public string WalkBlendPos = "parameters/PlayerStateMachine/Standing/WalkBlendSpace2D/blend_position";
@@ -36,55 +36,50 @@ public partial class PlayerAnimationController : Node3D
         UpdateHipsRotation();
     }
 
-    public void UpdateHipsRotation() 
+    public void UpdateHipsRotation()
     {
-        _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X, _hipsTarget.Rotation.Y, _hipsTarget.Rotation.Z);
+        _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X,
+            _hipsTarget.Rotation.Y, _leanAmount);
     }
 
-    //public void UpdateLeaning(bool canLean, float delta, float negX, float posX)
-    //{
-    //    if (canLean)
-    //    {
-    //        _leanIK.Start();
-
-    //        if (Input.IsActionPressed("lean_left"))
-    //        {
-    //            _leanIK.Influence = 1.0f;
-    //            _leanTarget.Rotation = new Vector3(_leanTarget.Rotation.X,
-    //                _leanTarget.Rotation.Y,
-    //                Mathf.LerpAngle(_leanTarget.Rotation.Z, negX, delta * 5));
-    //            //_leanTarget.Position = new Vector3(
-    //            //    Mathf.Lerp(_leanTarget.Position.X, -0.5f, delta * 5),
-    //            //    _leanTarget.Position.Y,
-    //            //    _leanTarget.Position.Z);
-    //        }
-    //        else if (Input.IsActionPressed("lean_right"))
-    //        {
-    //            _leanIK.Influence = 1.0f;
-    //            _leanTarget.Rotation = new Vector3(_leanTarget.Rotation.X,
-    //                _leanTarget.Rotation.Y,
-    //                Mathf.LerpAngle(_leanTarget.Rotation.Z, posX, delta * 5));
-    //            //_leanTarget.Position = new Vector3(
-    //            //    Mathf.Lerp(_leanTarget.Position.X, 0.5f, delta * 5),
-    //            //    _leanTarget.Position.Y,
-    //            //    _leanTarget.Position.Z);
-    //        }
-    //        else
-    //        {
-    //            _leanTarget.Rotation = new Vector3(_leanTarget.Rotation.X,
-    //               _leanTarget.Rotation.Y,
-    //               Mathf.LerpAngle(_leanTarget.Rotation.Z, 0.0f, delta * 5));
-    //            //_leanTarget.Position = new Vector3(
-    //            //    Mathf.Lerp(_leanTarget.Position.X, 0.0f, delta * 5),
-    //            //    _leanTarget.Position.Y,
-    //            //    _leanTarget.Position.Z);
-    //            _leanIK.Influence = Mathf.Lerp(_leanIK.Influence, 0.0f, delta * 5);
-    //        }
-    //    }
-    //    else 
-    //    {
-    //        _leanIK.Stop();
-    //        _leanIK.Influence = 0.0f;
-    //    }
-    //}
+    public void UpdateLeaning(bool canLean, float delta, float negValue, float posValue)
+    {
+        if (canLean) 
+        {
+            if(_hipsTarget != null) 
+            {
+                if (Input.IsActionPressed("lean_left"))
+                {
+                    _leanAmount = Mathf.LerpAngle(_hipsTarget.Rotation.Z, negValue, delta * 5);
+                    _hipsTarget.Rotation = new Vector3(_hipsTarget.Rotation.X,
+                        _hipsTarget.Rotation.Y,
+                        _leanAmount);
+                }
+                else if (Input.IsActionPressed("lean_right"))
+                {
+                    _leanAmount = Mathf.LerpAngle(_hipsTarget.Rotation.Z, posValue, delta * 5);
+                    _hipsTarget.Rotation = new Vector3(_hipsTarget.Rotation.X,
+                        _hipsTarget.Rotation.Y,
+                        _leanAmount);
+                }
+                else
+                {
+                    _leanAmount = Mathf.LerpAngle(_hipsTarget.Rotation.Z, 0.0f, delta * 5);
+                    _hipsTarget.Rotation = new Vector3(_hipsTarget.Rotation.X,
+                        _hipsTarget.Rotation.Y,
+                        _leanAmount);
+                }
+            }
+            else
+            {
+                GD.PrintErr("Hips target is null");
+            }
+        }
+        else 
+        {
+            _hipsTarget.Rotation = new Vector3(_hipsTarget.Rotation.X,
+                    _hipsTarget.Rotation.Y,
+                    _hipsTarget.Rotation.Z);
+        }
+    }
 }

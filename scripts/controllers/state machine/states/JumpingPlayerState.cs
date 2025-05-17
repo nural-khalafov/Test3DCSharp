@@ -9,7 +9,6 @@ public partial class JumpingPlayerState : PlayerMovementState
     const float INPUT_MULTIPLIER = 0.85f;
 
     private float _timeSinceJump = 0.0f;
-    private const float GRACE_TIME = 0.1f;
     private bool _justJumped = false;
 
     public override void Enter(State previousState)
@@ -47,5 +46,6 @@ public partial class JumpingPlayerState : PlayerMovementState
         PlayerController.UpdateGravity((float)delta);
         PlayerController.UpdateInput(SPEED * INPUT_MULTIPLIER, ACCELERATION, DECELERATION);
         PlayerController.UpdateVelocity();
+        AnimationController.UpdateLeaning(false, 0.0f, 0.0f, 0.0f);
     }
 }

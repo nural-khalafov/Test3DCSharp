@@ -1,10 +1,10 @@
 [gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://tpgqbyb1rqk3"]
 
-[ext_resource type="Texture2D" uid="uid://x64np1c2auxd" path="res://assets/graphics/textures/akm_custom/akm_romanian_dong/RomanianDong_BaseColor.png" id="1_60pfr"]
-[ext_resource type="Texture2D" uid="uid://c2batmwb5skca" path="res://assets/graphics/textures/akm_custom/akm_romanian_dong/RomanianDong_Metallic.png" id="2_b0coc"]
-[ext_resource type="Texture2D" uid="uid://u2037hlocbj5" path="res://assets/graphics/textures/akm_custom/akm_romanian_dong/RomanianDong_Emissive.png" id="2_xbda8"]
-[ext_resource type="Texture2D" uid="uid://xww0jxvxtjwt" path="res://assets/graphics/textures/akm_custom/akm_romanian_dong/RomanianDong_Roughness.png" id="3_wwwit"]
-[ext_resource type="Texture2D" uid="uid://ckptqxfn76lxi" path="res://assets/graphics/textures/akm_custom/akm_romanian_dong/RomanianDong_Normal.png" id="4_mupi0"]
+[ext_resource type="Texture2D" uid="uid://x64np1c2auxd" path="res://assets/graphics/textures/weapons/akm_custom/akm_romanian_dong/RomanianDong_BaseColor.png" id="1_60pfr"]
+[ext_resource type="Texture2D" uid="uid://c2batmwb5skca" path="res://assets/graphics/textures/weapons/akm_custom/akm_romanian_dong/RomanianDong_Metallic.png" id="2_b0coc"]
+[ext_resource type="Texture2D" uid="uid://u2037hlocbj5" path="res://assets/graphics/textures/weapons/akm_custom/akm_romanian_dong/RomanianDong_Emissive.png" id="2_xbda8"]
+[ext_resource type="Texture2D" uid="uid://xww0jxvxtjwt" path="res://assets/graphics/textures/weapons/akm_custom/akm_romanian_dong/RomanianDong_Roughness.png" id="3_wwwit"]
+[ext_resource type="Texture2D" uid="uid://ckptqxfn76lxi" path="res://assets/graphics/textures/weapons/akm_custom/akm_romanian_dong/RomanianDong_Normal.png" id="4_mupi0"]
 
 [resource]
 cull_mode = 2

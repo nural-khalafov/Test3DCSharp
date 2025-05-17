@@ -37,7 +37,7 @@ public partial class CrouchingPlayerState : PlayerMovementState
         PlayerController.UpdateGravity((float)delta);
         PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateVelocity();
-        //AnimationController.UpdateLeaning(true, (float)delta, -1.0f, 1.0f);
+        AnimationController.UpdateLeaning(true, (float)delta, -0.5f, 0.5f);
     }
 
     private async void Uncrouch()

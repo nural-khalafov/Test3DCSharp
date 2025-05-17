@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=24 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
 [ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="12_fyxdr"]
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
+[ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1_test.tscn" id="18_jqmoj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]
 
@@ -125,6 +126,9 @@ material = ExtResource("5_7gix3")
 
 [node name="akm_custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("4_bakr3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147072, -1.03186, 4.09086)
+
+[node name="m16a1_test" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("18_jqmoj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174034, -1.14447, 3.0533)
 
 [node name="AKM_Module_Dong" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_fptmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.44465, 4.41283)

@@ -40,5 +40,6 @@ public partial class SprintingPlayerState : PlayerMovementState
         PlayerController.UpdateInput(SPEED, ACCELERATION, DECELERATION);
         PlayerController.UpdateGravity((float)delta);
         PlayerController.UpdateVelocity();
+        AnimationController.UpdateLeaning(false, 0.0f, 0.0f, 0.0f);
     }
 }

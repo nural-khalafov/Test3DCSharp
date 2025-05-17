@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cbhiwo0nq0pgy"]
 
-[ext_resource type="PackedScene" uid="uid://28nvwibemyda" path="res://assets/graphics/meshes/akm_custom/AKM_romanian_dong.glb" id="1_vt2id"]
+[ext_resource type="PackedScene" uid="uid://28nvwibemyda" path="res://assets/graphics/meshes/weapons/akm_custom/AKM_romanian_dong.glb" id="1_vt2id"]
 
 [node name="AKM_Module_Dong" type="Node3D"]
 

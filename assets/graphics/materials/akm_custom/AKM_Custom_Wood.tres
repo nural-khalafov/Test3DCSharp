@@ -1,10 +1,10 @@
 [gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://haebjenvilrn"]
 
-[ext_resource type="Texture2D" uid="uid://d4cc2rescegfs" path="res://assets/graphics/textures/akm_custom/AKM_BaseColor.1002.png" id="1_a3caw"]
-[ext_resource type="Texture2D" uid="uid://bb25gxyogowfj" path="res://assets/graphics/textures/akm_custom/AKM_Metallic.1002.png" id="2_8vp5v"]
-[ext_resource type="Texture2D" uid="uid://b6jwojqf4kkns" path="res://assets/graphics/textures/akm_custom/AKM_Emissive.1002.png" id="2_ajtf0"]
-[ext_resource type="Texture2D" uid="uid://1l8wth5rotl" path="res://assets/graphics/textures/akm_custom/AKM_Roughness.1002.png" id="3_t3ktt"]
-[ext_resource type="Texture2D" uid="uid://dbwrskat36auf" path="res://assets/graphics/textures/akm_custom/AKM_Normal.1002.png" id="4_bi0mm"]
+[ext_resource type="Texture2D" uid="uid://d4cc2rescegfs" path="res://assets/graphics/textures/weapons/akm_custom/AKM_BaseColor.1002.png" id="1_a3caw"]
+[ext_resource type="Texture2D" uid="uid://bb25gxyogowfj" path="res://assets/graphics/textures/weapons/akm_custom/AKM_Metallic.1002.png" id="2_8vp5v"]
+[ext_resource type="Texture2D" uid="uid://b6jwojqf4kkns" path="res://assets/graphics/textures/weapons/akm_custom/AKM_Emissive.1002.png" id="2_ajtf0"]
+[ext_resource type="Texture2D" uid="uid://1l8wth5rotl" path="res://assets/graphics/textures/weapons/akm_custom/AKM_Roughness.1002.png" id="3_t3ktt"]
+[ext_resource type="Texture2D" uid="uid://dbwrskat36auf" path="res://assets/graphics/textures/weapons/akm_custom/AKM_Normal.1002.png" id="4_bi0mm"]
 
 [resource]
 cull_mode = 2
