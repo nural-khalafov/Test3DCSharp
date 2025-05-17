@@ -53,6 +53,9 @@ script = ExtResource("2_2fcl3")
 [node name="CharacterModel" parent="." instance=ExtResource("2_2wjqb")]
 
 [node name="AnimationTree" parent="CharacterModel" index="1"]
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
 parameters/PlayerStateMachine/Crouched/CrouchingBlendSpace2D/blend_position = Vector2(0, 0)
 parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position = 0
 

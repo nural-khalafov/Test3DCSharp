@@ -44,18 +44,23 @@ public partial class Weapon : RigidBody3D, IInteractable
     /// <param name="held">True - if weapon is in arms, false - if in the world map</param>
     public void SetHeld(bool held) 
     {
-        this.Freeze = held;
-        this.FreezeMode = held ? RigidBody3D.FreezeModeEnum.Static :
-            RigidBody3D.FreezeModeEnum.Kinematic;
-
-        if(CollisionShape != null) 
+        if(held) 
         {
-            CollisionShape.Disabled = held;
+            this.Freeze = true;
+            this.FreezeMode = RigidBody3D.FreezeModeEnum.Static;
+            if(CollisionShape != null) 
+            {
+                CollisionShape.Disabled = true;
+            }
         }
         else 
         {
-            GD.PrintErr($"CollisionShape is not assigned for {Name}");
+            this.Freeze = false;
+            this.FreezeMode = RigidBody3D.FreezeModeEnum.Kinematic;
+            if (CollisionShape != null)
+            {
+                CollisionShape.Disabled = false;
+            }
         }
-        Visible = true;
     }
 }

@@ -68,7 +68,7 @@ public partial class WeaponManager : Node
         }
     }
 
-    private void HandleDropInput() 
+    private void HandleDropInput()
     {
         if (Input.IsActionJustPressed("drop"))
         {
@@ -105,6 +105,7 @@ public partial class WeaponManager : Node
         newWeapon.Position = newWeapon.WeaponData.WeaponPosition;
         newWeapon.Rotation = newWeapon.WeaponData.WeaponRotation;
         newWeapon.Scale = newWeapon.WeaponData.WeaponScale;
+
         WeaponHolderSlot.AddChild(newWeapon);
         GD.Print("Instantiated weapon: " + newWeapon.WeaponData.WeaponName);
 
@@ -143,7 +144,7 @@ public partial class WeaponManager : Node
             GD.Print($"Equipped {weaponInstance.WeaponData.WeaponName} to Slot: {targetSlot}");
 
             bool shouldSwitch = _currentSlot == WeaponSlot.None;
-            if(!shouldSwitch && WeaponSlots.ContainsKey(_currentSlot)) 
+            if (!shouldSwitch && WeaponSlots.ContainsKey(_currentSlot))
             {
                 shouldSwitch = WeaponSlots[_currentSlot] == null;
             }
@@ -151,22 +152,29 @@ public partial class WeaponManager : Node
             {
                 ProcessCommand(new SwitchActiveWeaponCommand(targetSlot));
             }
+            else
+            {
+                weaponInstance.Visible = false;
+            }
         }
-        else 
+        else
         {
             GD.Print($"No available slot for {weaponInstance.WeaponData.WeaponName} of type " +
                 $"{weaponType}. Dropping(destroying picked up instance).");
-            WeaponHolderSlot.RemoveChild(weaponInstance);
+            if (weaponInstance.GetParent() == WeaponHolderSlot)
+            {
+                WeaponHolderSlot.RemoveChild(weaponInstance);
+            }
             weaponInstance.QueueFree();
         }
     }
 
     internal void SwitchActiveWeapon(WeaponSlot targetSlot)
     {
-        if(_currentSlot == targetSlot)
+        if (_currentSlot == targetSlot)
             return;
 
-        if (targetSlot != WeaponSlot.None && !WeaponSlots.ContainsKey(targetSlot)) 
+        if (targetSlot != WeaponSlot.None && !WeaponSlots.ContainsKey(targetSlot))
         {
             GD.PrintErr($"Target slot: {targetSlot} does not exist in WeaponSlots dictionary.");
             return;
@@ -177,8 +185,8 @@ public partial class WeaponManager : Node
             return;
         }
 
-        if(_currentSlot != WeaponSlot.None &&
-            WeaponSlots.TryGetValue(_currentSlot, out Weapon currentWeaponNode) && 
+        if (_currentSlot != WeaponSlot.None &&
+            WeaponSlots.TryGetValue(_currentSlot, out Weapon currentWeaponNode) &&
             currentWeaponNode != null)
         {
             currentWeaponNode.Visible = false;
@@ -219,7 +227,7 @@ public partial class WeaponManager : Node
         }
 
         Weapon droppedInstance = weaponScene.Instantiate<Weapon>();
-        if(droppedInstance == null)
+        if (droppedInstance == null)
         {
             GD.PrintErr("Instantiated dropped weapon is not of type weapon");
             return;
