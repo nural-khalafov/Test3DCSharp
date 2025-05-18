@@ -494,6 +494,9 @@ LeftHandTarget = NodePath("IKTarget_L")
 [node name="IKTarget_L" type="Marker3D" parent="."]
 transform = Transform3D(0.987608, 0.153384, -0.0332098, 0.00477037, 0.182173, 0.983255, 0.156865, -0.971229, 0.179184, 0.005, 0.148, -0.17)
 
+[node name="IKTarget_R" type="Marker3D" parent="."]
+transform = Transform3D(0.987608, 0.153384, -0.0332098, 0.00477037, 0.182173, 0.983255, 0.156865, -0.971229, 0.179184, 0.00335756, 0.0650709, 0.0618915)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00268555, 0.134501, -0.153609)
 shape = SubResource("BoxShape3D_7bpmw")

@@ -19,7 +19,7 @@ config/icon="uid://bhenepv5atv4a"
 
 [autoload]
 
-DebugSingleton="*res://scripts/singletons/DebugSingleton.cs"
+ServiceLocator="*res://scripts/service_locator/ServiceLocator.cs"
 
 [display]
 

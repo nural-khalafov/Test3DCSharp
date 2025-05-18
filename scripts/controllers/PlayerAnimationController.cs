@@ -40,7 +40,7 @@ public partial class PlayerAnimationController : Node3D
 
     public override void _EnterTree()
     {
-        GlobalSingleton.PlayerAnimationController = this;
+        ServiceLocator.RegisterService(this);
     }
 
     public override void _Ready()

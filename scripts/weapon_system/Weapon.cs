@@ -13,9 +13,13 @@ public partial class Weapon : RigidBody3D, IInteractable
     public int CurrentAmmo {  get; private set; }
     public int ReserveAmmo { get; private set; }
 
+    private WeaponManager _weaponManager;
+
     public override void _Ready()
     {
-        if(CollisionShape == null) 
+        _weaponManager = ServiceLocator.GetService<WeaponManager>();
+
+        if (CollisionShape == null) 
         {
             CollisionShape = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
         }
@@ -28,10 +32,10 @@ public partial class Weapon : RigidBody3D, IInteractable
 
     public void Interact(Node interactor)
     {
-        if (GlobalSingleton.WeaponManager != null)
+        if (_weaponManager != null)
         {
             var pickUpCommand = new PickUpAndEquipCommand(this);
-            GlobalSingleton.WeaponManager.ProcessCommand(pickUpCommand);
+            _weaponManager.ProcessCommand(pickUpCommand);
         }
         else 
         {

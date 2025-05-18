@@ -10,9 +10,12 @@ public partial class Menu : Panel
     [Export]
     private TextureButton _exitButton;
 
+    public bool IsMenuOpen { get; private set; } = false;
+
     public override void _EnterTree()
     {
         MenuSingleton.Menu = this;
+        ServiceLocator.RegisterService(this);
     }
 
     public override void _Ready()
@@ -22,42 +25,53 @@ public partial class Menu : Panel
         _exitButton.Pressed += OnExitButtonPressed;
 
         Visible = false;
+        IsMenuOpen = false;
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("exit")) 
+        if (@event.IsActionPressed("exit"))
         {
-            if (!MenuSingleton.MenuToggled)
+            var optionsPanel = ServiceLocator.GetService<Options>();
+            if (!IsMenuOpen)
             {
-                MenuSingleton.Menu.Visible = true;
-                MenuSingleton.MenuToggled = true;
+                this.Visible = true;
+                IsMenuOpen = true;
                 Input.MouseMode = Input.MouseModeEnum.Visible;
                 GetTree().Paused = true;
             }
-            else if (MenuSingleton.MenuToggled)
+            else
             {
-                MenuSingleton.Menu.Visible = false;
-                MenuSingleton.Options.Visible = false;
-                MenuSingleton.MenuToggled = false;
+                this.Visible = false;
+                if (optionsPanel != null)
+                    optionsPanel.Visible = false;
+                IsMenuOpen = false;
                 Input.MouseMode = Input.MouseModeEnum.Captured;
                 GetTree().Paused = false;
             }
         }
     }
 
-    private void OnResumeButtonPressed() 
+    private void OnResumeButtonPressed()
     {
-        Visible = false;
+        this.Visible = false;
+        IsMenuOpen = false;
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        MenuSingleton.MenuToggled = false;
         GetTree().Paused = false;
     }
 
     private void OnOptionsButtonPressed()
     {
-        Visible = false;
-        MenuSingleton.Options.Visible = true;
+        var optionsPanel = ServiceLocator.GetService<Options>();
+        if (optionsPanel != null)
+        {
+            this.Visible = false;
+            optionsPanel.Visible = true;
+        }
+        else
+        {
+            GD.PrintErr("Menu: Options panel was not found in ServiceLocator");
+        }
     }
 
     private void OnExitButtonPressed()

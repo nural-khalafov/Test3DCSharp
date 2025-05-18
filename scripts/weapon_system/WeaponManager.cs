@@ -25,6 +25,8 @@ public partial class WeaponManager : Node
     // Private fields
     public WeaponSlot CurrentSlot = WeaponSlot.None;
 
+    private PlayerAnimationController _playerAnimationController;
+
     private readonly Dictionary<string, WeaponSlot> _actionToSlotMap = new()
     {
         { "empty_hands", WeaponSlot.None},
@@ -36,7 +38,8 @@ public partial class WeaponManager : Node
 
     public override void _EnterTree()
     {
-        GlobalSingleton.WeaponManager = this;
+        ServiceLocator.RegisterService(this);
+        _playerAnimationController = ServiceLocator.GetService<PlayerAnimationController>();
 
         WeaponSlots = new Godot.Collections.Dictionary<WeaponSlot, Weapon>()
         {
@@ -86,6 +89,7 @@ public partial class WeaponManager : Node
 
     internal async Task PickUpAndEquip(Weapon weaponOnGround)
     {
+        GD.Print($"WeaponManager: Picking up {weaponOnGround.WeaponData.WeaponName}");
         if (weaponOnGround.WeaponData == null ||
             string.IsNullOrEmpty(weaponOnGround.WeaponData.WeaponPath))
         {
@@ -210,10 +214,10 @@ public partial class WeaponManager : Node
             WeaponSlots.TryGetValue(CurrentSlot, out Weapon newWeaponNode) &&
             newWeaponNode != null)
         {
-            if (GlobalSingleton.PlayerAnimationController != null)
+            if (_playerAnimationController != null)
             {
-                GlobalSingleton.PlayerAnimationController.SetArmedState(true, newWeaponNode.WeaponData.WeaponType);
-                if (GlobalSingleton.PlayerAnimationController.LeftHandIK == null)
+                _playerAnimationController.SetArmedState(true, newWeaponNode.WeaponData.WeaponType);
+                if (_playerAnimationController.LeftHandIK == null)
                 {
                     GD.PrintErr("Critical Error: LeftHandIK is NULL.");
                 }
@@ -225,9 +229,9 @@ public partial class WeaponManager : Node
                     }
                     else
                     {
-                        GlobalSingleton.PlayerAnimationController.LeftHandIK.TargetNode = 
+                        _playerAnimationController.LeftHandIK.TargetNode = 
                             newWeaponNode.LeftHandTarget.GetPath();
-                        GlobalSingleton.PlayerAnimationController.LeftHandIK.Start();
+                        _playerAnimationController.LeftHandIK.Start();
                     }
                 }
             }
@@ -239,13 +243,13 @@ public partial class WeaponManager : Node
         // Switch to empty hands
         else if (CurrentSlot == WeaponSlot.None)
         {
-            if (GlobalSingleton.PlayerAnimationController != null)
+            if (_playerAnimationController != null)
             {
-                GlobalSingleton.PlayerAnimationController.SetArmedState(false, WeaponType.None);
-                if (GlobalSingleton.PlayerAnimationController.LeftHandIK != null)
+                _playerAnimationController.SetArmedState(false, WeaponType.None);
+                if (_playerAnimationController.LeftHandIK != null)
                 {
-                    GlobalSingleton.PlayerAnimationController.LeftHandIK.TargetNode = null;
-                    GlobalSingleton.PlayerAnimationController.LeftHandIK.Stop();
+                    _playerAnimationController.LeftHandIK.TargetNode = null;
+                    _playerAnimationController.LeftHandIK.Stop();
                 }
                 else 
                 {

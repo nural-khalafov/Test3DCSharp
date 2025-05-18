@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=26 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
 [ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="18_jqmoj"]
 [ext_resource type="PackedScene" uid="uid://c6ilef5scwyh7" path="res://resources/weapons/pistol/makarov_pistol.tscn" id="19_ni2ok"]
+[ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/singletons/DebugDisplay.cs" id="20_hnsbs"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]
 
@@ -142,14 +143,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.334618, -1.41522, 3.84901)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.09955, 5.3238, 2.74301)
-visible = false
 spot_range = 8.81681
 spot_attenuation = -1.2
 spot_angle = 37.8415
 
 [node name="SpotLight3D2" type="SpotLight3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 3.09955, 5.3238, -2.73071)
-visible = false
 spot_range = 8.81681
 spot_attenuation = -1.2
 spot_angle = 37.8415
@@ -332,3 +331,6 @@ scale = Vector2(2.5, 2.5)
 theme_override_styles/focus = SubResource("StyleBoxFlat_rv6en")
 shortcut_feedback = false
 shortcut_in_tooltip = false
+
+[node name="DebugDisplay" type="Node" parent="."]
+script = ExtResource("20_hnsbs")

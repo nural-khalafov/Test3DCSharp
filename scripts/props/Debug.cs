@@ -5,15 +5,19 @@ namespace Test3DCSharp.Utilities
     public partial class Debug : PanelContainer
     {
         private VBoxContainer _propertyContainer;
-        private DebugSingleton _debugGlobals;
+        //private DebugSingleton _debugGlobals;
 
         private string _framesPerSecond;
 
 
+        public override void _EnterTree()
+        {
+            ServiceLocator.RegisterService(this);
+        }
+
         public override void _Ready()
         {
             _propertyContainer = GetNode<VBoxContainer>("%VBoxContainer");
-            DebugSingleton.Debug = this;
 
             Visible = false;
         }

@@ -6,13 +6,20 @@ public partial class Options : Panel
     [Export]
     private CheckButton _fullscreenSwitcher;
 
+    public override void _EnterTree()
+    {
+        ServiceLocator.RegisterService(this);
+    }
+
     public override void _Ready()
     {
-        MenuSingleton.Options = this;
-
         Visible = false;
 
-        _fullscreenSwitcher.Toggled += OnFullScreenSwitcherToggled;
+        if(_fullscreenSwitcher != null) 
+        {
+            _fullscreenSwitcher.Toggled += OnFullScreenSwitcherToggled;
+            _fullscreenSwitcher.ButtonPressed = DisplayServer.WindowGetMode() == DisplayServer.WindowMode.Fullscreen;
+        }
     }
 
     private void OnFullScreenSwitcherToggled(bool toggledOn) 

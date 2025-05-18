@@ -39,7 +39,7 @@ public partial class FirstPersonController : CharacterBody3D
     {
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        DebugSingleton.Player = this;
+        ServiceLocator.RegisterService(this);
         CameraRef = Camera;
     }
 
