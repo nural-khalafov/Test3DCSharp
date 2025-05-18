@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://cmf8kimsqovua"]
+
+[ext_resource type="Script" uid="uid://bl72yac3tkt7a" path="res://scripts/resources/WeaponResource.cs" id="1_mgmlf"]
+
+[resource]
+script = ExtResource("1_mgmlf")
+WeaponName = &"Makarov Pistol"
+WeaponType = 2
+WeaponCaliber = &"9x18mm"
+WeaponDamage = 20.0
+WeaponPosition = Vector3(-0.0646591, 0.102201, 0.0335872)
+WeaponRotation = Vector3(1.34578, 2.55439, 1.0117)
+WeaponScale = Vector3(1, 1, 1)
+LeftHandPosition = Vector3(0, 0, 0)
+LeftHandRotation = Vector3(0, 0, 0)
+WeaponPath = "res://resources/weapons/pistol/makarov_pistol.tscn"
+metadata/_custom_type_script = "uid://bl72yac3tkt7a"

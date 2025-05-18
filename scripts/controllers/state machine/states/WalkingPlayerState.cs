@@ -12,12 +12,21 @@ public partial class WalkingPlayerState : PlayerMovementState
             new Vector2(PlayerController.GetInputDirection().X,
             -PlayerController.GetInputDirection().Y));
 
+        if (!AnimationController.IsArmed)
+        {
+            AnimationController.AnimationTree.Set(AnimationController.UpperbodyUnarmedBlendPos,
+                new Vector2(PlayerController.GetInputDirection().X,
+            -PlayerController.GetInputDirection().Y) / 2f);
+        }
+
         if (PlayerController.Velocity.Length() == 0.0 && PlayerController.IsOnFloor())
         {
             EmitSignal(AnimationController.Transition, "IdlePlayerState");
         }
 
-        if (Input.IsActionPressed("sprint") && PlayerController.IsOnFloor())
+        if (Input.IsActionPressed("sprint") &&
+            Input.IsActionPressed("up") &&
+            PlayerController.IsOnFloor())
         {
             EmitSignal(AnimationController.Transition, "SprintingPlayerState");
         }

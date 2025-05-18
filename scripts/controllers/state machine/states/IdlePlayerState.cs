@@ -17,6 +17,11 @@ public partial class IdlePlayerState : PlayerMovementState
     {
         AnimationController.AnimationTree.Set(AnimationController.WalkBlendPos, Vector2.Zero);
 
+        if (!AnimationController.IsArmed) 
+        {
+            AnimationController.AnimationTree.Set(AnimationController.UpperbodyUnarmedBlendPos, Vector2.Zero);
+        }
+
         if (PlayerController.Velocity.Length() > 0.0f && PlayerController.IsOnFloor())
         {
             EmitSignal(AnimationController.Transition, "WalkingPlayerState");

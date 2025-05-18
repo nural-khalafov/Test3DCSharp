@@ -202,6 +202,7 @@ public partial class WeaponManager : Node
 
         CurrentSlot = targetSlot;
 
+        // Equip the new weapon
         if (CurrentSlot != WeaponSlot.None &&
             WeaponSlots.TryGetValue(CurrentSlot, out Weapon newWeaponNode) &&
             newWeaponNode != null)

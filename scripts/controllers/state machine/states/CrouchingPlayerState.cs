@@ -20,6 +20,13 @@ public partial class CrouchingPlayerState : PlayerMovementState
             new Vector2(PlayerController.GetInputDirection().X,
             -PlayerController.GetInputDirection().Y));
 
+        if (!AnimationController.IsArmed)
+        {
+            AnimationController.AnimationTree.Set(AnimationController.UpperbodyUnarmedBlendPos,
+                new Vector2(PlayerController.GetInputDirection().X,
+            -PlayerController.GetInputDirection().Y) / 2.5f);
+        }
+
         if (Input.IsActionJustReleased("crouch"))
         {
             Uncrouch();

@@ -17,12 +17,15 @@ public partial class PlayerAnimationController : Node3D
     [Export] private SkeletonIK3D _rightHandIK;
     [Export] private SkeletonIK3D _leftHandIK;
 
+    private float _hipsUnarmedRotationY = -25.0f;
+    private float _hipsArmedRotationY = -41.0f;
     private float _leanPositionAmount = 0.0f;
     private float _leanRotationAmount = 0.0f;
 
     private const string ANIM_TREE_BASE_PATH = "parameters/";
 
     private const string UPPERBODY_SM_PATH = "UpperBodyStateMachine/";
+    private const string WEAPON_IDLE_BLENDPOS = "parameters/UpperbodyStateMachine/ArmedState/ArmedStates/WeaponIdleBS1D/blend_position";
 
     public const string IsArmedParam = "is_armed";
     public const string WeaponStanceParam = "WeaponStance";
@@ -32,6 +35,9 @@ public partial class PlayerAnimationController : Node3D
     public string CrouchBlendPos = "parameters/PlayerStateMachine/Crouched/CrouchingBlendSpace2D/blend_position";
     public string JumpBlendPos = "parameters/PlayerStateMachine/Standing/JumpBlendSpace1D/blend_position";
     public string SprintBlendPos = "parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position";
+    public string UpperbodyUnarmedBlendPos = "parameters/UpperbodyStateMachine/UnarmedState/Movement/blend_position";
+
+    public bool IsArmed => (bool)AnimationTree.Get(IsArmedParam);
 
     public override void _EnterTree()
     {
@@ -59,10 +65,20 @@ public partial class PlayerAnimationController : Node3D
     {
         if(FirstPersonController.CameraRef != null) 
         {
-            _hipsTarget.Position = new Vector3(_leanPositionAmount,
+            if(IsArmed) 
+            {
+                _hipsTarget.Position = new Vector3(_leanPositionAmount,
                 _hipsTarget.Position.Y, _hipsTarget.Position.Z);
-            _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X,
-            _hipsTarget.Rotation.Y, _leanRotationAmount);
+                _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X,
+                Mathf.DegToRad(_hipsArmedRotationY), _leanRotationAmount);
+            }
+            else 
+            {
+                _hipsTarget.Position = new Vector3(_leanPositionAmount,
+                _hipsTarget.Position.Y, _hipsTarget.Position.Z);
+                _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X,
+                Mathf.DegToRad(_hipsUnarmedRotationY), _leanRotationAmount);
+            }
         }
     }
 
@@ -125,7 +141,7 @@ public partial class PlayerAnimationController : Node3D
                     break;
             }
         }
-        AnimationTree.Set(UPPERBODY_SM_PATH, stanceIndex);
+        AnimationTree.Set(WEAPON_IDLE_BLENDPOS, stanceIndex);
     }
 
     private async Task PlayOneShotAnimation(string requestPath, float estimatedDuration = 0.5f) 

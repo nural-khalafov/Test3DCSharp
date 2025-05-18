@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://1bnoh0my4k63"]
+
+[ext_resource type="Texture2D" uid="uid://b0fj52r0l34dx" path="res://assets/imported/makarov/gun_makarov_low_makarov_txtr_BaseColor.png" id="1_3kya5"]
+[ext_resource type="Texture2D" uid="uid://cwsgrjbasg28w" path="res://assets/imported/makarov/gun_makarov_low_makarov_txtr_Emissive.png" id="2_x4irs"]
+[ext_resource type="Texture2D" uid="uid://clrl2fahnsfhi" path="res://assets/imported/makarov/gun_makarov_low_makarov_txtr_Metallic.png" id="3_3hy5x"]
+[ext_resource type="Texture2D" uid="uid://ba4g53g2pkes0" path="res://assets/imported/makarov/gun_makarov_low_makarov_txtr_Normal.png" id="4_vwvgk"]
+[ext_resource type="Texture2D" uid="uid://cb63dvyjk080e" path="res://assets/imported/makarov/gun_makarov_low_makarov_txtr_Roughness.png" id="5_8qr6o"]
+
+[resource]
+cull_mode = 2
+albedo_texture = ExtResource("1_3kya5")
+metallic = 1.0
+metallic_texture = ExtResource("3_3hy5x")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_8qr6o")
+roughness_texture_channel = 1
+emission_enabled = true
+emission_texture = ExtResource("2_x4irs")
+normal_enabled = true
+normal_texture = ExtResource("4_vwvgk")

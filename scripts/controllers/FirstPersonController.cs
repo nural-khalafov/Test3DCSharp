@@ -86,8 +86,20 @@ public partial class FirstPersonController : CharacterBody3D
         return _inputDirection;
     }
 
-    public void UpdateInput(float speed, float acceleration, float deceleration)
+    public void UpdateInput(float speed, float acceleration, float deceleration, bool sprintForwardOnly = false)
     {
+        Vector2 rawInput = GetInputDirection();
+        Vector3 inputVector;
+
+        if (sprintForwardOnly) 
+        {
+            inputVector = new Vector3(0, 0, rawInput.Y < 0 ? rawInput.Y : 0);
+        }
+        else
+        {
+            inputVector = new Vector3(rawInput.X, 0, rawInput.Y);
+        }
+
         var direction = (Transform.Basis * new Vector3(GetInputDirection().X, 0, GetInputDirection().Y)).Normalized();
 
         if (direction != Vector3.Zero)
