@@ -14,8 +14,8 @@ public partial class PlayerAnimationController : Node3D
     [Export] private Marker3D _hipsTarget;
 
     [ExportCategory("Hands IK Components")]
-    [Export] private SkeletonIK3D _rightHandIK;
-    [Export] private SkeletonIK3D _leftHandIK;
+    [Export] public SkeletonIK3D _rightHandIK;
+    [Export] public SkeletonIK3D LeftHandIK;
 
     private float _hipsUnarmedRotationY = -25.0f;
     private float _hipsArmedRotationY = -41.0f;
@@ -24,7 +24,6 @@ public partial class PlayerAnimationController : Node3D
 
     private const string ANIM_TREE_BASE_PATH = "parameters/";
 
-    private const string UPPERBODY_SM_PATH = "UpperBodyStateMachine/";
     private const string WEAPON_IDLE_BLENDPOS = "parameters/UpperbodyStateMachine/ArmedState/ArmedStates/WeaponIdleBS1D/blend_position";
 
     public const string IsArmedParam = "is_armed";
@@ -51,7 +50,6 @@ public partial class PlayerAnimationController : Node3D
 
         _hipsIK.Start();
         //_rightHandIK.Start();
-        _leftHandIK.Start();
 
         SetArmedState(false, WeaponType.None);
     }

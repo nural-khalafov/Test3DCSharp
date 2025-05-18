@@ -1,7 +1,7 @@
 [gd_scene load_steps=33 format=4 uid="uid://buxhoxgse1l6t"]
 
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="1_rt3wo"]
-[ext_resource type="Resource" uid="uid://csikppg1u8ykd" path="res://resources/weapons/assault_rifle/m16a1_test.tres" id="2_kjxsn"]
+[ext_resource type="Resource" uid="uid://csikppg1u8ykd" path="res://resources/weapons/assault_rifle/m16a1.tres" id="2_kjxsn"]
 [ext_resource type="Material" uid="uid://dji7b64o0aehe" path="res://assets/imported/m16a1/mat_M16A1.tres" id="3_rt3wo"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7bpmw"]
@@ -483,12 +483,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_o2qik")
 
-[node name="m16a1_test" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape")]
+[node name="m16a1" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget")]
 freeze = true
 script = ExtResource("1_rt3wo")
 WeaponData = ExtResource("2_kjxsn")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
+LeftHandTarget = NodePath("IKTarget_L")
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
+transform = Transform3D(0.987608, 0.153384, -0.0332098, 0.00477037, 0.182173, 0.983255, 0.156865, -0.971229, 0.179184, 0.005, 0.148, -0.17)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00268555, 0.134501, -0.153609)

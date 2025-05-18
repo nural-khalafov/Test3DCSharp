@@ -8,6 +8,7 @@ public partial class Weapon : RigidBody3D, IInteractable
     [ExportCategory("Weapon Pickup Components")]
     [Export] public Node3D WeaponObject { get; set; }
     [Export] public CollisionShape3D CollisionShape { get; set; }
+    [Export] public Marker3D LeftHandTarget { get; set; }
 
     public int CurrentAmmo {  get; private set; }
     public int ReserveAmmo { get; private set; }

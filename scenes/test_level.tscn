@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
 [ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="12_fyxdr"]
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
-[ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1_test.tscn" id="18_jqmoj"]
+[ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="18_jqmoj"]
 [ext_resource type="PackedScene" uid="uid://c6ilef5scwyh7" path="res://resources/weapons/pistol/makarov_pistol.tscn" id="19_ni2ok"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]

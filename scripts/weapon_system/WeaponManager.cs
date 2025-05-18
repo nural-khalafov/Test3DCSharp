@@ -109,6 +109,7 @@ public partial class WeaponManager : Node
             return;
         }
 
+        // Set the weapon data
         newWeapon.SetHeld(true);
         newWeapon.Position = newWeapon.WeaponData.WeaponPosition;
         newWeapon.Rotation = newWeapon.WeaponData.WeaponRotation;
@@ -146,6 +147,7 @@ public partial class WeaponManager : Node
                 targetSlot = WeaponSlot.Melee;
         }
 
+        // Check if the weapon type is valid and assign to the target slot
         if (targetSlot != WeaponSlot.None)
         {
             WeaponSlots[targetSlot] = weaponInstance;
@@ -193,6 +195,7 @@ public partial class WeaponManager : Node
             return;
         }
 
+        // Hide the current weapon
         if (CurrentSlot != WeaponSlot.None &&
             WeaponSlots.TryGetValue(CurrentSlot, out Weapon currentWeaponNode) &&
             currentWeaponNode != null)
@@ -207,20 +210,47 @@ public partial class WeaponManager : Node
             WeaponSlots.TryGetValue(CurrentSlot, out Weapon newWeaponNode) &&
             newWeaponNode != null)
         {
-            if(GlobalSingleton.PlayerAnimationController != null)
+            if (GlobalSingleton.PlayerAnimationController != null)
             {
                 GlobalSingleton.PlayerAnimationController.SetArmedState(true, newWeaponNode.WeaponData.WeaponType);
+                if (GlobalSingleton.PlayerAnimationController.LeftHandIK == null)
+                {
+                    GD.PrintErr("Critical Error: LeftHandIK is NULL.");
+                }
+                else
+                {
+                    if (newWeaponNode.LeftHandTarget == null)
+                    {
+                        GD.PrintErr($"LeftHandTarget is NULL for weapon {newWeaponNode.Name} in slot: {CurrentSlot}");
+                    }
+                    else
+                    {
+                        GlobalSingleton.PlayerAnimationController.LeftHandIK.TargetNode = 
+                            newWeaponNode.LeftHandTarget.GetPath();
+                        GlobalSingleton.PlayerAnimationController.LeftHandIK.Start();
+                    }
+                }
             }
 
             newWeaponNode.Visible = true;
             OnWeaponSwitched?.Invoke(CurrentSlot, newWeaponNode);
             GD.Print($"Switched to weapon in slot: {CurrentSlot}");
         }
+        // Switch to empty hands
         else if (CurrentSlot == WeaponSlot.None)
         {
-            if(GlobalSingleton.PlayerAnimationController != null)
+            if (GlobalSingleton.PlayerAnimationController != null)
             {
                 GlobalSingleton.PlayerAnimationController.SetArmedState(false, WeaponType.None);
+                if (GlobalSingleton.PlayerAnimationController.LeftHandIK != null)
+                {
+                    GlobalSingleton.PlayerAnimationController.LeftHandIK.TargetNode = null;
+                    GlobalSingleton.PlayerAnimationController.LeftHandIK.Stop();
+                }
+                else 
+                {
+                    GD.PrintErr("LeftHandIK is NULL, when switching to empty hands.");
+                }
             }
             OnWeaponSwitched?.Invoke(WeaponSlot.None, null);
             GD.Print("Switched to empty hands.");

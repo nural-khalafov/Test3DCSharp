@@ -5,7 +5,7 @@
 [ext_resource type="Resource" uid="uid://cmf8kimsqovua" path="res://resources/weapons/pistol/makarov_resource.tres" id="2_jlaht"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2xjes"]
-size = Vector3(0.0733032, 0.163124, 0.213318)
+size = Vector3(0.0733032, 0.163124, 0.216522)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_4oaoj"]
 _surfaces = [{
@@ -513,15 +513,21 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_5gd82")
 
-[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape")]
+[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget")]
 freeze = true
 script = ExtResource("1_xtki2")
 WeaponData = ExtResource("2_jlaht")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
+LeftHandTarget = NodePath("IKTarget_L")
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
+transform = Transform3D(0.22251, -0.368499, 0.902606, -0.877355, 0.328029, 0.350207, -0.425133, -0.86983, -0.250315, -0.026, 0.016, 0.224)
+
+[node name="IKTarget_R" type="Marker3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00619507, 0.076786, -0.0355823)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00619507, 0.076786, -0.0339801)
 shape = SubResource("BoxShape3D_2xjes")
 
 [node name="components" type="Node3D" parent="."]

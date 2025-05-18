@@ -5,7 +5,9 @@ public partial class FirstPersonController : CharacterBody3D
 {
     [ExportCategory("Player Camera Settings")]
     [Export] public float MouseSensitivity = 0.07f;
-    [Export] public float CameraFollowSpeed = 20.0f;
+    [Export] public float CameraFollowSpeed = 10.0f;
+    [Export] public float CameraSpringStiffness = 200.0f;
+    [Export] public float CameraSpringDamping = 25.0f;
 
     [ExportCategory("Node Components")]
     [Export] public ShapeCast3D CrouchShapeCast;
@@ -25,6 +27,7 @@ public partial class FirstPersonController : CharacterBody3D
     private Vector3 _mouseRotation;
     private Vector3 _playerRotation;
     private Vector3 _cameraRotation;
+    private Vector3 _cameraVelocity = Vector3.Zero;
 
     private Vector2 _inputDirection;
 
@@ -134,8 +137,17 @@ public partial class FirstPersonController : CharacterBody3D
     {
         var desiredPosition = HeadTarget.GlobalTransform.Origin;
         var currentPosition = Camera.GlobalTransform.Origin;
-        Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, currentPosition.Lerp(desiredPosition, CameraFollowSpeed * delta));
-    }
 
-    
+        Vector3 springForce = (desiredPosition - currentPosition) * CameraSpringStiffness;
+
+        Vector3 dampingForce = _cameraVelocity * CameraSpringDamping;
+
+        Vector3 netForce = springForce - dampingForce;
+
+        _cameraVelocity += netForce * delta;
+
+        Vector3 newPosition = currentPosition + _cameraVelocity * delta;
+
+        Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, newPosition);
+    }
 }

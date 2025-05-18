@@ -6,7 +6,7 @@
 script = ExtResource("1_g1jpo")
 WeaponName = &"AKM Custom"
 WeaponType = 3
-WeaponCaliber = &"7.62x39"
+WeaponCaliber = &"7.62x39mm"
 WeaponDamage = 35.0
 WeaponPosition = Vector3(0, 0.32, 0.022)
 WeaponRotation = Vector3(1.45, 1.215, -0.25)

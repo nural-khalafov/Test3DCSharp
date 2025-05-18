@@ -587,13 +587,19 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_rsvr3")
 
-[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape")]
+[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget")]
 collision_layer = 8
 freeze = true
 script = ExtResource("2_ty6rl")
 WeaponData = ExtResource("2_wsa5a")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
+LeftHandTarget = NodePath("IKTarget_L")
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
+transform = Transform3D(0.544639, 0.56118, -0.623254, 0, 0.743145, 0.669131, 0.838671, -0.364435, 0.404746, -0.06, 0.095, -0.153)
+
+[node name="IKTarget_R" type="Marker3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00524902, -0.00354004, -0.000869751)
