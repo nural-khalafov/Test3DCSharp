@@ -25,7 +25,9 @@ public partial class WeaponManager : Node
     // Private fields
     public WeaponSlot CurrentSlot = WeaponSlot.None;
 
+    // References 
     private PlayerAnimationController _playerAnimationController;
+    private WeaponAnimationController _weaponAnimationController;
 
     private readonly Dictionary<string, WeaponSlot> _actionToSlotMap = new()
     {
@@ -39,16 +41,21 @@ public partial class WeaponManager : Node
     public override void _EnterTree()
     {
         ServiceLocator.RegisterService(this);
-        _playerAnimationController = ServiceLocator.GetService<PlayerAnimationController>();
 
         WeaponSlots = new Godot.Collections.Dictionary<WeaponSlot, Weapon>()
         {
-            { WeaponSlot.None, null},
+            { WeaponSlot.None, null}, // empty hands
             { WeaponSlot.Primary, null },
             { WeaponSlot.Secondary, null},
             { WeaponSlot.Pistol, null},
             { WeaponSlot.Melee, null}
         };
+    }
+
+    public override void _Ready()
+    {
+        _playerAnimationController = ServiceLocator.GetService<PlayerAnimationController>();
+        _weaponAnimationController = ServiceLocator.GetService<WeaponAnimationController>();
     }
 
     public override void _Process(double delta)
@@ -57,15 +64,6 @@ public partial class WeaponManager : Node
         HandleDropInput();
     }
 
-    public async void ProcessCommand(IWeaponCommand command)
-    {
-        await command.Execute(this);
-    }
-
-    private async Task ProcessCommandAsync(IWeaponCommand command)
-    {
-        await command.Execute(this);
-    }
 
     private void HandleWeaponSwitchInput()
     {
@@ -85,6 +83,40 @@ public partial class WeaponManager : Node
         {
             ProcessCommand(new DropCurrentWeaponCommand());
         }
+    }
+
+    #region WeaponManager Async Methods
+
+    /// <summary>
+    /// Command processor for weapon commands.
+    /// </summary>
+    /// <param name="command"></param>
+    public async void ProcessCommand(IWeaponCommand command)
+    {
+        await command.Execute(this);
+    }
+
+    private Weapon GetActiveWeapon()
+    {
+        if (CurrentSlot != WeaponSlot.None && WeaponSlots.ContainsKey(CurrentSlot))
+        {
+            return WeaponSlots[CurrentSlot];
+        }
+        else
+        {
+            GD.PrintErr("Current slot is Empty Hands or not in WeaponSlots dictionary.");
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Command task processor for weapon commands.
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    private async Task ProcessCommandAsync(IWeaponCommand command)
+    {
+        await command.Execute(this);
     }
 
     internal async Task PickUpAndEquip(Weapon weaponOnGround)
@@ -129,6 +161,12 @@ public partial class WeaponManager : Node
         weaponOnGround.QueueFree();
     }
 
+    /// <summary>
+    /// Equips the weapon to the first available slot based on its type.
+    /// </summary>
+    /// <param name="weaponInstance">The weapon's instance</param>
+    /// <param name="weaponType">The weapon's type enum</param>
+    /// <returns></returns>
     private async Task EquipToAvailableSlot(Weapon weaponInstance, WeaponType weaponType)
     {
         WeaponSlot targetSlot = WeaponSlot.None;
@@ -183,6 +221,11 @@ public partial class WeaponManager : Node
         }
     }
 
+    /// <summary>
+    /// Switches the active weapon to the target slot.
+    /// </summary>
+    /// <param name="targetSlot">Target slot to switch</param>
+    /// <returns></returns>
     internal async Task SwitchActiveWeapon(WeaponSlot targetSlot)
     {
         if (CurrentSlot == targetSlot)
@@ -229,9 +272,16 @@ public partial class WeaponManager : Node
                     }
                     else
                     {
-                        _playerAnimationController.LeftHandIK.TargetNode = 
-                            newWeaponNode.LeftHandTarget.GetPath();
-                        _playerAnimationController.LeftHandIK.Start();
+                        if (CurrentSlot == WeaponSlot.Melee)
+                        {
+                            _playerAnimationController.LeftHandIK.TargetNode = null;
+                            _playerAnimationController.LeftHandIK.Stop();
+                        }
+                        else
+                        {
+                            _playerAnimationController.LeftHandIK.TargetNode = newWeaponNode.LeftHandTarget.GetPath();
+                            _playerAnimationController.LeftHandIK.Start();
+                        }
                     }
                 }
             }
@@ -251,7 +301,7 @@ public partial class WeaponManager : Node
                     _playerAnimationController.LeftHandIK.TargetNode = null;
                     _playerAnimationController.LeftHandIK.Stop();
                 }
-                else 
+                else
                 {
                     GD.PrintErr("LeftHandIK is NULL, when switching to empty hands.");
                 }
@@ -260,6 +310,11 @@ public partial class WeaponManager : Node
             GD.Print("Switched to empty hands.");
         }
     }
+
+    /// <summary>
+    /// Drops the current weapon from the player's hands.
+    /// </summary>
+    /// <returns></returns>
     internal async Task DropCurrentWeapon()
     {
         if (CurrentSlot == WeaponSlot.None ||
@@ -305,4 +360,6 @@ public partial class WeaponManager : Node
         // Switch to empty hands
         await ProcessCommandAsync(new SwitchActiveWeaponCommand(WeaponSlot.None));
     }
+
+    #endregion
 }

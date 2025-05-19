@@ -1,0 +1,225 @@
+[gd_scene load_steps=17 format=3 uid="uid://tu8kpb05wrjj"]
+
+[ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="1_u4h3r"]
+[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_hkk7u"]
+[ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/debug/DebugDisplay.cs" id="3_mifcq"]
+[ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_4gyln"]
+[ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="5_qcvus"]
+[ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_jlqft"]
+[ext_resource type="Script" uid="uid://ceaplswfqudfi" path="res://scripts/menu/Menu.cs" id="7_xbjhc"]
+[ext_resource type="Texture2D" uid="uid://4q1ogkvj6w0g" path="res://assets/graphics/textures/ui/buttons/resume_button_icon.png" id="8_3it88"]
+[ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="9_ksust"]
+[ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="10_lfp4j"]
+[ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="11_7hlts"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u4h3r"]
+energy_multiplier = 2.0
+
+[sub_resource type="Sky" id="Sky_hkk7u"]
+sky_material = SubResource("ProceduralSkyMaterial_u4h3r")
+
+[sub_resource type="Environment" id="Environment_mifcq"]
+background_mode = 2
+sky = SubResource("Sky_hkk7u")
+
+[sub_resource type="LabelSettings" id="LabelSettings_q66dm"]
+font_size = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twd2r"]
+draw_center = false
+
+[node name="player_setup_scene" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("1_u4h3r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.308282, 0)
+
+[node name="BOX" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="BOX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.230631, 0)
+material_override = ExtResource("2_hkk7u")
+use_collision = true
+size = Vector3(50, 1, 50)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="BOX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.5199, -0.230631, 0)
+material_override = ExtResource("2_hkk7u")
+use_collision = true
+size = Vector3(1, 50, 50)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="BOX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.4621, -0.231, 0)
+material_override = ExtResource("2_hkk7u")
+use_collision = true
+size = Vector3(1, 50, 50)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="BOX"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.231, -24.3705)
+material_override = ExtResource("2_hkk7u")
+use_collision = true
+size = Vector3(1, 50, 50)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="BOX"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.231, 24.5057)
+material_override = ExtResource("2_hkk7u")
+use_collision = true
+size = Vector3(1, 50, 50)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="BOX"]
+environment = SubResource("Environment_mifcq")
+
+[node name="DebugDisplay" type="Node" parent="."]
+script = ExtResource("3_mifcq")
+metadata/_custom_type_script = "uid://c5cbv4ba2d835"
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CenterDot" type="CenterContainer" parent="UI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_4gyln")
+
+[node name="DebugPanel" type="PanelContainer" parent="UI"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+theme = ExtResource("5_qcvus")
+script = ExtResource("6_jlqft")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/DebugPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/DebugPanel/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MenuPanel" type="Panel" parent="UI" node_paths=PackedStringArray("_resumeButton", "_optionsButton", "_exitButton")]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_xbjhc")
+_resumeButton = NodePath("ResumeButton")
+_optionsButton = NodePath("OptionsButton")
+_exitButton = NodePath("ExitButton")
+
+[node name="ResumeButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -95.0
+offset_top = 22.0
+offset_right = 161.0
+offset_bottom = 150.0
+grow_horizontal = 2
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("8_3it88")
+
+[node name="OptionsButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -50.0
+offset_right = 161.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("9_ksust")
+
+[node name="ExitButton" type="TextureButton" parent="UI/MenuPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -121.0
+offset_right = 160.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+texture_normal = ExtResource("10_lfp4j")
+
+[node name="OptionsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("_fullscreenSwitcher")]
+process_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -704.0
+offset_top = -384.0
+offset_right = 696.0
+offset_bottom = 416.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_7hlts")
+_fullscreenSwitcher = NodePath("FullscreenSwitcher")
+
+[node name="WindowModeLabel" type="Label" parent="UI/OptionsPanel"]
+layout_mode = 1
+offset_left = 129.0
+offset_top = 62.0
+offset_right = 580.0
+offset_bottom = 107.0
+text = "FULLSCREEN WINDOW MODE"
+label_settings = SubResource("LabelSettings_q66dm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FullscreenSwitcher" type="CheckButton" parent="UI/OptionsPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 55.0
+offset_right = -56.0
+offset_bottom = 79.0
+grow_horizontal = 2
+scale = Vector2(2.5, 2.5)
+theme_override_styles/focus = SubResource("StyleBoxFlat_twd2r")
+shortcut_feedback = false
+shortcut_in_tooltip = false

@@ -14,7 +14,6 @@ public partial class Menu : Panel
 
     public override void _EnterTree()
     {
-        MenuSingleton.Menu = this;
         ServiceLocator.RegisterService(this);
     }
 

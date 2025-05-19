@@ -11,7 +11,6 @@ public partial class StateMachine : Node
 
     public override void _EnterTree()
     {
-        //DebugSingleton.PlayerStateMachine = this;
         ServiceLocator.RegisterService(this);
     }
 

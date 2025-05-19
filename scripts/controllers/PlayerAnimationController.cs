@@ -49,7 +49,6 @@ public partial class PlayerAnimationController : Node3D
             GD.PrintErr("AnimationTree is null.");
 
         _hipsIK.Start();
-        //_rightHandIK.Start();
 
         SetArmedState(false, WeaponType.None);
     }
@@ -140,21 +139,5 @@ public partial class PlayerAnimationController : Node3D
             }
         }
         AnimationTree.Set(WEAPON_IDLE_BLENDPOS, stanceIndex);
-    }
-
-    private async Task PlayOneShotAnimation(string requestPath, float estimatedDuration = 0.5f) 
-    {
-        if(AnimationTree == null)
-        {
-            GD.PrintErr("PlayOneShotAnimation: AnimationTree is null.");
-            return;
-        }
-        AnimationTree.Set(requestPath, (int)AnimationNodeOneShot.OneShotRequest.Fire);
-        await ToSignal(GetTree().CreateTimer(estimatedDuration), SceneTreeTimer.SignalName.Timeout);
-    }
-
-    public async Task PlayPickupAnimation(float estimatedDuration = 0.7f) 
-    {
-        await PlayOneShotAnimation(ANIM_TREE_BASE_PATH + "Pickup", 0.5f);
     }
 }

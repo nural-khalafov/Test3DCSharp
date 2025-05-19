@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=27 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -10,6 +10,7 @@
 [ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
 [ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="7_fptmo"]
+[ext_resource type="PackedScene" uid="uid://dwj71doqsvjfr" path="res://resources/weapons/melee/tanto_knife.tscn" id="7_rv6en"]
 [ext_resource type="PackedScene" uid="uid://b7pl1mu6tlskh" path="res://assets/nodes/weapon/AKM_Custom/AKM_Custom_Magazine.tscn" id="8_bakr3"]
 [ext_resource type="PackedScene" uid="uid://nyh0drt7lyhw" path="res://assets/nodes/props/prototyping/Stairs.tscn" id="8_jqmoj"]
 [ext_resource type="Texture2D" uid="uid://4q1ogkvj6w0g" path="res://assets/graphics/textures/ui/buttons/resume_button_icon.png" id="10_4asn1"]
@@ -19,7 +20,7 @@
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
 [ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="18_jqmoj"]
 [ext_resource type="PackedScene" uid="uid://c6ilef5scwyh7" path="res://resources/weapons/pistol/makarov_pistol.tscn" id="19_ni2ok"]
-[ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/singletons/DebugDisplay.cs" id="20_hnsbs"]
+[ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/debug/DebugDisplay.cs" id="20_hnsbs"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]
 
@@ -127,13 +128,16 @@ size = Vector3(0.254103, 3.48476, 9.23406)
 material = ExtResource("5_7gix3")
 
 [node name="makarov_pistol" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("19_ni2ok")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.158089, -1.14352, 2.09452)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.158089, -1.07812, 2.09452)
 
 [node name="akm_custom" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("4_bakr3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147072, -1.03186, 4.09086)
 
 [node name="m16a1_test" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("18_jqmoj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174034, -1.14447, 3.0533)
+
+[node name="tanto_knife" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_rv6en")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.142326, -0.979286, 1.51318)
 
 [node name="AKM_Module_Dong" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("7_fptmo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.156914, -1.44465, 4.41283)

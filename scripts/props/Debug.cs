@@ -5,7 +5,6 @@ namespace Test3DCSharp.Utilities
     public partial class Debug : PanelContainer
     {
         private VBoxContainer _propertyContainer;
-        //private DebugSingleton _debugGlobals;
 
         private string _framesPerSecond;
 

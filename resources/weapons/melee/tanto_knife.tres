@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://d2f3fvs4opbhv"]
+
+[ext_resource type="Script" uid="uid://bl72yac3tkt7a" path="res://scripts/resources/WeaponResource.cs" id="1_8hnve"]
+
+[resource]
+script = ExtResource("1_8hnve")
+WeaponName = &"Tanto Knife"
+WeaponType = 1
+WeaponCaliber = &"none"
+WeaponDamage = 45.0
+WeaponPosition = Vector3(0.050065, 0.105011, 0.0349245)
+WeaponRotation = Vector3(0.351844, -1.88847, 3.06266)
+WeaponScale = Vector3(0.75, 0.75, 0.75)
+LeftHandPosition = Vector3(0, 0, 0)
+LeftHandRotation = Vector3(0, 0, 0)
+WeaponPath = "res://resources/weapons/melee/tanto_knife.tscn"
+metadata/_custom_type_script = "uid://bl72yac3tkt7a"

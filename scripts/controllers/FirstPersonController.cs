@@ -35,11 +35,15 @@ public partial class FirstPersonController : CharacterBody3D
 
     public static Camera3D CameraRef;
 
+    public override void _EnterTree()
+    {
+        ServiceLocator.RegisterService(this);
+    }
+
     public override void _Ready()
     {
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         Input.MouseMode = Input.MouseModeEnum.Captured;
-        ServiceLocator.RegisterService(this);
         CameraRef = Camera;
     }
 
