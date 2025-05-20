@@ -7,7 +7,8 @@ __________________________________________________
 
 ### Keyboard controls:
 
-  Movement Controls:
+
+  ___Movement Controls:___
 * WASD - Walking (done)
 * Left Ctrl - Crouching (done)
 * Left Shift - Running (done)
@@ -15,12 +16,12 @@ __________________________________________________
 * Q - Lean Left (done)
 * E - Lean Right (done)
 
-  Interaction Controls:
+  ___Interaction Controls:___
 * F - Interact (done)
 * G - Drop Current Weapon (done)
 * Tab - Inventory (incoming)
 
-  Combat Controls:
+  ___Combat Controls:___
 * LMB - Shoot (incoming)
 * RMB - Aim Down Sights (armed) / Focus (unarmed) (incoming)
 * R - Reload (incoming)
@@ -30,7 +31,7 @@ __________________________________________________
 * 3 - Pistol Weapon (done)
 * 4 - Melee Weapon (done)
 
-  Menu & Debug Controls:
+  ___Menu & Debug Controls:___
 * Esc - In-Game Menu (done)
 * / (Slash) - Debug Panel (done)
 
