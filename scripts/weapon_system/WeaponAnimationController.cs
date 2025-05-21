@@ -12,16 +12,27 @@ public partial class WeaponAnimationController : PlayerAnimationController
     private Marker3D _currentLeftHandGrip;
     private Marker3D _currentAimPoint;
 
-    private bool _isADS = false;
+    public bool IsADS = false;
+    public bool IsShootable = false;
 
     public override void _EnterTree()
     {
         ServiceLocator.RegisterService(this);
-
     }
 
     public override void _Ready()
     {
+        if (AnimationTree == null)
+            GD.PrintErr("WeaponAnimationController: AnimationTree is null.");
+        if (Skeleton == null)
+            GD.PrintErr("WeaponAnimationController: Skeleton is null.");
+        if (_rightHandIK == null)
+            GD.PrintErr("WeaponAnimationController: RightHandIK is null.");
+        if (LeftHandIK == null)
+            GD.PrintErr("WeaponAnimationController: LeftHandIK is null.");
+        if (HipsIK == null)
+            GD.PrintErr("WeaponAnimationController: HipsIK is null.");
+
         _weaponManager = ServiceLocator.GetService<WeaponManager>();
         _playerController = ServiceLocator.GetService<FirstPersonController>();
 

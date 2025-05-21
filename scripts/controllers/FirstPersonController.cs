@@ -1,6 +1,12 @@
 using Godot;
 using System;
 
+
+public enum CameraMode
+{
+    FirstPerson,
+    FreeFlow
+}
 public partial class FirstPersonController : CharacterBody3D
 {
     [ExportCategory("Player Camera Settings")]
@@ -18,6 +24,12 @@ public partial class FirstPersonController : CharacterBody3D
     [Export] public Marker3D HeadTarget;
     [Export] public Node3D AimNode;
 
+    [ExportCategory("Free Flow Camera Settings")]
+    [Export] public CameraMode CameraMode = CameraMode.FirstPerson;
+    [Export] public float FreeFlowMovementSpeed { get; set; } = 5.0f;
+    [Export] public float FreeFlowMouseSensitivity { get; set; } = 0.002f;
+    [Export] public float FreeFlowShiftSpeedMultiplier { get; set; } = 2.5f;
+
     private float _tiltMinLimit = Mathf.DegToRad(-75.0f);
     private float _tiltMaxLimit = Mathf.DegToRad(75.0f);
 
@@ -29,11 +41,15 @@ public partial class FirstPersonController : CharacterBody3D
     private Vector3 _cameraRotation;
     private Vector3 _cameraVelocity = Vector3.Zero;
 
+    private Vector2 _freeFlowMouseDelta;
+
     private Vector2 _inputDirection;
 
     private float _gravity;
 
     public static Camera3D CameraRef;
+    public static CameraMode CameraModeRef;
+
 
     public override void _EnterTree()
     {
@@ -49,6 +65,25 @@ public partial class FirstPersonController : CharacterBody3D
 
     public override void _Process(double delta)
     {
+        CameraModeRef = CameraMode;
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("debug_camera"))
+        {
+            if (CameraMode == CameraMode.FirstPerson)
+            {
+                CameraMode = CameraMode.FreeFlow;
+            }
+            else
+            {
+                CameraMode = CameraMode.FirstPerson;
+                _mouseRotation.X = Camera.Rotation.X;
+                _mouseRotation.Y = GlobalRotation.Y;
+            }
+            GD.Print($"Camera mode switched to: {CameraMode}");
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -57,16 +92,82 @@ public partial class FirstPersonController : CharacterBody3D
         if (_mouseInput)
         {
             var mouseMotion = @event as InputEventMouseMotion;
-            _rotationInput = -mouseMotion.Relative.X * MouseSensitivity;
-            _tiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
+
+            if (CameraMode == CameraMode.FirstPerson)
+            {
+                _rotationInput = -mouseMotion.Relative.X * MouseSensitivity;
+                _tiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
+            }
+            else
+            {
+                _freeFlowMouseDelta = mouseMotion.Relative;
+            }
+        }
+        else
+        {
+            _freeFlowMouseDelta = Vector2.Zero;
+            if (CameraMode == CameraMode.FirstPerson)
+            {
+                _rotationInput = 0;
+                _tiltInput = 0;
+            }
         }
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        UpdateCamera((float)delta);
-        UpdateCameraFollow((float)delta);
+        if (CameraMode == CameraMode.FirstPerson)
+        {
+            UpdateCamera((float)delta);
+            UpdateCameraFollow((float)delta);
+        }
+        else
+        {
+            UpdateFreeFlowCamera((float)delta);
+            Velocity = Vector3.Zero;
+        }
+
         CrouchShapeCast.AddException(this);
+    }
+
+    private void UpdateFreeFlowCamera(float delta)
+    {
+        if (_freeFlowMouseDelta.LengthSquared() > 0 && Input.MouseMode == Input.MouseModeEnum.Captured)
+        {
+            Camera.RotateY(-_freeFlowMouseDelta.X * FreeFlowMouseSensitivity);
+            Camera.RotateObjectLocal(Vector3.Right, -_freeFlowMouseDelta.Y * FreeFlowMouseSensitivity);
+
+            Vector3 currentRotation = Camera.RotationDegrees;
+            currentRotation.X = Mathf.Clamp(currentRotation.X, -89.9f, 89.9f);
+            Camera.RotationDegrees = currentRotation;
+        }
+        _freeFlowMouseDelta = Vector2.Zero;
+
+        Vector3 inputDir = Vector3.Zero;
+        if (Input.IsActionPressed("up"))
+            inputDir.Z -= 1;
+        if (Input.IsActionPressed("down"))
+            inputDir.Z += 1;
+        if (Input.IsActionPressed("left"))
+            inputDir.X -= 1;
+        if (Input.IsActionPressed("right"))
+            inputDir.X += 1;
+        if (Input.IsActionPressed("camera_up"))
+            inputDir.Y += 1;
+        if (Input.IsActionPressed("camera_down"))
+            inputDir.Y -= 1;
+
+        float currentSpeed = FreeFlowMovementSpeed;
+        if (Input.IsActionPressed("camera_sprint"))
+        {
+            currentSpeed *= FreeFlowShiftSpeedMultiplier;
+        }
+
+        if (inputDir != Vector3.Zero)
+        {
+            Vector3 direction = (Camera.GlobalTransform.Basis * inputDir.Normalized().Normalized());
+            Camera.GlobalTranslate(direction * currentSpeed * delta);
+        }
     }
 
     private void UpdateCamera(float delta)
@@ -89,6 +190,11 @@ public partial class FirstPersonController : CharacterBody3D
 
     public Vector2 GetInputDirection()
     {
+        if (CameraMode == CameraMode.FreeFlow)
+        {
+            return Vector2.Zero;
+        }
+
         _inputDirection = Input.GetVector("left", "right", "up", "down");
         return _inputDirection;
     }
@@ -98,7 +204,7 @@ public partial class FirstPersonController : CharacterBody3D
         Vector2 rawInput = GetInputDirection();
         Vector3 inputVector;
 
-        if (sprintForwardOnly) 
+        if (sprintForwardOnly)
         {
             inputVector = new Vector3(0, 0, rawInput.Y < 0 ? rawInput.Y : 0);
         }
@@ -134,24 +240,32 @@ public partial class FirstPersonController : CharacterBody3D
 
     public void UpdateGravity(float delta)
     {
-        Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * delta, Velocity.Z);
+        if (CameraMode == CameraMode.FirstPerson)
+            Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * delta, Velocity.Z);
     }
 
     private void UpdateCameraFollow(float delta)
     {
-        var desiredPosition = HeadTarget.GlobalTransform.Origin;
-        var currentPosition = Camera.GlobalTransform.Origin;
+        if (CameraMode == CameraMode.FirstPerson)
+        {
+            var desiredPosition = HeadTarget.GlobalTransform.Origin;
+            var currentPosition = Camera.GlobalTransform.Origin;
 
-        Vector3 springForce = (desiredPosition - currentPosition) * CameraSpringStiffness;
+            Vector3 springForce = (desiredPosition - currentPosition) * CameraSpringStiffness;
 
-        Vector3 dampingForce = _cameraVelocity * CameraSpringDamping;
+            Vector3 dampingForce = _cameraVelocity * CameraSpringDamping;
 
-        Vector3 netForce = springForce - dampingForce;
+            Vector3 netForce = springForce - dampingForce;
 
-        _cameraVelocity += netForce * delta;
+            _cameraVelocity += netForce * delta;
 
-        Vector3 newPosition = currentPosition + _cameraVelocity * delta;
+            Vector3 newPosition = currentPosition + _cameraVelocity * delta;
 
-        Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, newPosition);
+            Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, newPosition);
+        }
+        else
+        {
+            _cameraVelocity = Vector3.Zero;
+        }
     }
 }

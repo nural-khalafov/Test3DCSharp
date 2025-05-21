@@ -30,28 +30,13 @@ public partial class WeaponResource : Resource
     [ExportCategory("Weapon Path")]
     [Export] public string WeaponPath = null;
 
+    [ExportCategory("Procedural Idle Animation Data")]
+    [Export] public Vector3 IdlePosition { get; set; }
+    [Export] public Vector3 IdleRotation { get; set; }
+    [Export] public float IdleFOV { get; set; } = 70f;
 
-    public WeaponResource()
-    {
-        WeaponName = new StringName();
-        WeaponType = WeaponType.None;
-
-        WeaponPosition = new Vector3();
-        WeaponRotation = new Vector3();
-        WeaponScale = new Vector3();
-    }
-
-    public WeaponResource(StringName weaponName, WeaponType weaponType,
-        Vector3 weaponPos, Vector3 weaponRot,
-        Vector3 lHandPos, Vector3 lHandRot)
-    {
-        WeaponName = weaponName;
-        WeaponType = weaponType;
-
-        WeaponPosition = weaponPos;
-        WeaponRotation = weaponRot;
-
-        LeftHandPosition = lHandPos;
-        LeftHandRotation = lHandRot;
-    }
+    [ExportCategory("Procedural Aiming Down Sights Data")]
+    [Export] public Vector3 ADSPosition { get; set; }
+    [Export] public Vector3 ADSRotation { get; set; }
+    [Export] public float ADSFOV { get; set; } = 40f;
 }

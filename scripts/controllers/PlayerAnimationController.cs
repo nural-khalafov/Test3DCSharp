@@ -10,7 +10,7 @@ public partial class PlayerAnimationController : Node3D
 
     [ExportCategory("IK Components")]
     [Export] public Skeleton3D Skeleton;
-    [Export] private SkeletonIK3D _hipsIK;
+    [Export] public SkeletonIK3D HipsIK;
     [Export] private Marker3D _hipsTarget;
 
     [ExportCategory("Hands IK Components")]
@@ -48,7 +48,7 @@ public partial class PlayerAnimationController : Node3D
         if (AnimationTree == null)
             GD.PrintErr("AnimationTree is null.");
 
-        _hipsIK.Start();
+        HipsIK.Start();
 
         SetArmedState(false, WeaponType.None);
     }
@@ -60,7 +60,7 @@ public partial class PlayerAnimationController : Node3D
 
     public void UpdateHipsRotation()
     {
-        if(FirstPersonController.CameraRef != null) 
+        if(FirstPersonController.CameraRef != null && FirstPersonController.CameraModeRef == CameraMode.FirstPerson) 
         {
             if(IsArmed) 
             {
@@ -76,6 +76,10 @@ public partial class PlayerAnimationController : Node3D
                 _hipsTarget.Rotation = new Vector3(-FirstPersonController.CameraRef.Rotation.X,
                 Mathf.DegToRad(_hipsUnarmedRotationY), _leanRotationAmount);
             }
+        }
+        else 
+        {
+
         }
     }
 

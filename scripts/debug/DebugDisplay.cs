@@ -6,6 +6,7 @@ public partial class DebugDisplay : Node
 {
     private Debug _debugPanel;
     private StateMachine _playerStateMachine;
+    private UpperbodyStateMachine _playerUpperBodyStateMachine;
     private WeaponManager _weaponManager;
     private FirstPersonController _playerController;
 
@@ -13,6 +14,7 @@ public partial class DebugDisplay : Node
     {
         _debugPanel = ServiceLocator.GetService<Debug>();
         _playerStateMachine = ServiceLocator.GetService<StateMachine>();
+        _playerUpperBodyStateMachine = ServiceLocator.GetService<UpperbodyStateMachine>();
         _weaponManager = ServiceLocator.GetService<WeaponManager>();
         _playerController = ServiceLocator.GetService<FirstPersonController>();
 
@@ -35,15 +37,17 @@ public partial class DebugDisplay : Node
             return;
 
         _debugPanel.AddProperty("FPS", (1.0 / delta).ToString("F2"), 0);
-        _debugPanel.AddProperty("Current Velocity", _playerController.Velocity.Length().ToString("F2"), 1);
+        _debugPanel.AddProperty("Camera Mode", _playerController.CameraMode.ToString(),1);
+        _debugPanel.AddProperty("Current Velocity", _playerController.Velocity.Length().ToString("F2"), 2);
         if (_playerStateMachine != null)
-            _debugPanel.AddProperty("Current State", _playerStateMachine.CurrentState.Name.ToString(), 2);
-        _debugPanel.AddProperty("Current Weapon Slot", _weaponManager.CurrentSlot.ToString(), 3);
+            _debugPanel.AddProperty("Current State", _playerStateMachine.CurrentState.Name.ToString(), 3);
+        _debugPanel.AddProperty("Current Upperbody State", _playerUpperBodyStateMachine.CurrentState.Name.ToString(), 4);
+        _debugPanel.AddProperty("Current Weapon Slot", _weaponManager.CurrentSlot.ToString(), 5);
         if(_weaponManager.CurrentSlot != WeaponSlot.None)
             _debugPanel.AddProperty("Current Weapon",
             _weaponManager.WeaponSlots[_weaponManager.CurrentSlot]
-            .WeaponData.WeaponName.ToString(), 4);
+            .WeaponData.WeaponName.ToString(), 6);
         else
-            _debugPanel.AddProperty("Current Weapon", "None", 4);
+            _debugPanel.AddProperty("Current Weapon", "None", 7);
     }
 }
