@@ -587,7 +587,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_rsvr3")
 
-[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget")]
+[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
 collision_layer = 8
 freeze = true
 script = ExtResource("2_ty6rl")
@@ -595,11 +595,23 @@ WeaponData = ExtResource("2_wsa5a")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
-
-[node name="IKTarget_L" type="Marker3D" parent="."]
-transform = Transform3D(0.544639, 0.56118, -0.623254, 0, 0.743145, 0.669131, 0.838671, -0.364435, 0.404746, -0.06, 0.095, -0.153)
+RightHandTarget = NodePath("IKTarget_R")
+IdleRightHandPosition = Vector3(0.025, -0.04, 0.309)
+IdleRightHandRotation = Vector3(-0.1309, -1.51844, 1.45735)
+IdleLeftHandPosition = Vector3(-0.04, 0.01, -0.153)
+IdleLeftHandRotation = Vector3(-0.733038, -0.994838, 0)
+ADSRightHandPosition = Vector3(-0.018, -0.023, 0.272)
+ADSRightHandRotation = Vector3(-0.154, -1.496, 1.485)
+ADSLeftHandPosition = Vector3(-0.21, 0.071, -0.153)
+ADSLeftHandRotation = Vector3(-0.733, -0.995, 0)
 
 [node name="IKTarget_R" type="Marker3D" parent="."]
+transform = Transform3D(0.135434, -0.0372438, -0.990086, 0.985072, 0.112235, 0.130526, 0.106261, -0.992984, 0.0518882, 0.025, -0.04, 0.309)
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
+transform = Transform3D(0.544639, 0.56118, -0.623254, 0, 0.743145, 0.669131, 0.838671, -0.364435, 0.404746, -0.04, 0.01, -0.153)
+
+[node name="AimTarget_R" type="Marker3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00524902, -0.00354004, -0.000869751)

@@ -22,7 +22,6 @@ public partial class FirstPersonController : CharacterBody3D
     [ExportCategory("Camera Components")]
     [Export] public Camera3D Camera;
     [Export] public Marker3D HeadTarget;
-    [Export] public Node3D AimNode;
 
     [ExportCategory("Free Flow Camera Settings")]
     [Export] public CameraMode CameraMode = CameraMode.FirstPerson;
@@ -40,12 +39,12 @@ public partial class FirstPersonController : CharacterBody3D
     private Vector3 _playerRotation;
     private Vector3 _cameraRotation;
     private Vector3 _cameraVelocity = Vector3.Zero;
-
     private Vector2 _freeFlowMouseDelta;
-
     private Vector2 _inputDirection;
-
     private float _gravity;
+
+    private const uint ALL_CULL_LAYERS = (1 << 20) - 1;
+    private const int SECOND_CULL_LAYER_INDEX = 1;
 
     public static Camera3D CameraRef;
     public static CameraMode CameraModeRef;
@@ -61,6 +60,15 @@ public partial class FirstPersonController : CharacterBody3D
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
         Input.MouseMode = Input.MouseModeEnum.Captured;
         CameraRef = Camera;
+
+        if(CameraMode == CameraMode.FirstPerson) 
+        {
+            Camera.CullMask = ALL_CULL_LAYERS & ~(1U << SECOND_CULL_LAYER_INDEX);
+        }
+        else 
+        {
+            Camera.CullMask = ALL_CULL_LAYERS;
+        }
     }
 
     public override void _Process(double delta)
@@ -70,19 +78,21 @@ public partial class FirstPersonController : CharacterBody3D
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("debug_camera"))
+        if (@event.IsActionPressed("debug_camera") && OS.IsDebugBuild())
         {
             if (CameraMode == CameraMode.FirstPerson)
             {
                 CameraMode = CameraMode.FreeFlow;
+                Camera.CullMask = ALL_CULL_LAYERS;
             }
             else
             {
                 CameraMode = CameraMode.FirstPerson;
                 _mouseRotation.X = Camera.Rotation.X;
                 _mouseRotation.Y = GlobalRotation.Y;
+                Camera.CullMask = ALL_CULL_LAYERS & ~(1U << SECOND_CULL_LAYER_INDEX);
             }
-            GD.Print($"Camera mode switched to: {CameraMode}");
+            GD.Print($"Camera mode switched to: {CameraMode}. CullMask: {Camera.CullMask}.");
         }
     }
 
@@ -130,6 +140,10 @@ public partial class FirstPersonController : CharacterBody3D
         CrouchShapeCast.AddException(this);
     }
 
+    /// <summary>
+    /// Update the free flow camera movement and rotation based on mouse input and keyboard input.
+    /// </summary>
+    /// <param name="delta"></param>
     private void UpdateFreeFlowCamera(float delta)
     {
         if (_freeFlowMouseDelta.LengthSquared() > 0 && Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -170,6 +184,10 @@ public partial class FirstPersonController : CharacterBody3D
         }
     }
 
+    /// <summary>
+    /// Update the First Person camera rotation and position based on mouse input.
+    /// </summary>
+    /// <param name="delta"></param>
     private void UpdateCamera(float delta)
     {
         _mouseRotation.X += _tiltInput * delta;
@@ -199,6 +217,13 @@ public partial class FirstPersonController : CharacterBody3D
         return _inputDirection;
     }
 
+    /// <summary>
+    /// Update the player input based on the given speed, acceleration, and deceleration values.
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="acceleration"></param>
+    /// <param name="deceleration"></param>
+    /// <param name="sprintForwardOnly"></param>
     public void UpdateInput(float speed, float acceleration, float deceleration, bool sprintForwardOnly = false)
     {
         Vector2 rawInput = GetInputDirection();
@@ -244,6 +269,10 @@ public partial class FirstPersonController : CharacterBody3D
             Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * delta, Velocity.Z);
     }
 
+    /// <summary>
+    /// Update the camera position attached to head_target based on the camera spring settings.
+    /// </summary>
+    /// <param name="delta"></param>
     private void UpdateCameraFollow(float delta)
     {
         if (CameraMode == CameraMode.FirstPerson)

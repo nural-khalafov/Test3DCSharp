@@ -30,13 +30,5 @@ public partial class WeaponResource : Resource
     [ExportCategory("Weapon Path")]
     [Export] public string WeaponPath = null;
 
-    [ExportCategory("Procedural Idle Animation Data")]
-    [Export] public Vector3 IdlePosition { get; set; }
-    [Export] public Vector3 IdleRotation { get; set; }
-    [Export] public float IdleFOV { get; set; } = 70f;
-
-    [ExportCategory("Procedural Aiming Down Sights Data")]
-    [Export] public Vector3 ADSPosition { get; set; }
-    [Export] public Vector3 ADSRotation { get; set; }
-    [Export] public float ADSFOV { get; set; } = 40f;
+    
 }

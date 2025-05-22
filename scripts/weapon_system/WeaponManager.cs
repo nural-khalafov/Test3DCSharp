@@ -96,7 +96,7 @@ public partial class WeaponManager : Node
         await command.Execute(this);
     }
 
-    private Weapon GetActiveWeapon()
+    public Weapon GetActiveWeapon()
     {
         if (CurrentSlot != WeaponSlot.None && WeaponSlots.ContainsKey(CurrentSlot))
         {
@@ -104,7 +104,6 @@ public partial class WeaponManager : Node
         }
         else
         {
-            GD.PrintErr("Current slot is Empty Hands or not in WeaponSlots dictionary.");
             return null;
         }
     }
@@ -260,27 +259,81 @@ public partial class WeaponManager : Node
             if (_playerAnimationController != null)
             {
                 _playerAnimationController.SetArmedState(true, newWeaponNode.WeaponData.WeaponType);
-                if (_playerAnimationController.LeftHandIK == null)
+                if (_playerAnimationController.LeftHandIK == null &&
+                    _playerAnimationController.RightHandIK == null)
                 {
-                    GD.PrintErr("Critical Error: LeftHandIK is NULL.");
+                    GD.PrintErr("Critical Error: LeftHandIK or RightHandIK is NULL.");
                 }
                 else
                 {
-                    if (newWeaponNode.LeftHandTarget == null)
+                    if (newWeaponNode.LeftHandTarget == null &&
+                        newWeaponNode.RightHandTarget == null)
                     {
-                        GD.PrintErr($"LeftHandTarget is NULL for weapon {newWeaponNode.Name} in slot: {CurrentSlot}");
+                        GD.PrintErr($"LeftHandTarget or RightHandTarget is NULL for weapon {newWeaponNode.Name}" +
+                            $" in slot: {CurrentSlot}");
                     }
                     else
                     {
                         if (CurrentSlot == WeaponSlot.Melee)
                         {
-                            _playerAnimationController.LeftHandIK.TargetNode = null;
-                            _playerAnimationController.LeftHandIK.Stop();
+                            if(_playerAnimationController.LeftHandIK != null)
+                            {
+                                _playerAnimationController.LeftHandIK.TargetNode = null;
+                                _playerAnimationController.LeftHandIK.Stop();
+                            }
+                            else
+                            {
+                                GD.PrintErr("LeftHandIK is NULL, when switching to melee weapon.");
+                            }
+                            if(_playerAnimationController.RightHandIK != null)
+                            {
+                                _playerAnimationController.RightHandIK.TargetNode = null;
+                                _playerAnimationController.RightHandIK.Stop();
+                            }
+                            else
+                            {
+                                GD.PrintErr("RightHandIK is NULL, when switching to melee weapon.");
+                            }
                         }
                         else
                         {
-                            _playerAnimationController.LeftHandIK.TargetNode = newWeaponNode.LeftHandTarget.GetPath();
-                            _playerAnimationController.LeftHandIK.Start();
+                            if(_playerAnimationController.LeftHandIK != null)
+                            {
+                                if(newWeaponNode.LeftHandTarget != null) 
+                                {
+                                    _playerAnimationController.LeftHandIK.TargetNode = newWeaponNode.LeftHandTarget.GetPath();
+                                    _playerAnimationController.LeftHandIK.Start();
+                                }
+                                else 
+                                {
+                                    GD.PrintErr($"LeftHandTarget is NULL, when switching to {newWeaponNode.Name}.");
+                                    _playerAnimationController.LeftHandIK.TargetNode = null;
+                                    _playerAnimationController.LeftHandIK.Stop();
+                                }
+                            }
+                            else
+                            {
+                                GD.PrintErr($"LeftHandIK is NULL, for {newWeaponNode.Name}.");
+                            }
+
+                            if (_playerAnimationController.RightHandIK != null) 
+                            {
+                                if(newWeaponNode.RightHandTarget != null) 
+                                {
+                                    _playerAnimationController.RightHandIK.TargetNode = newWeaponNode.RightHandTarget.GetPath();
+                                    _playerAnimationController.RightHandIK.Start();
+                                }
+                                else 
+                                {
+                                    GD.PrintErr($"RightHandTarget is NULL, when switching to {newWeaponNode.Name}.");
+                                    _playerAnimationController.RightHandIK.TargetNode = null;
+                                    _playerAnimationController.RightHandIK.Stop();
+                                }
+                            }
+                            else
+                            {
+                                GD.PrintErr($"RightHandIK is NULL, for {newWeaponNode.Name}.");
+                            }
                         }
                     }
                 }
@@ -304,6 +357,16 @@ public partial class WeaponManager : Node
                 else
                 {
                     GD.PrintErr("LeftHandIK is NULL, when switching to empty hands.");
+                }
+
+                if (_playerAnimationController.RightHandIK != null)
+                {
+                    _playerAnimationController.RightHandIK.TargetNode = null;
+                    _playerAnimationController.RightHandIK.Stop();
+                }
+                else
+                {
+                    GD.PrintErr("RightHandIK is NULL, when switching to empty hands.");
                 }
             }
             OnWeaponSwitched?.Invoke(WeaponSlot.None, null);

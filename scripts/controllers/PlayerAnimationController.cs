@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 public partial class PlayerAnimationController : Node3D
@@ -14,7 +15,7 @@ public partial class PlayerAnimationController : Node3D
     [Export] private Marker3D _hipsTarget;
 
     [ExportCategory("Hands IK Components")]
-    [Export] public SkeletonIK3D _rightHandIK;
+    [Export] public SkeletonIK3D RightHandIK;
     [Export] public SkeletonIK3D LeftHandIK;
 
     private float _hipsUnarmedRotationY = -25.0f;
@@ -79,7 +80,9 @@ public partial class PlayerAnimationController : Node3D
         }
         else 
         {
-
+            // In Free Flow camera mode, set the hips target to the default position and rotation
+            _hipsTarget.Position = new Vector3(_hipsTarget.Position.X, _hipsTarget.Position.Y, _hipsTarget.Position.Z);
+            _hipsTarget.Rotation = new Vector3(_hipsTarget.Rotation.X, _hipsTarget.Rotation.Y, _hipsTarget.Rotation.Z);
         }
     }
 

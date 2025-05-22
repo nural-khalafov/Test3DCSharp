@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://dil8j0uhdh4a8"]
+
+[ext_resource type="Texture2D" uid="uid://sxqg1r65sbl2" path="res://assets/imported/vulkan_rifle/bOLTS_albedo.jpeg" id="1_o2spg"]
+[ext_resource type="Texture2D" uid="uid://c547r262bstd4" path="res://assets/imported/vulkan_rifle/bOLTS_AO.jpeg" id="2_6jqse"]
+[ext_resource type="Texture2D" uid="uid://bgmjd3xspasa3" path="res://assets/imported/vulkan_rifle/bOLTS_metallic.jpeg" id="3_qjcj3"]
+[ext_resource type="Texture2D" uid="uid://bfonlmh758a1n" path="res://assets/imported/vulkan_rifle/bOLTS_normal.jpeg" id="4_m12jl"]
+[ext_resource type="Texture2D" uid="uid://p6kof71swj4y" path="res://assets/imported/vulkan_rifle/bOLTS_roughness.jpeg" id="5_ncytn"]
+
+[resource]
+cull_mode = 2
+albedo_texture = ExtResource("1_o2spg")
+metallic = 1.0
+metallic_texture = ExtResource("3_qjcj3")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_ncytn")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_m12jl")
+ao_enabled = true
+ao_texture = ExtResource("2_6jqse")

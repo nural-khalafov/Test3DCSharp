@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://dm83eho6n2011"]
+
+[ext_resource type="Texture2D" uid="uid://cqpsy8jvjss8y" path="res://assets/imported/vulkan_rifle/Metal_albedo.jpeg" id="1_h584g"]
+[ext_resource type="Texture2D" uid="uid://c3dh2vc3ng4f" path="res://assets/imported/vulkan_rifle/Metal_AO.jpeg" id="2_bhp0w"]
+[ext_resource type="Texture2D" uid="uid://b1suu27bumfx5" path="res://assets/imported/vulkan_rifle/Metal_metallic.jpeg" id="3_s2wur"]
+[ext_resource type="Texture2D" uid="uid://dkggbwro3eb35" path="res://assets/imported/vulkan_rifle/Metal_normal.jpeg" id="4_wjm6v"]
+[ext_resource type="Texture2D" uid="uid://dvp24metb2x7n" path="res://assets/imported/vulkan_rifle/Metal_roughness.jpeg" id="5_rcwal"]
+
+[resource]
+cull_mode = 2
+albedo_texture = ExtResource("1_h584g")
+metallic = 1.0
+metallic_texture = ExtResource("3_s2wur")
+metallic_texture_channel = 2
+roughness_texture = ExtResource("5_rcwal")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_texture = ExtResource("4_wjm6v")
+ao_enabled = true
+ao_texture = ExtResource("2_bhp0w")

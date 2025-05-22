@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="WeaponResource" load_steps=2 format=3 uid="uid://dk4161mssvyfn"]
+
+[ext_resource type="Script" uid="uid://bl72yac3tkt7a" path="res://scripts/resources/WeaponResource.cs" id="1_qer64"]
+
+[resource]
+script = ExtResource("1_qer64")
+WeaponName = &"Vulkan"
+WeaponType = 3
+WeaponCaliber = &"5.45x39mm"
+WeaponDamage = 50.0
+WeaponPosition = Vector3(0, 0.16, 0.035)
+WeaponRotation = Vector3(0, 0, -1.431)
+WeaponScale = Vector3(1, 1, 1)
+LeftHandPosition = Vector3(0, 0, 0)
+LeftHandRotation = Vector3(0, 0, 0)
+WeaponPath = "res://resources/weapons/assault_rifle/vulkan_rifle.tscn"
+metadata/_custom_type_script = "uid://bl72yac3tkt7a"

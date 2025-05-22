@@ -513,18 +513,21 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_5gd82")
 
-[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget")]
+[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
 freeze = true
 script = ExtResource("1_xtki2")
 WeaponData = ExtResource("2_jlaht")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
+RightHandTarget = NodePath("IKTarget_R")
 
 [node name="IKTarget_L" type="Marker3D" parent="."]
 transform = Transform3D(0.22251, -0.368499, 0.902606, -0.877355, 0.328029, 0.350207, -0.425133, -0.86983, -0.250315, -0.026, 0.016, 0.224)
 
 [node name="IKTarget_R" type="Marker3D" parent="."]
+transform = Transform3D(0.00515847, 0.147719, -0.989016, 0.987615, 0.15434, 0.0282034, 0.156811, -0.976913, -0.145094, 0, 0.058, 0.153)
+rotation_order = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00619507, 0.076786, -0.0339801)

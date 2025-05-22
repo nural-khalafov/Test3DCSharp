@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://tu8kpb05wrjj"]
+[gd_scene load_steps=19 format=3 uid="uid://tu8kpb05wrjj"]
 
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="1_u4h3r"]
 [ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_hkk7u"]
@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="9_ksust"]
 [ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="10_lfp4j"]
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="11_7hlts"]
+[ext_resource type="PackedScene" uid="uid://bj61iegc1c707" path="res://resources/weapons/assault_rifle/akm_custom.tscn" id="12_qcvus"]
+[ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="13_jlqft"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_u4h3r"]
 energy_multiplier = 2.0
@@ -20,6 +22,7 @@ sky_material = SubResource("ProceduralSkyMaterial_u4h3r")
 
 [sub_resource type="Environment" id="Environment_mifcq"]
 background_mode = 2
+background_energy_multiplier = 1.5
 sky = SubResource("Sky_hkk7u")
 
 [sub_resource type="LabelSettings" id="LabelSettings_q66dm"]
@@ -223,3 +226,9 @@ scale = Vector2(2.5, 2.5)
 theme_override_styles/focus = SubResource("StyleBoxFlat_twd2r")
 shortcut_feedback = false
 shortcut_in_tooltip = false
+
+[node name="akm_custom" parent="." instance=ExtResource("12_qcvus")]
+transform = Transform3D(0.0237691, 0, -0.999717, 0.999492, -0.0212566, 0.0237638, -0.0212506, -0.999774, -0.00050525, -0.176224, 0.285095, -3.67545)
+
+[node name="m16a1" parent="." instance=ExtResource("13_jlqft")]
+transform = Transform3D(-4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 1.91069e-15, 0.864362, 0.269369, -3.58513)

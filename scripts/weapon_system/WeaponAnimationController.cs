@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 public partial class WeaponAnimationController : PlayerAnimationController
 {
+    public bool IsADS = false;
+    public bool IsShootable = false;
+
     private WeaponManager _weaponManager;
     private FirstPersonController _playerController;
     private Camera3D _camera;
@@ -12,8 +15,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
     private Marker3D _currentLeftHandGrip;
     private Marker3D _currentAimPoint;
 
-    public bool IsADS = false;
-    public bool IsShootable = false;
+    
 
     public override void _EnterTree()
     {
@@ -26,7 +28,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
             GD.PrintErr("WeaponAnimationController: AnimationTree is null.");
         if (Skeleton == null)
             GD.PrintErr("WeaponAnimationController: Skeleton is null.");
-        if (_rightHandIK == null)
+        if (RightHandIK == null)
             GD.PrintErr("WeaponAnimationController: RightHandIK is null.");
         if (LeftHandIK == null)
             GD.PrintErr("WeaponAnimationController: LeftHandIK is null.");
@@ -50,7 +52,24 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
     public override void _Process(double delta)
     {
+        Weapon activeWeapon = _weaponManager.GetActiveWeapon();
+
+        if (activeWeapon == null)
+            IsADS = false;
+
+        if (Input.IsActionPressed("aim"))
+        {
+            IsADS = true;
+        }
+        else 
+        {
+            // set this into comment for testing aim down sights
+            IsADS = false;
+        }
+
+        SetAimingDownSightsAnimation(activeWeapon, IsADS, (float)delta);
     }
+
 
     #region Weapon Procedural Animation Methods
 
@@ -58,9 +77,9 @@ public partial class WeaponAnimationController : PlayerAnimationController
     /// Procedurally sets the weapon idle animation for the current weapon.
     /// </summary>
     /// <param name="isIdle"></param>
-    public void SetWeaponIdleAnimation(Weapon currentWeapon, bool isIdle) 
+    public void SetWeaponIdleAnimation(Weapon currentWeapon, bool isIdle)
     {
-        if(isIdle)
+        if (isIdle)
         {
         }
         else
@@ -90,17 +109,37 @@ public partial class WeaponAnimationController : PlayerAnimationController
     /// Procedurally sets aiming down sights animation for the current weapon.
     /// </summary>
     /// <param name="isADS"></param>
-    public void SetAimingDownSightsAnimation(Weapon currentWeapon, bool isADS)
+    public void SetAimingDownSightsAnimation(Weapon currentWeapon, bool isAiming, float delta)
     {
-        if (isADS)
+        if (currentWeapon == null || _camera == null)
         {
-            // apply ads on weapon
-            // each weapon has its own ADS animation
+            if (_camera != null && _playerController != null)
+                return;
+        }
+
+        // apply ads on weapon
+        if (isAiming)
+        {
+            _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.ADSFOV, delta * 7);
+
+            // right hand target
+            currentWeapon.RightHandTarget.Position = currentWeapon.ADSRightHandPosition;
+            currentWeapon.RightHandTarget.Rotation = currentWeapon.ADSRightHandRotation;
+
+            // left hand target
+            currentWeapon.LeftHandTarget.Position = currentWeapon.ADSLeftHandPosition;
+            currentWeapon.LeftHandTarget.Rotation = currentWeapon.ADSLeftHandRotation;
         }
         else
         {
-            // retrn to idle animation
-            // each weapon resets to idle animation
+            // reset camera FOV
+            _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.IdleFOV, delta * 7);
+            // right hand target
+            currentWeapon.RightHandTarget.Position = currentWeapon.IdleRightHandPosition;
+            currentWeapon.RightHandTarget.Rotation = currentWeapon.IdleRightHandRotation;
+            // left hand target
+            currentWeapon.LeftHandTarget.Position = currentWeapon.IdleLeftHandPosition;
+            currentWeapon.LeftHandTarget.Rotation = currentWeapon.IdleLeftHandRotation;
         }
     }
 
