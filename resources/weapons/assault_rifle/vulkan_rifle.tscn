@@ -119,12 +119,21 @@ WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
 RightHandTarget = NodePath("IKTarget_R")
-
-[node name="IKTarget_L" type="Marker3D" parent="."]
-transform = Transform3D(-0.777185, -0.0145177, 0.629105, -0.628458, -0.0329361, -0.777146, 0.0320026, -0.999352, 0.0164737, -0.075, -0.145, 0.11)
+IdleRightHandPosition = Vector3(0.075, -0.005, 0)
+IdleRightHandRotation = Vector3(2.43776e-08, -0.0523599, 1.37881)
+IdleLeftHandPosition = Vector3(-0.075, -0.145, 0.11)
+IdleLeftHandRotation = Vector3(0.890118, 1.54462, -1.62316)
+ADSFOV = 60.0
+ADSRightHandPosition = Vector3(0.103, 0.051, 0.041)
+ADSRightHandRotation = Vector3(0.046, -0.015, 1.481)
+ADSLeftHandPosition = Vector3(-0.015, -0.274, 0.196)
+ADSLeftHandRotation = Vector3(-0.073, 1.559, -1.796)
 
 [node name="IKTarget_R" type="Marker3D" parent="."]
 transform = Transform3D(0.190547, -0.980282, -0.052336, 0.981627, 0.190809, 0, 0.00998617, -0.0513744, 0.99863, 0.075, -0.005, 0)
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
+transform = Transform3D(-0.777185, -0.0145177, 0.629105, -0.628458, -0.0329361, -0.777146, 0.0320026, -0.999352, 0.0164737, -0.075, -0.145, 0.11)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00062561, 0.00126648, 0.00108528)

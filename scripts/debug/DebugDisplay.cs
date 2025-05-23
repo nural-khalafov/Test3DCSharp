@@ -49,8 +49,5 @@ public partial class DebugDisplay : Node
             .WeaponData.WeaponName.ToString(), 6);
         else
             _debugPanel.AddProperty("Current Weapon", "None", 6);
-
-        _debugPanel.AddProperty("Current Weapon Transform",
-            _weaponManager.WeaponSlots[_weaponManager.CurrentSlot].GlobalTransform.ToString(), 7);
     }
 }

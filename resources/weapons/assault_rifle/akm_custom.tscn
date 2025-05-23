@@ -604,6 +604,7 @@ IdleRightHandPosition = Vector3(0.025, -0.04, 0.309)
 IdleRightHandRotation = Vector3(-0.1309, -1.51844, 1.45735)
 IdleLeftHandPosition = Vector3(-0.04, 0.01, -0.153)
 IdleLeftHandRotation = Vector3(-0.733038, -0.994838, 0)
+ADSFOV = 50.0
 ADSRightHandPosition = Vector3(-0.018, -0.023, 0.272)
 ADSRightHandRotation = Vector3(-0.154, -1.496, 1.485)
 ADSLeftHandPosition = Vector3(-0.21, 0.071, -0.153)

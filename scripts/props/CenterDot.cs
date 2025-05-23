@@ -10,6 +10,11 @@ public partial class CenterDot : CenterContainer
 
     private Vector2 DotPosition = new Vector2(0,0);
 
+    public override void _EnterTree()
+    {
+        ServiceLocator.RegisterService(this);
+    }
+
     public override void _Ready()
     {
         QueueRedraw();

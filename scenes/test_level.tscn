@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=31 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://bwiw6u86d2hx4" path="res://assets/graphics/textures/ui/buttons/options_button_icon.png" id="11_dw7u0"]
 [ext_resource type="Texture2D" uid="uid://cu4cu22q618oi" path="res://assets/graphics/textures/ui/buttons/exit_button_icon.png" id="12_fyxdr"]
 [ext_resource type="Script" uid="uid://bgqkv03n6qgi7" path="res://scripts/menu/Options.cs" id="14_qs1vn"]
+[ext_resource type="Script" uid="uid://vwxl2r3t5gym" path="res://scripts/debug/ContextComponent.cs" id="15_47x4r"]
+[ext_resource type="Texture2D" uid="uid://b6xof7o6bdaop" path="res://assets/imported/buttons/keyboard_f_outline.png" id="16_o5a2i"]
 [ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="18_jqmoj"]
 [ext_resource type="PackedScene" uid="uid://c6ilef5scwyh7" path="res://resources/weapons/pistol/makarov_pistol.tscn" id="19_ni2ok"]
 [ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/debug/DebugDisplay.cs" id="20_hnsbs"]
@@ -31,6 +33,11 @@ sky_material = SubResource("ProceduralSkyMaterial_fptmo")
 [sub_resource type="Environment" id="Environment_jqmoj"]
 background_mode = 2
 sky = SubResource("Sky_bakr3")
+
+[sub_resource type="LabelSettings" id="LabelSettings_1olsq"]
+font_size = 22
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qs1vn"]
 font_size = 32
@@ -213,6 +220,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_tmr53")
 
+[node name="ContextComponent" type="CenterContainer" parent="UI" node_paths=PackedStringArray("TextureIcon", "ContextLabel")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 55.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("15_47x4r")
+TextureIcon = NodePath("HBoxContainer/TextureRect")
+ContextLabel = NodePath("HBoxContainer/Label")
+DefaultIcon = ExtResource("16_o5a2i")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/ContextComponent"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/ContextComponent/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("16_o5a2i")
+expand_mode = 3
+
+[node name="Label" type="Label" parent="UI/ContextComponent/HBoxContainer"]
+layout_mode = 2
+text = "LOREM IPSUM"
+label_settings = SubResource("LabelSettings_1olsq")
+
 [node name="DebugPanel" type="PanelContainer" parent="UI"]
 unique_name_in_owner = true
 visible = false
@@ -299,6 +333,7 @@ texture_normal = ExtResource("12_fyxdr")
 
 [node name="OptionsPanel" type="Panel" parent="UI" node_paths=PackedStringArray("_fullscreenSwitcher")]
 process_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

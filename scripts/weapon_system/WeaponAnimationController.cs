@@ -24,6 +24,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
     private FirstPersonController _playerController;
     private Camera3D _camera;
     private Weapon _currentWeapon;
+    private CenterDot _centerDot;
 
     public override void _EnterTree()
     {
@@ -45,6 +46,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
         _weaponManager = ServiceLocator.GetService<WeaponManager>();
         _playerController = ServiceLocator.GetService<FirstPersonController>();
+        _centerDot = ServiceLocator.GetService<CenterDot>();
 
         if (_weaponManager == null)
             GD.PrintErr("WeaponAnimationController: WeaponManager not found.");
@@ -71,7 +73,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
         }
         else 
         {
-            // set this into comment for testing aim down sights
+            // set this into comment for setting-up aim down sights animation for weapons
             IsADS = false;
         }
 
@@ -136,11 +138,6 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
         if (_currentWeapon != null)
         {
-            GD.Print($"{_currentWeapon.Position.ToString()}");
-            GD.Print($"Current Weapon Rotation: {_currentWeapon.Rotation.ToString()}");
-
-            GD.Print($"Current RightHandPosition: {_currentWeapon.RightHandTarget.Position.ToString()}");
-            GD.Print($"Current RightHandRotation: {_currentWeapon.RightHandTarget.Rotation.ToString()}");
         }
     }
 
@@ -202,6 +199,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
         // apply ads on weapon
         if (isAiming)
         {
+            _centerDot.Visible = false;
             _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.ADSFOV, delta * 7);
 
             // right hand target
@@ -214,6 +212,8 @@ public partial class WeaponAnimationController : PlayerAnimationController
         }
         else
         {
+            _centerDot.Visible = true;
+
             // reset camera FOV
             _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.IdleFOV, delta * 7);
             // right hand target
