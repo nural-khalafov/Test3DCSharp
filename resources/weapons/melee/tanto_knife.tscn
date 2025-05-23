@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://dwj71doqsvjfr"]
+[gd_scene load_steps=8 format=4 uid="uid://dwj71doqsvjfr"]
 
 [ext_resource type="Material" uid="uid://s6s3qpsr1ko0" path="res://assets/imported/tanto_knife/mat_Tanto_knife.tres" id="1_lnhbd"]
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="2_b6x6f"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sqm8h"]
 size = Vector3(0.0501404, 0.0740013, 0.520874)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r1cuv"]
+size = Vector3(0.00770569, 0.0633545, 0.309021)
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ag68k"]
 _surfaces = [{
@@ -41,16 +44,28 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ag68k")
 
-[node name="tanto_knife" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape")]
+[node name="tanto_knife" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
 freeze = true
 script = ExtResource("2_b6x6f")
 WeaponData = ExtResource("2_sqm8h")
 WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
+LeftHandTarget = NodePath("IKTarget_L")
+RightHandTarget = NodePath("IKTarget_R")
+
+[node name="IKTarget_R" type="Marker3D" parent="."]
+
+[node name="IKTarget_L" type="Marker3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00868225, -0.000825882, -0.0614408)
 shape = SubResource("BoxShape3D_sqm8h")
+
+[node name="HitBox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000282288, 0.00726318, -0.162445)
+shape = SubResource("BoxShape3D_r1cuv")
 
 [node name="mesh" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

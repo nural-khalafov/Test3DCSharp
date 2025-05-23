@@ -197,7 +197,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
         Vector3 targetLeftHandRotation;
 
         // apply ads on weapon
-        if (isAiming)
+        if (isAiming && currentWeapon.WeaponData.WeaponType != WeaponType.Melee)
         {
             _centerDot.Visible = false;
             _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.ADSFOV, delta * 7);
