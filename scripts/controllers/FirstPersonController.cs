@@ -308,6 +308,8 @@ public partial class FirstPersonController : CharacterBody3D
             _cameraVelocity += netForce * delta;
 
             Vector3 newPosition = currentPosition + _cameraVelocity * delta;
+
+            Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, newPosition);
         }
         else
         {

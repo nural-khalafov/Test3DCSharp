@@ -87,6 +87,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
     #region Weapon Procedural Animation Methods
 
+    // for later implementation
     private void CalculateWeaponSway(float delta)
     {
         //if (_playerController == null)
