@@ -7,15 +7,23 @@ public partial class WeaponAnimationController : PlayerAnimationController
     public bool IsADS = false;
     public bool IsShootable = false;
 
+    /// <summary>
+    /// Weapon Sway Variables
+    /// </summary>
+    [Export] private float _swayIntensity = 0.001f;
+    [Export] private float _maxSwayOffset = 0.001f;
+    [Export] private float _swaySmoothing = 10.0f;
+    [Export] private float _adsTransitionSpeed = 15.0f;
+
+    private Vector3 _currentSwayOffset = Vector3.Zero;
+
+    /// <summary>
+    /// Service Locator Components
+    /// </summary>
     private WeaponManager _weaponManager;
     private FirstPersonController _playerController;
     private Camera3D _camera;
-
-    private Marker3D _currentRightHandGrip;
-    private Marker3D _currentLeftHandGrip;
-    private Marker3D _currentAimPoint;
-
-    
+    private Weapon _currentWeapon;
 
     public override void _EnterTree()
     {
@@ -52,9 +60,9 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
     public override void _Process(double delta)
     {
-        Weapon activeWeapon = _weaponManager.GetActiveWeapon();
+        _currentWeapon = _weaponManager.GetActiveWeapon();
 
-        if (activeWeapon == null)
+        if (_currentWeapon == null)
             IsADS = false;
 
         if (Input.IsActionPressed("aim"))
@@ -67,11 +75,73 @@ public partial class WeaponAnimationController : PlayerAnimationController
             IsADS = false;
         }
 
-        SetAimingDownSightsAnimation(activeWeapon, IsADS, (float)delta);
+        CalculateWeaponSway((float)delta);
+
+        SetAimingDownSightsAnimation(_currentWeapon, IsADS, (float)delta);
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
     }
 
 
     #region Weapon Procedural Animation Methods
+
+    private void CalculateWeaponSway(float delta)
+    {
+        //if (_playerController == null)
+        //    return;
+
+        //float mouseX = _playerController.FrameRotationInput;
+        //float mouseY = _playerController.FrameTiltInput;
+
+        //Vector3 targetSwayOffset;
+
+        //if (IsADS && _currentWeapon != null) 
+        //{
+        //    targetSwayOffset = new Vector3(
+        //        Mathf.Clamp(mouseX * _swayIntensity, -_maxSwayOffset, _maxSwayOffset),
+        //        Mathf.Clamp(-mouseY * _swayIntensity, -_maxSwayOffset, _maxSwayOffset),
+        //        0);
+        //}
+        //else 
+        //{
+        //    targetSwayOffset = Vector3.Zero;
+        //}
+
+        //_currentSwayOffset = _currentSwayOffset.Lerp(targetSwayOffset, _swaySmoothing * delta);
+
+        //if(!IsADS || _currentWeapon == null)
+        //{
+        //    _currentSwayOffset = _currentSwayOffset.Lerp(Vector3.Zero, _swaySmoothing * delta);
+        //    GD.Print(_currentSwayOffset);
+        //    return;
+        //}
+
+        //Vector2 mouseDelta = Input.GetLastMouseVelocity();
+
+        //float intensity = _swayIntensity;
+        //if(_playerController != null)
+        //    intensity *= _playerController.MouseSensitivity;
+
+        //Vector3 targetSwayOffset = new Vector3(
+        //    Mathf.Clamp(-mouseDelta.X * intensity, -_maxSwayOffset, _maxSwayOffset),
+        //    Mathf.Clamp(-mouseDelta.Y * intensity, -_maxSwayOffset, _maxSwayOffset),
+        //    0);
+
+        //_currentSwayOffset = _currentSwayOffset.Lerp(targetSwayOffset, _swaySmoothing * delta);
+
+        //GD.Print(_currentSwayOffset);
+
+        if (_currentWeapon != null)
+        {
+            GD.Print($"{_currentWeapon.Position.ToString()}");
+            GD.Print($"Current Weapon Rotation: {_currentWeapon.Rotation.ToString()}");
+
+            GD.Print($"Current RightHandPosition: {_currentWeapon.RightHandTarget.Position.ToString()}");
+            GD.Print($"Current RightHandRotation: {_currentWeapon.RightHandTarget.Rotation.ToString()}");
+        }
+    }
 
     /// <summary>
     /// Procedurally sets the weapon idle animation for the current weapon.
@@ -111,11 +181,22 @@ public partial class WeaponAnimationController : PlayerAnimationController
     /// <param name="isADS"></param>
     public void SetAimingDownSightsAnimation(Weapon currentWeapon, bool isAiming, float delta)
     {
-        if (currentWeapon == null || _camera == null)
+        float defaultPlayerFOV = 75f;
+
+        if(_camera == null)
+            return;
+
+        if (currentWeapon == null) 
         {
-            if (_camera != null && _playerController != null)
-                return;
+            _camera.Fov = Mathf.Lerp(_camera.Fov, defaultPlayerFOV, delta * 7);
+
+            return;
         }
+
+        Vector3 targetRightHandPosition;
+        Vector3 targetRightHandRotation;
+        Vector3 targetLeftHandPosition;
+        Vector3 targetLeftHandRotation;
 
         // apply ads on weapon
         if (isAiming)
@@ -123,23 +204,42 @@ public partial class WeaponAnimationController : PlayerAnimationController
             _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.ADSFOV, delta * 7);
 
             // right hand target
-            currentWeapon.RightHandTarget.Position = currentWeapon.ADSRightHandPosition;
-            currentWeapon.RightHandTarget.Rotation = currentWeapon.ADSRightHandRotation;
+            targetRightHandPosition = currentWeapon.ADSRightHandPosition;
+            targetRightHandRotation = currentWeapon.ADSRightHandRotation;
 
             // left hand target
-            currentWeapon.LeftHandTarget.Position = currentWeapon.ADSLeftHandPosition;
-            currentWeapon.LeftHandTarget.Rotation = currentWeapon.ADSLeftHandRotation;
+            targetLeftHandPosition = currentWeapon.ADSLeftHandPosition;
+            targetLeftHandRotation = currentWeapon.ADSLeftHandRotation;
         }
         else
         {
             // reset camera FOV
             _camera.Fov = Mathf.Lerp(_camera.Fov, currentWeapon.IdleFOV, delta * 7);
             // right hand target
-            currentWeapon.RightHandTarget.Position = currentWeapon.IdleRightHandPosition;
-            currentWeapon.RightHandTarget.Rotation = currentWeapon.IdleRightHandRotation;
+            targetRightHandPosition = currentWeapon.IdleRightHandPosition;
+            targetRightHandRotation = currentWeapon.IdleRightHandRotation;
+
             // left hand target
-            currentWeapon.LeftHandTarget.Position = currentWeapon.IdleLeftHandPosition;
-            currentWeapon.LeftHandTarget.Rotation = currentWeapon.IdleLeftHandRotation;
+            targetLeftHandPosition = currentWeapon.IdleLeftHandPosition;
+            targetLeftHandRotation = currentWeapon.IdleLeftHandRotation;
+        }
+
+        if(currentWeapon.RightHandTarget != null)
+        {
+            Vector3 finalRightHandPosition = targetRightHandPosition + (isAiming ? _currentSwayOffset : Vector3.Zero);
+            currentWeapon.RightHandTarget.Position =
+                currentWeapon.RightHandTarget.Position.Lerp(finalRightHandPosition, _adsTransitionSpeed * delta);
+            currentWeapon.RightHandTarget.Rotation =
+                currentWeapon.RightHandTarget.Rotation.Lerp(targetRightHandRotation, _adsTransitionSpeed * delta);
+        }
+
+        if(currentWeapon.LeftHandTarget != null)
+        {
+            Vector3 finalLeftHandPosition = targetLeftHandPosition + (isAiming ? _currentSwayOffset : Vector3.Zero);
+            currentWeapon.LeftHandTarget.Position =
+                currentWeapon.LeftHandTarget.Position.Lerp(finalLeftHandPosition, _adsTransitionSpeed * delta);
+            currentWeapon.LeftHandTarget.Rotation =
+                currentWeapon.LeftHandTarget.Rotation.Lerp(targetLeftHandRotation, _adsTransitionSpeed * delta);
         }
     }
 

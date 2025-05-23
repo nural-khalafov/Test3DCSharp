@@ -9,11 +9,14 @@ public enum CameraMode
 }
 public partial class FirstPersonController : CharacterBody3D
 {
+    /// <summary>
+    /// Public Export Variables
+    /// </summary>
     [ExportCategory("Player Camera Settings")]
     [Export] public float MouseSensitivity = 0.07f;
     [Export] public float CameraFollowSpeed = 10.0f;
-    [Export] public float CameraSpringStiffness = 200.0f;
-    [Export] public float CameraSpringDamping = 25.0f;
+    [Export] public float CameraSpringStiffness = 1000.0f;
+    [Export] public float CameraSpringDamping = 60.0f;
 
     [ExportCategory("Node Components")]
     [Export] public ShapeCast3D CrouchShapeCast;
@@ -29,26 +32,35 @@ public partial class FirstPersonController : CharacterBody3D
     [Export] public float FreeFlowMouseSensitivity { get; set; } = 0.002f;
     [Export] public float FreeFlowShiftSpeedMultiplier { get; set; } = 2.5f;
 
-    private float _tiltMinLimit = Mathf.DegToRad(-75.0f);
-    private float _tiltMaxLimit = Mathf.DegToRad(75.0f);
+    /// <summary>
+    /// Public Variables
+    /// </summary>
+    public float FrameRotationInput { get; private set; }
+    public float FrameTiltInput { get; private set; }
 
-    private bool _mouseInput = false;
+    /// <summary>
+    /// Private Variables
+    /// </summary>
     private float _rotationInput;
     private float _tiltInput;
+    private float _tiltMinLimit = Mathf.DegToRad(-75.0f);
+    private float _tiltMaxLimit = Mathf.DegToRad(75.0f);
+    private float _gravity;
+
+    private bool _mouseInput = false;
+    
     private Vector3 _mouseRotation;
     private Vector3 _playerRotation;
     private Vector3 _cameraRotation;
     private Vector3 _cameraVelocity = Vector3.Zero;
     private Vector2 _freeFlowMouseDelta;
     private Vector2 _inputDirection;
-    private float _gravity;
-
-    private const uint ALL_CULL_LAYERS = (1 << 20) - 1;
-    private const int SECOND_CULL_LAYER_INDEX = 1;
 
     public static Camera3D CameraRef;
     public static CameraMode CameraModeRef;
 
+    private const uint ALL_CULL_LAYERS = (1 << 20) - 1;
+    private const int SECOND_CULL_LAYER_INDEX = 1;
 
     public override void _EnterTree()
     {
@@ -74,6 +86,9 @@ public partial class FirstPersonController : CharacterBody3D
     public override void _Process(double delta)
     {
         CameraModeRef = CameraMode;
+
+        FrameRotationInput = 0f;
+        FrameTiltInput = 0f;
     }
 
     public override void _Input(InputEvent @event)
@@ -105,12 +120,18 @@ public partial class FirstPersonController : CharacterBody3D
 
             if (CameraMode == CameraMode.FirstPerson)
             {
-                _rotationInput = -mouseMotion.Relative.X * MouseSensitivity;
-                _tiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
+                FrameRotationInput = -mouseMotion.Relative.X * MouseSensitivity;
+                FrameTiltInput = -mouseMotion.Relative.Y * MouseSensitivity;
+
+                _rotationInput = FrameRotationInput;
+                _tiltInput = FrameTiltInput;
             }
             else
             {
                 _freeFlowMouseDelta = mouseMotion.Relative;
+
+                FrameRotationInput = 0f;
+                FrameTiltInput = 0f;
             }
         }
         else
@@ -281,16 +302,12 @@ public partial class FirstPersonController : CharacterBody3D
             var currentPosition = Camera.GlobalTransform.Origin;
 
             Vector3 springForce = (desiredPosition - currentPosition) * CameraSpringStiffness;
-
             Vector3 dampingForce = _cameraVelocity * CameraSpringDamping;
-
             Vector3 netForce = springForce - dampingForce;
 
             _cameraVelocity += netForce * delta;
 
             Vector3 newPosition = currentPosition + _cameraVelocity * delta;
-
-            Camera.GlobalTransform = new Transform3D(Camera.GlobalTransform.Basis, newPosition);
         }
         else
         {
