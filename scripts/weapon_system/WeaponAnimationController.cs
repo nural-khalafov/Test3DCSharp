@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public partial class WeaponAnimationController : PlayerAnimationController
 {
     public bool IsADS = false;
-    public bool IsShootable = false;
+    public bool IsShootable = true;
 
     /// <summary>
     /// Weapon Sway Variables
@@ -67,7 +67,7 @@ public partial class WeaponAnimationController : PlayerAnimationController
         if (_currentWeapon == null)
             IsADS = false;
 
-        if (Input.IsActionPressed("aim"))
+        if (Input.IsActionPressed("aim") && _currentWeapon != null && _currentWeapon.WeaponData.WeaponType != WeaponType.Melee)
         {
             IsADS = true;
         }
@@ -77,6 +77,11 @@ public partial class WeaponAnimationController : PlayerAnimationController
             IsADS = false;
         }
 
+        if (Input.IsActionJustPressed("shoot")) 
+        {
+            HandleShootInput();
+        }
+
         CalculateWeaponSway((float)delta);
 
         SetAimingDownSightsAnimation(_currentWeapon, IsADS, (float)delta);
@@ -84,6 +89,15 @@ public partial class WeaponAnimationController : PlayerAnimationController
 
     public override void _PhysicsProcess(double delta)
     {
+    }
+
+    private void HandleShootInput() 
+    {
+        if(_currentWeapon != null && _currentWeapon.WeaponData.WeaponType != WeaponType.Melee && IsShootable)
+        {
+            _currentWeapon.Shoot();
+            SetWeaponShootAnimation(_currentWeapon, IsADS);
+        }
     }
 
 
@@ -161,6 +175,9 @@ public partial class WeaponAnimationController : PlayerAnimationController
     /// <param name="currentWeapon"></param>
     public void SetWeaponShootAnimation(Weapon currentWeapon, bool isADS)
     {
+        if (currentWeapon == null)
+            return;
+
         if (isADS)
         {
             // apply shoot animation for ADS

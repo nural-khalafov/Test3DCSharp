@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=32 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
@@ -33,6 +33,9 @@ sky_material = SubResource("ProceduralSkyMaterial_fptmo")
 [sub_resource type="Environment" id="Environment_jqmoj"]
 background_mode = 2
 sky = SubResource("Sky_bakr3")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_47x4r"]
+size = Vector3(0.637695, 2.24072, 9.21973)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1olsq"]
 font_size = 22
@@ -134,6 +137,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3708, 3.24969, 45.6235)
 use_collision = true
 size = Vector3(0.254103, 3.48476, 9.23406)
 material = ExtResource("5_7gix3")
+
+[node name="WEAPON_PANEL" type="RigidBody3D" parent="Enviroment/Level/ShootingRange/WeaponPanel"]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Enviroment/Level/ShootingRange/WeaponPanel/WEAPON_PANEL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.181152, 0.620361, 0.00146484)
+shape = SubResource("BoxShape3D_47x4r")
 
 [node name="vulkan_rifle" parent="Enviroment/Level/ShootingRange/WeaponPanel" instance=ExtResource("4_tugu3")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.139908, -1.04354, 0.666954)

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjwjh7bc8b6ic"]
+
+[ext_resource type="Script" uid="uid://cggkwvawtp0lg" path="res://scripts/weapon_system/Bullet.cs" id="1_3dgpi"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_qsr8n"]
+radius = 0.00504432
+height = 0.0172681
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qsr8n"]
+albedo_color = Color(0.871481, 3.08037e-06, 1.54018e-06, 1)
+
+[node name="7_62x39mm_PS" type="RigidBody3D"]
+script = ExtResource("1_3dgpi")
+Caliber = &"7.62x39mm PS"
+Speed = 700.0
+PenetrationRate = 35.0
+Damage = 60.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 6.10352e-05, 0.00018692, -0.000137329)
+shape = SubResource("CapsuleShape3D_qsr8n")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+radius = 0.005
+height = 0.01
+material = SubResource("StandardMaterial3D_qsr8n")

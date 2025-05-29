@@ -11,6 +11,10 @@ public partial class Weapon : RigidBody3D, IInteractable
     [Export] public Marker3D LeftHandTarget { get; set; }
     [Export] public Marker3D RightHandTarget { get; set; }
 
+    [ExportCategory("Shooting Mechanics Data")]
+    [Export] public Marker3D MuzzlePoint { get; set; }
+    [Export] public PackedScene BulletScene { get; set; }
+
     [ExportCategory("Procedural Idle Animation Data")]
     [Export] public float IdleFOV { get; set; } = 75f;
     [Export] public Vector3 IdleRightHandPosition { get; set; }
@@ -25,9 +29,10 @@ public partial class Weapon : RigidBody3D, IInteractable
     [Export] public Vector3 ADSLeftHandPosition { get; set; }
     [Export] public Vector3 ADSLeftHandRotation { get; set; }
 
-
-    public int CurrentAmmo {  get; private set; }
-    public int ReserveAmmo { get; private set; }
+    [ExportGroup("Weapon Stats")]
+    [Export] public int CurrentAmmo { get; set; } = 30;
+    [Export] public int ReserveAmmo { get; set; } = 90;
+    [Export] public int MagazineSize { get; set; } = 30;
 
     private WeaponManager _weaponManager;
 
@@ -83,5 +88,48 @@ public partial class Weapon : RigidBody3D, IInteractable
                 CollisionShape.Disabled = false;
             }
         }
+    }
+
+    public void Shoot() 
+    {
+        if (WeaponData == null)
+        {
+            GD.PrintErr("WeaponData is not set for the weapon. Cannot shoot.");
+            return;
+        }
+        if (BulletScene == null) 
+        {
+            GD.PrintErr("BulletScene is not set for the weapon. Cannot shoot.");
+            return;
+        }
+        if(MuzzlePoint == null) 
+        {
+            GD.PrintErr("MuzzlePoint is not set for the weapon. Cannot shoot.");
+            return;
+        }
+        if(CurrentAmmo <= 0)
+        {
+            GD.Print($"{Name}: Out of ammo!");
+            return;
+        }
+
+        CurrentAmmo--;
+        GD.Print($"{Name}: Shooting! Ammo left: {CurrentAmmo}/{MagazineSize}");
+
+        Bullet bulletInstance = BulletScene.Instantiate<Bullet>();
+
+        if (bulletInstance == null)
+        {
+            GD.PrintErr("Failed to instantiate bullet from BulletScene.");
+            return;
+        }
+
+        GetTree().Root.AddChild(bulletInstance);
+
+        GD.Print($"Bullet instantiated at position: {MuzzlePoint.Rotation}");
+
+        bulletInstance.GlobalTransform = MuzzlePoint.GlobalTransform;
+        bulletInstance.Fire();
+        bulletInstance.Initialize(bulletInstance.Damage, bulletInstance.Caliber);
     }
 }

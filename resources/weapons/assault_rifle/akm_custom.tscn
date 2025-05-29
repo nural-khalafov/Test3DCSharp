@@ -1,8 +1,9 @@
-[gd_scene load_steps=41 format=4 uid="uid://bj61iegc1c707"]
+[gd_scene load_steps=42 format=4 uid="uid://bj61iegc1c707"]
 
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="2_ty6rl"]
 [ext_resource type="Resource" uid="uid://c878jbl3ni517" path="res://resources/weapons/assault_rifle/akm_custom.tres" id="2_wsa5a"]
 [ext_resource type="Material" uid="uid://bfq2vttgkx0na" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Metal.tres" id="3_h2y8v"]
+[ext_resource type="PackedScene" uid="uid://cjwjh7bc8b6ic" path="res://resources/weapons/calibers/7.62x39mm/7_62x39mm_PS.tscn" id="3_ospk2"]
 [ext_resource type="Material" uid="uid://haebjenvilrn" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Wood.tres" id="4_qvnkg"]
 [ext_resource type="Material" uid="uid://tpgqbyb1rqk3" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Dong.tres" id="4_ufxt6"]
 
@@ -587,7 +588,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_rsvr3")
 
-[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
+[node name="akm_custom" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget", "MuzzlePoint")]
 collision_layer = 8
 freeze = true
 script = ExtResource("2_ty6rl")
@@ -596,6 +597,8 @@ WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
 RightHandTarget = NodePath("IKTarget_R")
+MuzzlePoint = NodePath("MuzzlePoint")
+BulletScene = ExtResource("3_ospk2")
 IdleRightHandPosition = Vector3(0.025, -0.04, 0.309)
 IdleRightHandRotation = Vector3(-0.1309, -1.51844, 1.45735)
 IdleLeftHandPosition = Vector3(-0.04, 0.01, -0.153)
@@ -605,6 +608,7 @@ ADSRightHandPosition = Vector3(-0.018, -0.023, 0.272)
 ADSRightHandRotation = Vector3(-0.154, -1.496, 1.485)
 ADSLeftHandPosition = Vector3(-0.21, 0.071, -0.153)
 ADSLeftHandRotation = Vector3(-0.733, -0.995, 0)
+ReserveAmmo = 120
 
 [node name="IKTarget_R" type="Marker3D" parent="."]
 transform = Transform3D(0.135434, -0.0372438, -0.990086, 0.985072, 0.112235, 0.130526, 0.106261, -0.992984, 0.0518882, 0.025, -0.04, 0.309)
@@ -613,6 +617,9 @@ transform = Transform3D(0.135434, -0.0372438, -0.990086, 0.985072, 0.112235, 0.1
 transform = Transform3D(0.544639, 0.56118, -0.623254, 0, 0.743145, 0.669131, 0.838671, -0.364435, 0.404746, -0.04, 0.01, -0.153)
 
 [node name="AimTarget_R" type="Marker3D" parent="."]
+
+[node name="MuzzlePoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000490591, 0.0734985, -0.410705)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00524902, -0.00354004, -0.000869751)

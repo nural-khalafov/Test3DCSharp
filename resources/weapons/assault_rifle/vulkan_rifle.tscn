@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=4 uid="uid://3ked7x8mks08"]
+[gd_scene load_steps=14 format=4 uid="uid://3ked7x8mks08"]
 
 [ext_resource type="Material" uid="uid://lrvonrguloxp" path="res://assets/imported/vulkan_rifle/mat_Vulkan_Plast.tres" id="1_7tu15"]
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="1_ww27d"]
 [ext_resource type="Resource" uid="uid://dk4161mssvyfn" path="res://resources/weapons/assault_rifle/vulkan_rifle.tres" id="2_rb56p"]
 [ext_resource type="Material" uid="uid://dm83eho6n2011" path="res://assets/imported/vulkan_rifle/mat_Vulkan_Metal.tres" id="2_ww27d"]
+[ext_resource type="PackedScene" uid="uid://dl7mqv6dc84ug" path="res://resources/weapons/calibers/5.45x39mm/5_45x39mm_PS.tscn" id="3_6vmp4"]
 [ext_resource type="Material" uid="uid://dil8j0uhdh4a8" path="res://assets/imported/vulkan_rifle/mat_Vulkan_Bolts.tres" id="3_rb56p"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d14gy"]
@@ -111,7 +112,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_bgbto")
 
-[node name="vulkan_rifle" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
+[node name="vulkan_rifle" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget", "MuzzlePoint")]
 freeze = true
 script = ExtResource("1_ww27d")
 WeaponData = ExtResource("2_rb56p")
@@ -119,6 +120,8 @@ WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
 RightHandTarget = NodePath("IKTarget_R")
+MuzzlePoint = NodePath("MuzzlePoint")
+BulletScene = ExtResource("3_6vmp4")
 IdleRightHandPosition = Vector3(0.075, -0.005, 0)
 IdleRightHandRotation = Vector3(2.43776e-08, -0.0523599, 1.37881)
 IdleLeftHandPosition = Vector3(-0.075, -0.145, 0.11)
@@ -134,6 +137,9 @@ transform = Transform3D(0.190547, -0.980282, -0.052336, 0.981627, 0.190809, 0, 0
 
 [node name="IKTarget_L" type="Marker3D" parent="."]
 transform = Transform3D(-0.777185, -0.0145177, 0.629105, -0.628458, -0.0329361, -0.777146, 0.0320026, -0.999352, 0.0164737, -0.075, -0.145, 0.11)
+
+[node name="MuzzlePoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.195666, 0.0752563, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00062561, 0.00126648, 0.00108528)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=4 uid="uid://c6ilef5scwyh7"]
+[gd_scene load_steps=36 format=4 uid="uid://c6ilef5scwyh7"]
 
 [ext_resource type="Material" uid="uid://1bnoh0my4k63" path="res://assets/imported/makarov/mat_Makarov.tres" id="1_84842"]
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="1_xtki2"]
 [ext_resource type="Resource" uid="uid://cmf8kimsqovua" path="res://resources/weapons/pistol/makarov_resource.tres" id="2_jlaht"]
+[ext_resource type="PackedScene" uid="uid://mkhc5likegjl" path="res://resources/weapons/calibers/9x18mm/9x18mm_PST.tscn" id="3_8n7u2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2xjes"]
 size = Vector3(0.0733032, 0.163124, 0.216522)
@@ -513,7 +514,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_5gd82")
 
-[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget")]
+[node name="makarov_pistol" type="RigidBody3D" node_paths=PackedStringArray("WeaponObject", "CollisionShape", "LeftHandTarget", "RightHandTarget", "MuzzlePoint")]
 freeze = true
 script = ExtResource("1_xtki2")
 WeaponData = ExtResource("2_jlaht")
@@ -521,6 +522,8 @@ WeaponObject = NodePath(".")
 CollisionShape = NodePath("CollisionShape3D")
 LeftHandTarget = NodePath("IKTarget_L")
 RightHandTarget = NodePath("IKTarget_R")
+MuzzlePoint = NodePath("MuzzlePoint")
+BulletScene = ExtResource("3_8n7u2")
 IdleRightHandPosition = Vector3(0, 0.058, 0.153)
 IdleRightHandRotation = Vector3(-2.94961, -1.42244, -1.53589)
 IdleLeftHandPosition = Vector3(-0.026, 0.016, 0.224)
@@ -530,6 +533,9 @@ ADSRightHandPosition = Vector3(-0.03, 0.065, 0.153)
 ADSRightHandRotation = Vector3(-2.94961, -1.42244, -1.53589)
 ADSLeftHandPosition = Vector3(-0.136, 0.016, 0.224)
 ADSLeftHandRotation = Vector3(-0.357792, 1.84132, -1.213)
+CurrentAmmo = 12
+ReserveAmmo = 60
+MagazineSize = 12
 
 [node name="IKTarget_R" type="Marker3D" parent="."]
 transform = Transform3D(0.00515847, 0.147719, -0.989016, 0.987615, 0.15434, 0.0282034, 0.156811, -0.976913, -0.145094, 0, 0.058, 0.153)
@@ -537,6 +543,9 @@ rotation_order = 0
 
 [node name="IKTarget_L" type="Marker3D" parent="."]
 transform = Transform3D(0.22251, -0.368499, 0.902606, -0.877355, 0.328029, 0.350207, -0.425133, -0.86983, -0.250315, -0.026, 0.016, 0.224)
+
+[node name="MuzzlePoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.135541, -0.132463)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00619507, 0.076786, -0.0339801)
