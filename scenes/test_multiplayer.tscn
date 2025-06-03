@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1igm1nwx1mk0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_e13aq"]
+
+[sub_resource type="Sky" id="Sky_bakr3"]
+sky_material = SubResource("ProceduralSkyMaterial_e13aq")
+
+[sub_resource type="Environment" id="Environment_1r7ab"]
+background_mode = 2
+sky = SubResource("Sky_bakr3")
+
+[node name="Test_Multiplayer" type="Node"]
+
+[node name="WorldSettings" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldSettings"]
+transform = Transform3D(1, 0, 0, 0, -0.798604, 0.601857, 0, -0.601857, -0.798604, 0, 29.3018, 0)
+light_color = Color(1, 1, 0.941176, 1)
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="WorldSettings"]
+environment = SubResource("Environment_1r7ab")

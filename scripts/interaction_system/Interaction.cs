@@ -71,12 +71,14 @@ public partial class Interaction : RayCast3D
                 if(colliderNode is IInteractable interactable)
                 {
                     _interactTarget = interactable;
+                    _contextComponent.Visible = true;
                     _contextComponent.UpdateLabel($"Pick up '{colliderNode.Name.ToString()}'");
                     _contextComponent.UpdateIcon(_textureIcon, _isOverride);
                 }
                 else
                 {
                     _interactTarget = null;
+                    _contextComponent.Visible = false;
                     _contextComponent.Reset();
                 }
             }
@@ -84,6 +86,7 @@ public partial class Interaction : RayCast3D
         else
         {
             _currentCastResult = null;
+            _contextComponent.Visible = false;
             _contextComponent.Reset();
             _interactTarget = null;
         }

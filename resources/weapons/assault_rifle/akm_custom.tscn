@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://basju0o3wo6uo" path="res://scripts/weapon_system/Weapon.cs" id="2_ty6rl"]
 [ext_resource type="Resource" uid="uid://c878jbl3ni517" path="res://resources/weapons/assault_rifle/akm_custom.tres" id="2_wsa5a"]
-[ext_resource type="Material" uid="uid://bfq2vttgkx0na" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Metal.tres" id="3_h2y8v"]
+[ext_resource type="Material" uid="uid://bfq2vttgkx0na" path="res://assets/graphics/materials/weapons/akm_custom/AKM_Custom_Metal.tres" id="3_h2y8v"]
 [ext_resource type="PackedScene" uid="uid://cjwjh7bc8b6ic" path="res://resources/weapons/calibers/7.62x39mm/7_62x39mm_PS.tscn" id="3_ospk2"]
-[ext_resource type="Material" uid="uid://haebjenvilrn" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Wood.tres" id="4_qvnkg"]
-[ext_resource type="Material" uid="uid://tpgqbyb1rqk3" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Dong.tres" id="4_ufxt6"]
+[ext_resource type="Material" uid="uid://haebjenvilrn" path="res://assets/graphics/materials/weapons/akm_custom/AKM_Custom_Wood.tres" id="4_qvnkg"]
+[ext_resource type="Material" uid="uid://tpgqbyb1rqk3" path="res://assets/graphics/materials/weapons/akm_custom/AKM_Custom_Dong.tres" id="4_ufxt6"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_v25fs"]
 size = Vector3(0.0544434, 0.26001, 0.875031)

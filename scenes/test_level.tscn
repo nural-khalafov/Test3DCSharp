@@ -1,14 +1,14 @@
-[gd_scene load_steps=32 format=3 uid="uid://by3fqipdxe4o3"]
+[gd_scene load_steps=33 format=3 uid="uid://by3fqipdxe4o3"]
 
 [ext_resource type="PackedScene" uid="uid://b3cqlgp4wg1v2" path="res://assets/nodes/props/MirrorBox.tscn" id="2_j6w7d"]
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="2_paw1w"]
-[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
-[ext_resource type="Material" uid="uid://budpurcjgch6g" path="res://assets/graphics/materials/starter_assets/checkerboard2_mat.tres" id="4_ahbqi"]
+[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/prototyping_props/starter_assets/checkerboard_mat.tres" id="2_qs1vn"]
+[ext_resource type="Material" uid="uid://budpurcjgch6g" path="res://assets/graphics/materials/prototyping_props/starter_assets/checkerboard2_mat.tres" id="4_ahbqi"]
 [ext_resource type="PackedScene" uid="uid://bj61iegc1c707" path="res://resources/weapons/assault_rifle/akm_custom.tscn" id="4_bakr3"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_tmr53"]
 [ext_resource type="PackedScene" uid="uid://3ked7x8mks08" path="res://resources/weapons/assault_rifle/vulkan_rifle.tscn" id="4_tugu3"]
 [ext_resource type="Theme" uid="uid://c3wblf1v41qwk" path="res://assets/graphics/textures/ui/themes/debug.tres" id="4_x4b8f"]
-[ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
+[ext_resource type="Material" uid="uid://dqgis636etupr" path="res://assets/graphics/materials/prototyping_props/starter_assets/checkerboard1_mat.tres" id="5_7gix3"]
 [ext_resource type="Script" uid="uid://bcuekcaikoroi" path="res://scripts/props/Debug.cs" id="6_qcd3b"]
 [ext_resource type="PackedScene" uid="uid://cbhiwo0nq0pgy" path="res://assets/nodes/weapon/AKM_Custom/AKM_Module_Dong.tscn" id="7_fptmo"]
 [ext_resource type="PackedScene" uid="uid://dwj71doqsvjfr" path="res://resources/weapons/melee/tanto_knife.tscn" id="7_rv6en"]
@@ -24,15 +24,16 @@
 [ext_resource type="PackedScene" uid="uid://buxhoxgse1l6t" path="res://resources/weapons/assault_rifle/m16a1.tscn" id="18_jqmoj"]
 [ext_resource type="PackedScene" uid="uid://c6ilef5scwyh7" path="res://resources/weapons/pistol/makarov_pistol.tscn" id="19_ni2ok"]
 [ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/debug/DebugDisplay.cs" id="20_hnsbs"]
+[ext_resource type="PackedScene" uid="uid://cxq1acyugot5s" path="res://assets/nodes/shooting_range/shooting_target.tscn" id="25_o5a2i"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fptmo"]
 
-[sub_resource type="Sky" id="Sky_bakr3"]
+[sub_resource type="Sky" id="Sky_o5a2i"]
 sky_material = SubResource("ProceduralSkyMaterial_fptmo")
 
 [sub_resource type="Environment" id="Environment_jqmoj"]
 background_mode = 2
-sky = SubResource("Sky_bakr3")
+sky = SubResource("Sky_o5a2i")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_47x4r"]
 size = Vector3(0.637695, 2.24072, 9.21973)
@@ -48,7 +49,7 @@ font_size = 32
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rv6en"]
 draw_center = false
 
-[node name="Test_Level" type="Node3D"]
+[node name="Test_Level" type="Node"]
 
 [node name="WorldSettings" type="Node3D" parent="."]
 
@@ -131,6 +132,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.66428, -22.6691)
 use_collision = true
 size = Vector3(28.9957, 1.62744, 152.653)
 material = ExtResource("4_ahbqi")
+
+[node name="Targets" type="Node3D" parent="Enviroment/Level/ShootingRange"]
+
+[node name="shooting_target" parent="Enviroment/Level/ShootingRange/Targets" instance=ExtResource("25_o5a2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.73283, 0.506824, 29.3432)
+
+[node name="shooting_target2" parent="Enviroment/Level/ShootingRange/Targets" instance=ExtResource("25_o5a2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.425423, 0.506824, 29.3432)
+
+[node name="shooting_target3" parent="Enviroment/Level/ShootingRange/Targets" instance=ExtResource("25_o5a2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.70437, 0.506824, 29.3432)
+
+[node name="shooting_target4" parent="Enviroment/Level/ShootingRange/Targets" instance=ExtResource("25_o5a2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.73964, 0.506824, 9.68003)
+
+[node name="shooting_target5" parent="Enviroment/Level/ShootingRange/Targets" instance=ExtResource("25_o5a2i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.37814, 0.506824, 9.68003)
 
 [node name="WeaponPanel" type="CSGBox3D" parent="Enviroment/Level/ShootingRange"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.3708, 3.24969, 45.6235)
@@ -231,6 +249,7 @@ grow_vertical = 2
 script = ExtResource("4_tmr53")
 
 [node name="ContextComponent" type="CenterContainer" parent="UI" node_paths=PackedStringArray("TextureIcon", "ContextLabel")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

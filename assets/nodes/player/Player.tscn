@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c5odykbncdss6"]
+[gd_scene load_steps=25 format=3 uid="uid://c5odykbncdss6"]
 
 [ext_resource type="Script" uid="uid://dm6uelu48xu0" path="res://scripts/controllers/FirstPersonController.cs" id="1_wwkbw"]
 [ext_resource type="Script" uid="uid://cmfhroaomrqy7" path="res://scripts/interaction_system/Interaction.cs" id="2_2fcl3"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://c3bnl5tytxaff" path="res://scripts/controllers/state machine/upperbody_states/SprintingPlayerUpperbodyState.cs" id="16_5xy37"]
 [ext_resource type="Script" uid="uid://cbapemh2xlgch" path="res://scripts/controllers/state machine/upperbody_states/ReloadingPlayerUpperbodyState.cs" id="17_kf27o"]
 [ext_resource type="Script" uid="uid://d2q7suwk0jmrr" path="res://scripts/controllers/state machine/upperbody_states/InteractingPlayerUpperbodyState.cs" id="18_rrpkp"]
+[ext_resource type="Script" uid="uid://va48opss8n3l" path="res://scripts/GUI/PlayerHUD.cs" id="20_kf27o"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wwkbw"]
 radius = 0.4
@@ -26,6 +27,12 @@ height = 1.75
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wwkbw"]
 radius = 0.4
+
+[sub_resource type="LabelSettings" id="LabelSettings_rrpkp"]
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_kf27o"]
+font_size = 28
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CrouchShapeCast", "CollisionShape3D", "Camera", "HeadTarget")]
 script = ExtResource("1_wwkbw")
@@ -64,67 +71,54 @@ parameters/PlayerStateMachine/Standing/SprintBlendSpace1D/blend_position = 0
 parameters/UpperbodyStateMachine/ArmedState/ArmedStates/WeaponIdleBS1D/blend_position = 0
 
 [node name="Skeleton3D" parent="CharacterModel/Armature" index="0"]
-bones/0/rotation = Quaternion(-0.0364824, -0.367099, -0.0132881, 0.929371)
-bones/1/rotation = Quaternion(-0.0117605, 0.0403228, -0.00562432, 0.999102)
-bones/2/rotation = Quaternion(0.0978548, 0.0819413, -0.00784177, 0.991791)
-bones/3/rotation = Quaternion(0.154795, 0.0812772, -0.0125323, 0.984518)
-bones/4/rotation = Quaternion(-0.0210776, -0.0109099, 0.00160238, 0.999717)
-bones/5/rotation = Quaternion(-0.0385329, 0.175886, -0.00564283, 0.98364)
-bones/8/rotation = Quaternion(-0.487722, -0.527269, 0.568716, -0.400845)
-bones/9/rotation = Quaternion(0.528394, -0.0589983, 0.133858, 0.836302)
-bones/10/rotation = Quaternion(-0.0101308, 0.0600404, 0.410004, 0.910049)
-bones/11/rotation = Quaternion(-0.142455, 0.138242, 0.0136969, 0.980004)
-bones/12/rotation = Quaternion(0.306401, -0.00555101, 0.149581, 0.94006)
-bones/13/rotation = Quaternion(-0.00698798, 0.000649443, 0.000746292, 0.999975)
-bones/14/rotation = Quaternion(8.79169e-07, -1.11759e-07, -4.09782e-07, 1)
-bones/17/rotation = Quaternion(0.0366669, -0.00568454, 0.0613411, 0.997427)
-bones/18/rotation = Quaternion(0.150566, -0.000907971, -0.00603984, 0.988581)
-bones/19/rotation = Quaternion(4.65661e-09, -7.45058e-09, 9.31323e-10, 1)
-bones/22/rotation = Quaternion(0.129803, 0.00489979, -0.079627, 0.988325)
-bones/23/rotation = Quaternion(0.19488, -0.00128661, 0.0147382, 0.980716)
-bones/24/rotation = Quaternion(-4.65661e-09, 9.31323e-09, 8.3819e-09, 1)
-bones/27/rotation = Quaternion(0.270082, -0.015527, -0.124664, 0.954606)
-bones/28/rotation = Quaternion(0.280582, 0.00175995, 0.0244343, 0.959517)
-bones/29/rotation = Quaternion(6.51926e-09, -3.81842e-08, 9.49949e-08, 1)
-bones/32/rotation = Quaternion(0.29602, -0.0167027, -0.158203, 0.941841)
-bones/33/rotation = Quaternion(0.341118, 0.0114315, 0.0496631, 0.938638)
-bones/34/rotation = Quaternion(2.38989e-13, -5.02914e-08, 3.539e-08, 1)
-bones/37/rotation = Quaternion(0.538892, -0.488258, 0.536771, 0.427874)
-bones/38/rotation = Quaternion(0.499027, 0.0393826, 0.0990103, 0.86001)
-bones/39/rotation = Quaternion(0.0545024, 0.0145035, -0.363173, 0.930013)
-bones/40/rotation = Quaternion(0.0982864, -0.055584, -0.0948598, 0.989066)
-bones/41/rotation = Quaternion(0.230095, 0.14196, -0.193669, 0.943078)
-bones/42/rotation = Quaternion(-0.0422793, 0.00180345, 0.187225, 0.981405)
-bones/43/rotation = Quaternion(8.53092e-07, 2.42144e-08, 3.06405e-07, 1)
-bones/46/rotation = Quaternion(0.03699, 0.00958608, 0.0102755, 0.999217)
-bones/47/rotation = Quaternion(0.146688, 0.000229883, 0.00986559, 0.989134)
-bones/48/rotation = Quaternion(1.86265e-09, 3.72529e-09, 6.51926e-09, 1)
-bones/51/rotation = Quaternion(0.111431, 0.00860299, 0.0244753, 0.993433)
-bones/52/rotation = Quaternion(0.261178, 0.00139272, -0.0165694, 0.965147)
-bones/53/rotation = Quaternion(-5.09899e-08, 6.51926e-09, -4.09782e-08, 1)
-bones/56/rotation = Quaternion(0.186455, -0.00861691, 0.0675642, 0.9801)
-bones/57/rotation = Quaternion(0.320275, -0.00236533, -0.0338053, 0.946718)
-bones/58/rotation = Quaternion(4.95929e-08, -4.65661e-09, -7.45059e-09, 1)
-bones/61/rotation = Quaternion(0.207169, -0.0111395, 0.0920782, 0.973899)
-bones/62/rotation = Quaternion(0.348573, -0.0122676, -0.0688478, 0.934669)
-bones/63/rotation = Quaternion(1.35042e-08, 5.58794e-09, -3.72529e-09, 1)
-bones/66/rotation = Quaternion(0.0788729, 0.21409, 0.967875, -0.10565)
-bones/67/rotation = Quaternion(-0.311192, 0.120004, -0.0403902, 0.941874)
-bones/68/rotation = Quaternion(0.578956, -0.0224811, -0.0299468, 0.814499)
-bones/69/rotation = Quaternion(0.24756, -0.0172295, -0.040119, 0.967888)
-bones/72/rotation = Quaternion(-0.124861, 0.0174868, 0.983505, 0.129698)
-bones/73/rotation = Quaternion(-0.301736, 0.0765332, -0.017906, 0.950146)
-bones/74/rotation = Quaternion(0.679864, 0.070574, 0.0985372, 0.723253)
-bones/75/rotation = Quaternion(0.242829, 0.0356798, 0.0126559, 0.96933)
+bones/1/rotation = Quaternion(-0.0141339, 0.0402726, -0.00501581, 0.999076)
+bones/2/rotation = Quaternion(0.0928882, 0.0818814, -0.00671339, 0.992281)
+bones/3/rotation = Quaternion(0.149645, 0.0813622, -0.0113964, 0.985321)
+bones/4/rotation = Quaternion(-0.0130379, -0.0106056, 0.00164685, 0.999857)
+bones/5/rotation = Quaternion(-0.0682553, 0.177512, -0.0011476, 0.981748)
+bones/8/rotation = Quaternion(-0.471376, -0.542163, 0.565222, -0.405448)
+bones/9/rotation = Quaternion(0.538185, -0.0504946, 0.134106, 0.830556)
+bones/10/rotation = Quaternion(-0.00536155, 0.0656711, 0.419831, 0.905207)
+bones/11/rotation = Quaternion(-0.0998604, 0.135736, 0.011031, 0.985638)
+bones/12/rotation = Quaternion(0.303281, -0.0047446, 0.144248, 0.941908)
+bones/13/rotation = Quaternion(-0.00730721, 0.000445228, 0.000548168, 0.999973)
+bones/17/rotation = Quaternion(0.0592619, -0.00523139, 0.0636046, 0.9962)
+bones/18/rotation = Quaternion(0.175471, -0.00153627, -0.00299352, 0.984479)
+bones/22/rotation = Quaternion(0.137672, 0.00264523, -0.0691257, 0.988059)
+bones/23/rotation = Quaternion(0.22219, -0.00154883, 0.0177587, 0.974841)
+bones/27/rotation = Quaternion(0.27661, -0.0195082, -0.115221, 0.953851)
+bones/28/rotation = Quaternion(0.288032, 0.00175559, 0.0248864, 0.957296)
+bones/32/rotation = Quaternion(0.303584, -0.021265, -0.148544, 0.940914)
+bones/33/rotation = Quaternion(0.348917, 0.0117392, 0.0496662, 0.935763)
+bones/37/rotation = Quaternion(0.522116, -0.503426, 0.535168, 0.433074)
+bones/38/rotation = Quaternion(0.515507, 0.0227259, 0.0971823, 0.851054)
+bones/39/rotation = Quaternion(0.0642762, -0.00252557, -0.364758, 0.928878)
+bones/40/rotation = Quaternion(0.1157, -0.0463636, -0.0913281, 0.987989)
+bones/41/rotation = Quaternion(0.232625, 0.141937, -0.202639, 0.940573)
+bones/42/rotation = Quaternion(-0.0431073, 0.00169845, 0.176258, 0.983398)
+bones/46/rotation = Quaternion(0.0391781, 0.0100825, 0.00852964, 0.999145)
+bones/47/rotation = Quaternion(0.146604, 0.000225271, 0.0098904, 0.989146)
+bones/51/rotation = Quaternion(0.111092, 0.00854492, 0.0252679, 0.993452)
+bones/52/rotation = Quaternion(0.312826, 0.00170157, -0.0212803, 0.949571)
+bones/56/rotation = Quaternion(0.211466, -0.00646123, 0.0653718, 0.975175)
+bones/57/rotation = Quaternion(0.343868, -0.00251377, -0.0358689, 0.938329)
+bones/62/rotation = Quaternion(0.371813, -0.013222, -0.0701576, 0.925559)
+bones/66/rotation = Quaternion(0.0797635, 0.208515, 0.969195, -0.104022)
+bones/67/rotation = Quaternion(-0.308725, 0.120421, -0.0403119, 0.942636)
+bones/68/rotation = Quaternion(0.578999, -0.0211873, -0.0279417, 0.814574)
+bones/69/rotation = Quaternion(0.247882, -0.0178775, -0.0404503, 0.96778)
+bones/72/rotation = Quaternion(-0.125683, 0.00423129, 0.983749, 0.128154)
+bones/73/rotation = Quaternion(-0.28418, 0.0773664, -0.0165874, 0.955501)
+bones/74/rotation = Quaternion(0.675322, 0.0715148, 0.0999669, 0.727209)
 
 [node name="HipsTarget" parent="CharacterModel/Armature" index="1"]
 transform = Transform3D(0.745211, 0.119363, -0.65606, -0.158158, 0.987413, 0, 0.647802, 0.103761, 0.75471, 2.37169e-20, 1.25, 0)
 
 [node name="HeadBoneAttachment" parent="CharacterModel" index="3"]
-transform = Transform3D(-0.996069, 0.0885177, 0.00337048, 0.0840597, 0.956536, -0.279236, -0.0279414, -0.277855, -0.960216, 0.0219393, 1.49571, -0.109167)
+transform = Transform3D(-0.996407, 0.0845022, 0.00569927, 0.0813858, 0.973939, -0.211708, -0.0234406, -0.210484, -0.977316, 0.0195906, 1.49821, -0.102713)
 
 [node name="RightHandAttachment" parent="CharacterModel" index="4"]
-transform = Transform3D(0.193806, 0.246253, -0.949631, 0.315863, -0.932102, -0.177244, -0.9288, -0.265603, -0.258429, 0.302581, 0.882758, 0.226857)
+transform = Transform3D(0.202306, 0.184027, -0.961877, 0.324088, -0.939426, -0.111568, -0.924143, -0.289161, -0.249693, 0.293774, 0.885134, 0.224)
 
 [node name="PlayerStateMachine" type="Node" parent="." node_paths=PackedStringArray("CurrentState")]
 script = ExtResource("2_lxhpi")
@@ -177,5 +171,48 @@ script = ExtResource("18_rrpkp")
 script = ExtResource("11_8vqdi")
 WeaponHolderSlot = NodePath("../CharacterModel/RightHandAttachment/RightHandHolder")
 WeaponSlots = {}
+
+[node name="HUD" type="Control" parent="." node_paths=PackedStringArray("_ammoCounterPanel", "_currentAmmoLabel", "_reserveAmmoLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("20_kf27o")
+_ammoCounterPanel = NodePath("AmmoCounter")
+_currentAmmoLabel = NodePath("AmmoCounter/CurrentAmmo")
+_reserveAmmoLabel = NodePath("AmmoCounter/ReserveAmmoLabel")
+
+[node name="AmmoCounter" type="PanelContainer" parent="HUD"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -148.0
+offset_top = -100.0
+offset_right = -12.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="ReserveAmmoLabel" type="Label" parent="HUD/AmmoCounter"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "N / A"
+label_settings = SubResource("LabelSettings_rrpkp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentAmmo" type="Label" parent="HUD/AmmoCounter"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "N / A"
+label_settings = SubResource("LabelSettings_kf27o")
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [editable path="CharacterModel"]

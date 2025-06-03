@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=4 uid="uid://b7pl1mu6tlskh"]
 
-[ext_resource type="Material" uid="uid://duv8ohmlqowme" path="res://assets/graphics/materials/akm_custom/AKM_Custom_Magazine.tres" id="1_3436j"]
+[ext_resource type="Material" uid="uid://duv8ohmlqowme" path="res://assets/graphics/materials/weapons/akm_custom/AKM_Custom_Magazine.tres" id="1_3436j"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_m6a8s"]
 _surfaces = [{

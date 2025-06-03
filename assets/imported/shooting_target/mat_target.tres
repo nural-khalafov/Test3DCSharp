@@ -1,0 +1,16 @@
+[gd_resource type="StandardMaterial3D" load_steps=6 format=3 uid="uid://cswkf2e72ir6a"]
+
+[ext_resource type="Texture2D" uid="uid://b73lkw7dje765" path="res://assets/graphics/textures/shooting_range/target/Target_target_BaseColor.png" id="1_g60ay"]
+[ext_resource type="Texture2D" uid="uid://bmus484u83e1u" path="res://assets/graphics/textures/shooting_range/target/Target_target_Height.png" id="2_02cau"]
+[ext_resource type="Texture2D" uid="uid://1u5ct1y84ny8" path="res://assets/graphics/textures/shooting_range/target/Target_target_Emissive.png" id="2_2ck0d"]
+[ext_resource type="Texture2D" uid="uid://bwiu1nww1pnx6" path="res://assets/graphics/textures/shooting_range/target/Target_target_Normal.png" id="2_l4y70"]
+[ext_resource type="Texture2D" uid="uid://c0t7ey6bwyub2" path="res://assets/graphics/textures/shooting_range/target/Target_target_Roughness.png" id="3_02cau"]
+
+[resource]
+cull_mode = 2
+albedo_texture = ExtResource("1_g60ay")
+roughness_texture = ExtResource("3_02cau")
+emission_texture = ExtResource("2_2ck0d")
+normal_enabled = true
+normal_texture = ExtResource("2_l4y70")
+heightmap_texture = ExtResource("2_02cau")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=24 format=3 uid="uid://tu8kpb05wrjj"]
 
 [ext_resource type="PackedScene" uid="uid://c5odykbncdss6" path="res://assets/nodes/player/Player.tscn" id="1_u4h3r"]
-[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/starter_assets/checkerboard_mat.tres" id="2_hkk7u"]
+[ext_resource type="Material" uid="uid://c65hmy123ka1c" path="res://assets/graphics/materials/prototyping_props/starter_assets/checkerboard_mat.tres" id="2_hkk7u"]
 [ext_resource type="Script" uid="uid://c5cbv4ba2d835" path="res://scripts/debug/DebugDisplay.cs" id="3_mifcq"]
 [ext_resource type="Script" uid="uid://b0g07nvoullp4" path="res://scripts/props/CenterDot.cs" id="4_4gyln"]
 [ext_resource type="Script" uid="uid://vwxl2r3t5gym" path="res://scripts/debug/ContextComponent.cs" id="5_ksust"]
@@ -40,7 +40,7 @@ font_size = 32
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_twd2r"]
 draw_center = false
 
-[node name="player_setup_scene" type="Node3D"]
+[node name="player_setup_scene" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource("1_u4h3r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.308282, 0)

@@ -49,5 +49,16 @@ public partial class DebugDisplay : Node
             .WeaponData.WeaponName.ToString(), 6);
         else
             _debugPanel.AddProperty("Current Weapon", "None", 6);
+        if (_weaponManager.WeaponSlots[_weaponManager.CurrentSlot] != null 
+            && _weaponManager.WeaponSlots[_weaponManager.CurrentSlot].WeaponData.WeaponType != WeaponType.Melee)
+        {
+            _debugPanel.AddProperty("Current Ammo",
+            _weaponManager.WeaponSlots[_weaponManager.CurrentSlot].CurrentAmmo + "/" + 
+            _weaponManager.WeaponSlots[_weaponManager.CurrentSlot].MagazineSize, 7);
+        }
+        else
+        {
+            _debugPanel.AddProperty("Current Ammo", "N/A", 7);
+        }
     }
 }
