@@ -29,12 +29,12 @@ public partial class MainMenu : CanvasLayer
 
     private void OnSingleplayerButtonPressed() 
     {
-        throw new NotImplementedException();
+        GetTree().ChangeSceneToFile("res://scenes/test_level.tscn");
     }
 
     private void OnMultiplayerButtonPressed()
     {
-        throw new NotImplementedException();
+        GetTree().ChangeSceneToFile("res://scenes/test_multiplayer.tscn");
     }
 
     private void OnOptionsButtonPressed()

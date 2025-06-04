@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Test3DCSharp"
-run/main_scene="uid://by3fqipdxe4o3"
+run/main_scene="uid://c3lrnk47spysr"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 run/max_fps=144
 boot_splash/show_image=false
