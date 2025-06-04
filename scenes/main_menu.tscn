@@ -1,0 +1,104 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3lrnk47spysr"]
+
+[ext_resource type="Script" uid="uid://dhw68vee51p5s" path="res://scripts/menu/MainMenu.cs" id="1_ekxnf"]
+[ext_resource type="FontVariation" uid="uid://c5j0y43sn02jc" path="res://assets/graphics/fonts/bebas_neue_font.tres" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://dayb50tct2lt6" path="res://scripts/menu/MainMenuOptions.cs" id="3_bqqt6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l6cm7"]
+
+[node name="Main_Menu" type="Node"]
+
+[node name="MainMenuCanvas" type="CanvasLayer" parent="." node_paths=PackedStringArray("_mainMenuControl", "_optionsControl", "_singleplayerButton", "_multiplayerButton", "_optionButton", "_exitButton")]
+script = ExtResource("1_ekxnf")
+_mainMenuControl = NodePath("MainMenu")
+_optionsControl = NodePath("Options")
+_singleplayerButton = NodePath("MainMenu/SingleplayerButton")
+_multiplayerButton = NodePath("MainMenu/MultiplayerButton")
+_optionButton = NodePath("MainMenu/OptionsButton")
+_exitButton = NodePath("MainMenu/ExitButton")
+
+[node name="MainMenu" type="Control" parent="MainMenuCanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SingleplayerButton" type="Button" parent="MainMenuCanvas/MainMenu"]
+layout_mode = 1
+offset_left = 100.0
+offset_top = 150.0
+offset_right = 347.0
+offset_bottom = 218.0
+theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
+text = "SINGLEPLAYER"
+flat = true
+
+[node name="MultiplayerButton" type="Button" parent="MainMenuCanvas/MainMenu"]
+layout_mode = 1
+offset_left = 110.0
+offset_top = 225.0
+offset_right = 339.0
+offset_bottom = 293.0
+theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
+text = "MULTIPLAYER"
+flat = true
+
+[node name="OptionsButton" type="Button" parent="MainMenuCanvas/MainMenu"]
+layout_mode = 1
+offset_left = 150.0
+offset_top = 300.0
+offset_right = 297.0
+offset_bottom = 368.0
+theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
+text = "OPTIONS"
+flat = true
+
+[node name="ExitButton" type="Button" parent="MainMenuCanvas/MainMenu"]
+layout_mode = 1
+offset_left = 185.0
+offset_top = 375.0
+offset_right = 265.0
+offset_bottom = 443.0
+theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 50
+theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
+text = "EXIT"
+flat = true
+
+[node name="Options" type="Control" parent="MainMenuCanvas"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_bqqt6")

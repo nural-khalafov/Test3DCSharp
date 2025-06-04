@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://c5j0y43sn02jc"]
+
+[ext_resource type="FontFile" uid="uid://bla4yrfrfr6jq" path="res://assets/graphics/fonts/BebasNeue-Regular.ttf" id="1_n4g2j"]
+
+[resource]
+base_font = ExtResource("1_n4g2j")
+spacing_glyph = 2
