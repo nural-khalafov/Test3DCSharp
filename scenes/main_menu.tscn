@@ -12,10 +12,10 @@
 script = ExtResource("1_ekxnf")
 _mainMenuControl = NodePath("MainMenu")
 _optionsControl = NodePath("Options")
-_singleplayerButton = NodePath("MainMenu/SingleplayerButton")
-_multiplayerButton = NodePath("MainMenu/MultiplayerButton")
-_optionButton = NodePath("MainMenu/OptionsButton")
-_exitButton = NodePath("MainMenu/ExitButton")
+_singleplayerButton = NodePath("MainMenu/VBoxContainer/SingleplayerButton")
+_multiplayerButton = NodePath("MainMenu/VBoxContainer/MultiplayerButton")
+_optionButton = NodePath("MainMenu/VBoxContainer/OptionsButton")
+_exitButton = NodePath("MainMenu/VBoxContainer/ExitButton")
 
 [node name="MainMenu" type="Control" parent="MainMenuCanvas"]
 layout_mode = 3
@@ -25,12 +25,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SingleplayerButton" type="Button" parent="MainMenuCanvas/MainMenu"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuCanvas/MainMenu"]
 layout_mode = 1
 offset_left = 100.0
-offset_top = 150.0
+offset_top = 200.0
 offset_right = 347.0
-offset_bottom = 218.0
+offset_bottom = 484.0
+
+[node name="SingleplayerButton" type="Button" parent="MainMenuCanvas/MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
 theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
@@ -42,12 +47,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
 text = "SINGLEPLAYER"
 flat = true
 
-[node name="MultiplayerButton" type="Button" parent="MainMenuCanvas/MainMenu"]
-layout_mode = 1
-offset_left = 110.0
-offset_top = 225.0
-offset_right = 339.0
-offset_bottom = 293.0
+[node name="MultiplayerButton" type="Button" parent="MainMenuCanvas/MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
 theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
@@ -59,12 +62,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
 text = "MULTIPLAYER"
 flat = true
 
-[node name="OptionsButton" type="Button" parent="MainMenuCanvas/MainMenu"]
-layout_mode = 1
-offset_left = 150.0
-offset_top = 300.0
-offset_right = 297.0
-offset_bottom = 368.0
+[node name="OptionsButton" type="Button" parent="MainMenuCanvas/MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
 theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
@@ -76,12 +77,10 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_l6cm7")
 text = "OPTIONS"
 flat = true
 
-[node name="ExitButton" type="Button" parent="MainMenuCanvas/MainMenu"]
-layout_mode = 1
-offset_left = 185.0
-offset_top = 375.0
-offset_right = 265.0
-offset_bottom = 443.0
+[node name="ExitButton" type="Button" parent="MainMenuCanvas/MainMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_colors/font_disabled_color = Color(0.737255, 0.737255, 0.737255, 1)
 theme_override_colors/font_color = Color(0.735438, 0.735438, 0.735438, 1)
 theme_override_colors/font_focus_color = Color(1, 1, 1, 1)

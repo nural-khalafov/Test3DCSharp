@@ -64,7 +64,6 @@ public partial class WeaponManager : Node
         HandleDropInput();
     }
 
-
     private void HandleWeaponSwitchInput()
     {
         foreach (var entry in _actionToSlotMap)

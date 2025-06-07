@@ -54,6 +54,8 @@ public partial class Bullet : RigidBody3D
 
             CallDeferred(nameof(AddInitialTrailPoint));
         }
+
+        //this.BodyEntered += OnBodyEntered;
     }
 
     public override void _PhysicsProcess(double delta)

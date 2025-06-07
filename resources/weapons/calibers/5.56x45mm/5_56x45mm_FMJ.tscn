@@ -24,6 +24,7 @@ initial_velocity_max = 2.0
 size = Vector3(0.005, 0.005, 0.015)
 
 [node name="5_56x45mm_FMJ" type="RigidBody3D"]
+mass = 0.012
 script = ExtResource("1_ekpr7")
 Caliber = &"5.56x45mm FMJ"
 Speed = 850.0

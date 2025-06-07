@@ -10,6 +10,7 @@ height = 0.0197505
 albedo_color = Color(0.871481, 3.08037e-06, 1.54018e-06, 1)
 
 [node name="7_62x39mm_PS" type="RigidBody3D"]
+mass = 0.006
 script = ExtResource("1_j6mhq")
 Caliber = &"9x18mm PST"
 Speed = 150.0
