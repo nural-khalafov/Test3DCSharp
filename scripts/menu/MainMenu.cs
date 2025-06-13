@@ -13,6 +13,7 @@ public partial class MainMenu : CanvasLayer
     [Export] private Button _optionButton;
     [Export] private Button _exitButton;
 
+    private const string LoadingScreenPath = "res://scenes/loading_screen.tscn";
 
     public override void _EnterTree()
     {
@@ -29,7 +30,9 @@ public partial class MainMenu : CanvasLayer
 
     private void OnSingleplayerButtonPressed() 
     {
-        GetTree().ChangeSceneToFile("res://scenes/test_level.tscn");
+        LoadingScreen.SceneToLoad = "res://scenes/test_level.tscn";
+
+        GetTree().ChangeSceneToFile(LoadingScreenPath);
     }
 
     private void OnMultiplayerButtonPressed()

@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0rnmbmsem0ea"]
+
+[ext_resource type="Script" uid="uid://elbm0e6gftkt" path="res://scripts/scene/LoadingScreen.cs" id="1_ep5rh"]
+
+[node name="Loading_Screen" type="Node"]
+
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("_progressBar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ep5rh")
+_progressBar = NodePath("PanelContainer/ProgressBar")
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 8
