@@ -3,91 +3,89 @@ using System;
 
 public partial class LoadingScreen : Control
 {
-    [Export] private ProgressBar _progressBar;
+    [Export] private Label _loadingLabel;
+
+
+    private Godot.Collections.Array _progress = new Godot.Collections.Array();
     private string _targetScenePath;
     private ResourceLoader.ThreadLoadStatus _loadStatus;
-    private PackedScene _loadedScene;
-
+    private PackedScene _loadedSceneResource;
     public static string SceneToLoad { get; set; }
 
     public override void _Ready()
     {
-        if(_progressBar == null) 
+        if(_loadingLabel == null)
         {
-            GD.PrintErr("ProgressBar not assigned in LoadingScreen.");
-
+            GD.PrintErr("LoadingLabel is not assigned in the inspector.");
             GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
+
             return;
         }
-        _progressBar.Value = 0.0f;
 
         _targetScenePath = SceneToLoad;
 
-        if (string.IsNullOrEmpty(_targetScenePath))
+        if (string.IsNullOrEmpty(SceneToLoad))
         {
-            GD.PrintErr("No scene specified to load.");
-
+            GD.PrintErr("SceneToLoad is not set. Please set it before loading the scene.");
             GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
+
             return;
         }
-
-        StartLoading();
+        StartLoadingScene();
     }
 
     public override void _Process(double delta)
     {
-        if(string.IsNullOrEmpty(_targetScenePath)) 
+        if(string.IsNullOrEmpty(_targetScenePath))
         {
+            GD.PrintErr("Target scene path is not set. Cannot process loading.");
+
             return;
         }
 
-        if(_loadStatus == ResourceLoader.ThreadLoadStatus.InProgress) 
+        _loadStatus = ResourceLoader.LoadThreadedGetStatus(_targetScenePath, _progress);
+
+        switch (_loadStatus) 
         {
-            Godot.Collections.Array progressArray = new Godot.Collections.Array();
+            case ResourceLoader.ThreadLoadStatus.InProgress:
+                if(_progress.Count > 0)
+                {
+                    float progressValue = (float)_progress[0];
+                    _loadingLabel.Text = $"LOADING: {progressValue * 100:F0}%";
+                }
+                break;
+            case ResourceLoader.ThreadLoadStatus.Loaded:
+                if(_loadingLabel != null)
+                    _loadingLabel.Text = "LOADED!";
 
-            _loadStatus = ResourceLoader.LoadThreadedGetStatus(_targetScenePath, progressArray);
-
-            if(progressArray.Count > 0 && _progressBar != null) 
-            {
-                // Assuming the first element is the progress percentage
-                _progressBar.Value = (float)progressArray[0] * 100;
-            }
-        }
-
-        if(_loadStatus == ResourceLoader.ThreadLoadStatus.Loaded) 
-        {
-            if (_progressBar != null)
-                _progressBar.Value = 100.0f;
-
-            _loadedScene = (PackedScene)ResourceLoader.LoadThreadedGet(_targetScenePath);
-            if(_loadedScene != null) 
-            {
-                GD.Print($"Successfully loaded scene: {_targetScenePath}");
-                GetTree().Root.AddChild(_loadedScene.Instantiate());
-                QueueFree();
-            }
-            else 
-            {
-                GD.PrintErr($"Failed to load scene: {_targetScenePath}. The loaded scene is null.");
+                GD.Print("Scene loaded successfully: " + _targetScenePath);
+                var loadedScene = ResourceLoader.LoadThreadedGet(_targetScenePath) as PackedScene;
+                if(loadedScene != null) 
+                {
+                    _targetScenePath = null;
+                    GetTree().ChangeSceneToPacked(loadedScene);
+                }
+                else 
+                {
+                    GD.PrintErr($"Failed to load scene from path: {SceneToLoad}");
+                    GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
+                }
+                break;
+            case ResourceLoader.ThreadLoadStatus.Failed:
+            case ResourceLoader.ThreadLoadStatus.InvalidResource:
+                GD.PrintErr($"Failed to load scene from path: '{SceneToLoad}'. Status: {_loadStatus}");
                 GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
-            }
-            _targetScenePath = null; // Clear the target scene path to prevent reloading
-        }
-        else if(_loadStatus == ResourceLoader.ThreadLoadStatus.Failed ||
-            _loadStatus == ResourceLoader.ThreadLoadStatus.InvalidResource) 
-        {
-            GD.PrintErr($"Failed to load scene: {_targetScenePath}. Status: {_loadStatus}");
-            GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
-            _targetScenePath = null; // Clear the target scene path to prevent reloading
+                _targetScenePath = null;
+                break;
         }
     }
 
-    private void StartLoading() 
+    private void StartLoadingScene()
     {
-        Error err = ResourceLoader.LoadThreadedRequest(_targetScenePath, "", true);
-        if(err != Error.Ok) 
+        Error err = ResourceLoader.LoadThreadedRequest(_targetScenePath, "", false);
+        if (err != Error.Ok)
         {
-            GD.PrintErr($"Failed to start loading scene: {_targetScenePath}. Error: {err}");
+            GD.PrintErr($"Error starting load request for {_targetScenePath}: {err}");
             GetTree().ChangeSceneToFile("res://scenes/main_menu.tscn");
             _targetScenePath = null;
             return;
